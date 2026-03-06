@@ -1,10 +1,10 @@
-const CACHE_NAME = 'jp-flashcards-v7';
+const CACHE_NAME = 'jp-flashcards-v8';
 const urlsToCache = [
     '/',
     '/index.html',
     '/style.css',
-    '/script.js',
-    '/data.js',
+    '/script.js?v=2',
+    '/data.js?v=2',
     '/manifest.json',
     '/icons/icon-192.png',
     '/icons/icon-512.png',
@@ -14,6 +14,7 @@ const urlsToCache = [
 
 self.addEventListener('install', event => {
     // Perform install steps
+    self.skipWaiting(); // Force the waiting service worker to become the active service worker
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then(cache => {
@@ -51,6 +52,6 @@ self.addEventListener('activate', event => {
                     }
                 })
             );
-        })
+        }).then(() => self.clients.claim()) // Take control of all clients immediately
     );
 });
