@@ -196,84 +196,42 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('exDayFuri').textContent = data.examples[1].furi;
         document.getElementById('exDayVi').textContent = data.examples[1].vi;
 
-        // Update Nav State
-        currentCardSpan.textContent = (index + 1).toString();
-        totalCardsSpan.textContent = filteredCards.length.toString();
-
-        prevBtn.disabled = index === 0;
-        nextBtn.disabled = index === filteredCards.length - 1;
-
-        // Update Status States
-        toggleLearnedBtn.disabled = false;
-        if (data.learned) {
-            cardBadge.textContent = "✅ Đã thuộc";
-            cardBadge.className = "status-badge learned";
-            toggleLearnedBtn.textContent = "Hủy dấu Đã thuộc 🔄";
-            toggleLearnedBtn.className = "btn btn-status btn-unlearned";
-        } else {
-            cardBadge.textContent = "🔴 Chưa thuộc";
-            cardBadge.className = "status-badge";
-            toggleLearnedBtn.textContent = "Đánh dấu Đã thuộc ✅";
-            toggleLearnedBtn.className = "btn btn-status";
-        }
-    }
-
-    function renderCard(index, keepFlipState = false) {
-        if (filteredCards.length === 0) {
-            document.getElementById('grammarTitle').textContent = "Không có thẻ nào";
-            document.getElementById('meaning').textContent = "Hãy thử đổi bộ lọc";
-            cardBadge.style.display = 'none';
-            prevBtn.disabled = true;
-            nextBtn.disabled = true;
-            toggleLearnedBtn.disabled = true;
-            currentCardSpan.textContent = "0";
-            totalCardsSpan.textContent = "0";
-            return;
-        }
-
-        const data = filteredCards[index];
-        cardBadge.style.display = 'block';
-
-        // Update DOM Elements
-        document.getElementById('grammarTitle').textContent = data.grammar;
-        document.getElementById('meaning').textContent = data.meaning;
-        document.getElementById('usage').textContent = data.usage;
-        document.getElementById('note').textContent = data.note;
-
-        document.getElementById('exItJp').textContent = data.examples[0].jp;
-        document.getElementById('exItFuri').textContent = data.examples[0].furi;
-        document.getElementById('exItVi').textContent = data.examples[0].vi;
-
-        document.getElementById('exDayJp').textContent = data.examples[1].jp;
-        document.getElementById('exDayFuri').textContent = data.examples[1].furi;
-        document.getElementById('exDayVi').textContent = data.examples[1].vi;
-
         // Sync to Export Template
-        document.getElementById('exportGrammar').textContent = data.grammar;
-        document.getElementById('exportMeaning').textContent = data.meaning;
-        document.getElementById('exportUsage').textContent = data.usage;
-        document.getElementById('exportExJp').textContent = data.examples[0].jp; // Only picking 1 example for cleaner export
-        document.getElementById('exportExVi').textContent = data.examples[0].vi;
+        const exportGrammar = document.getElementById('exportGrammar');
+        if (exportGrammar) exportGrammar.textContent = data.grammar;
+        const exportMeaning = document.getElementById('exportMeaning');
+        if (exportMeaning) exportMeaning.textContent = data.meaning;
+        const exportUsage = document.getElementById('exportUsage');
+        if (exportUsage) exportUsage.textContent = data.usage;
+
+        if (data.examples && data.examples.length > 0) {
+            const exportExJp = document.getElementById('exportExJp');
+            if (exportExJp) exportExJp.textContent = data.examples[0].jp;
+            const exportExVi = document.getElementById('exportExVi');
+            if (exportExVi) exportExVi.textContent = data.examples[0].vi;
+        }
 
         // Update Nav State
-        currentCardSpan.textContent = (index + 1).toString();
-        totalCardsSpan.textContent = filteredCards.length.toString();
+        if (currentCardSpan) currentCardSpan.textContent = (index + 1).toString();
+        if (totalCardsSpan) totalCardsSpan.textContent = filteredCards.length.toString();
 
-        prevBtn.disabled = index === 0;
-        nextBtn.disabled = index === filteredCards.length - 1;
+        if (prevBtn) prevBtn.disabled = index === 0;
+        if (nextBtn) nextBtn.disabled = index === filteredCards.length - 1;
 
         // Update Status States
-        toggleLearnedBtn.disabled = false;
-        if (data.learned) {
-            cardBadge.textContent = "✅ Đã thuộc";
-            cardBadge.className = "status-badge learned";
-            toggleLearnedBtn.innerHTML = "<span class='btn-text'>Hủy dấu Đã thuộc</span> <span class='btn-icon'>🔄</span>";
-            toggleLearnedBtn.className = "btn btn-status btn-unlearned";
-        } else {
-            cardBadge.textContent = "🔴 Chưa thuộc";
-            cardBadge.className = "status-badge";
-            toggleLearnedBtn.innerHTML = "<span class='btn-text'>Đánh dấu Đã thuộc</span> <span class='btn-icon'>✅</span>";
-            toggleLearnedBtn.className = "btn btn-status";
+        if (toggleLearnedBtn) {
+            toggleLearnedBtn.disabled = false;
+            if (data.learned) {
+                cardBadge.textContent = "✅ Đã thuộc";
+                cardBadge.className = "status-badge learned";
+                toggleLearnedBtn.innerHTML = "<span class='btn-text'>Hủy dấu Đã thuộc</span> <span class='btn-icon'>🔄</span>";
+                toggleLearnedBtn.className = "btn btn-status btn-unlearned";
+            } else {
+                cardBadge.textContent = "🔴 Chưa thuộc";
+                cardBadge.className = "status-badge";
+                toggleLearnedBtn.innerHTML = "<span class='btn-text'>Đánh dấu Đã thuộc</span> <span class='btn-icon'>✅</span>";
+                toggleLearnedBtn.className = "btn btn-status";
+            }
         }
     }
 
