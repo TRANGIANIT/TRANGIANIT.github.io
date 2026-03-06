@@ -411,9 +411,17 @@ header p {
         flex-wrap: wrap;
     }
 
+    .btn-text {
+        display: none;
+    }
+
+    .btn-icon {
+        font-size: 1.3rem;
+    }
+
     .btn {
-        font-size: 0.9rem;
-        padding: 0.5rem 0.8rem;
+        font-size: 1.1rem;
+        padding: 0.6rem 1rem;
     }
 
     .nav-controls {

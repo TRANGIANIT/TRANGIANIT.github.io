@@ -242,12 +242,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data.learned) {
             cardBadge.textContent = "✅ Đã thuộc";
             cardBadge.className = "status-badge learned";
-            toggleLearnedBtn.textContent = "Hủy dấu Đã thuộc 🔄";
+            toggleLearnedBtn.innerHTML = "<span class='btn-text'>Hủy dấu Đã thuộc</span> <span class='btn-icon'>🔄</span>";
             toggleLearnedBtn.className = "btn btn-status btn-unlearned";
         } else {
             cardBadge.textContent = "🔴 Chưa thuộc";
             cardBadge.className = "status-badge";
-            toggleLearnedBtn.textContent = "Đánh dấu Đã thuộc ✅";
+            toggleLearnedBtn.innerHTML = "<span class='btn-text'>Đánh dấu Đã thuộc</span> <span class='btn-icon'>✅</span>";
             toggleLearnedBtn.className = "btn btn-status";
         }
     }
@@ -260,8 +260,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (filteredCards.length === 0) return;
 
         exportImageBtn.disabled = true;
-        const originalText = exportImageBtn.textContent;
-        exportImageBtn.textContent = "Đang tải...";
+        const originalHTML = exportImageBtn.innerHTML;
+        exportImageBtn.innerHTML = "<span class='btn-icon'>⏳</span> <span class='btn-text'>Đang tải...</span>";
 
         try {
             // Need to temporarily bring it into viewport to render properly with html2canvas (sometimes fails if left=-9999px depending on browser)
@@ -302,7 +302,7 @@ document.addEventListener('DOMContentLoaded', () => {
             alert("Có lỗi xảy ra khi tải ảnh. Vui lòng thử lại!");
         } finally {
             exportImageBtn.disabled = false;
-            exportImageBtn.textContent = originalText;
+            exportImageBtn.innerHTML = originalHTML;
         }
     });
 
