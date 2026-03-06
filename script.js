@@ -11,6 +11,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const toggleLearnedBtn = document.getElementById('toggleLearnedBtn');
     const cardBadge = document.getElementById('cardBadge');
 
+    // Quiz DOM Elements
+    const quizDayFilter = document.getElementById('quizDayFilter');
+    const quizQuestion = document.getElementById('quizQuestion');
+    const quizOptions = document.getElementById('quizOptions');
+    const quizFeedback = document.getElementById('quizFeedback');
+    const nextQuizBtn = document.getElementById('nextQuizBtn');
+
     const navTabs = document.querySelectorAll('.nav-tab');
     const viewSections = document.querySelectorAll('.view-section');
 
@@ -290,12 +297,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- Quiz Logic ---
-    const quizDayFilter = document.getElementById('quizDayFilter');
-    const quizQuestion = document.getElementById('quizQuestion');
-    const quizOptions = document.getElementById('quizOptions');
-    const quizFeedback = document.getElementById('quizFeedback');
-    const nextQuizBtn = document.getElementById('nextQuizBtn');
-
     let currentQuizAnswer = null;
 
     quizDayFilter.addEventListener('change', generateQuiz);
