@@ -382,20 +382,39 @@ header p {
         padding: 1.2rem;
     }
 
+    .back {
+        gap: 0.6rem;
+    }
+
     .grammar-title {
         font-size: 2.2rem;
     }
 
     .content-section h3 {
-        font-size: 1rem;
+        font-size: 0.95rem;
+        margin-bottom: 0.2rem;
+        padding-bottom: 0.2rem;
+    }
+
+    .content-section p {
+        margin-bottom: 0.1rem;
+    }
+
+    .note {
+        font-size: 0.85rem;
     }
 
     .jp-text {
-        font-size: 1rem;
+        font-size: 0.95rem;
+    }
+
+    .jp-furi {
+        margin-bottom: 0.2rem !important;
+        font-size: 0.75rem;
     }
 
     .vi-trans {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
     }
 
     .controls {
