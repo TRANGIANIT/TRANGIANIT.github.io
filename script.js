@@ -18,15 +18,25 @@ document.addEventListener('DOMContentLoaded', () => {
     let filteredCards = [...flashcardsData];
     let currentIndex = 0;
 
-    // Load saved preferences if available in localStorage
-    const savedData = localStorage.getItem('japaneseFlashcardsData');
-    if (savedData) {
-        flashcardsData = JSON.parse(savedData);
-        filterCards();
-    }
+    // Firebase Syncing Reference
+    const progressRef = database.ref('users/my_progress');
 
-    // Initialize UI Filters & Tabs
-    initDayFilters();
+    // Load saved preferences from Firebase
+    progressRef.once('value', (snapshot) => {
+        const savedData = snapshot.val();
+        if (savedData) {
+            // Merge learned status to memory
+            flashcardsData = flashcardsData.map(card => {
+                const isLearned = savedData[card.id] || false;
+                return { ...card, learned: isLearned };
+            });
+        }
+
+        // Initialize UI Filters & Tabs
+        initDayFilters();
+        filterCards();
+        generateQuiz();
+    });
 
     // Tab Navigation Logic
     navTabs.forEach(tab => {
@@ -132,13 +142,20 @@ document.addEventListener('DOMContentLoaded', () => {
         // Find the index in the original array to mutate
         const originalIndex = flashcardsData.findIndex(c => c.id === currentRef.id);
         if (originalIndex !== -1) {
-            flashcardsData[originalIndex].learned = !flashcardsData[originalIndex].learned;
+            const newState = !flashcardsData[originalIndex].learned;
+            flashcardsData[originalIndex].learned = newState;
 
-            // Save state
-            localStorage.setItem('japaneseFlashcardsData', JSON.stringify(flashcardsData));
+            // Save state to Firebase Cloud (just boolean key-value mapping to save data space)
+            const payload = {};
+            flashcardsData.forEach(c => {
+                if (c.learned) {
+                    payload[c.id] = true;
+                }
+            });
+            progressRef.set(payload);
 
             // Only update badge and button to maintain normal UX
-            currentRef.learned = flashcardsData[originalIndex].learned;
+            currentRef.learned = newState;
             renderCard(currentIndex, true);
         }
     });
@@ -423,8 +440,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
         nextQuizBtn.style.display = 'block';
     }
-
-    // Init first layout sync
-    filterCards();
-    generateQuiz();
 });

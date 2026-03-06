@@ -159,6 +159,25 @@
 
         <!-- Html2Canvas Library -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+        <!-- Firebase SDK (Compat Version based on CDN) -->
+        <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+        <script>
+            // Initialize Firebase
+            const firebaseConfig = {
+                apiKey: "AIzaSyDp6BbKY2tbMb9Xj6t1w1ITQhwTlT5o_Zo",
+                authDomain: "trangian-ttdien.firebaseapp.com",
+                databaseURL: "https://trangian-ttdien.firebaseio.com",
+                projectId: "trangian-ttdien",
+                storageBucket: "trangian-ttdien.appspot.com",
+                messagingSenderId: "220108367293",
+                appId: "1:220108367293:web:96449792e398d1672a9ed4"
+            };
+            firebase.initializeApp(firebaseConfig);
+            const database = firebase.database();
+        </script>
+
         <script src="data.js"></script>
         <script src="script.js"></script>
 
