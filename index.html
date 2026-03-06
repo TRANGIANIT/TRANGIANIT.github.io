@@ -21,8 +21,21 @@
 <body>
     <div class="app-container">
         <header>
-            <h1>Học Ngữ Pháp Tiếng Nhật 🇯🇵</h1>
-            <p>Nhấp vào thẻ để xem chi tiết</p>
+            <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div>
+                    <h1>Học Ngữ Pháp Tiếng Nhật 🇯🇵</h1>
+                    <p>Nhấp vào thẻ để xem chi tiết</p>
+                </div>
+                <div class="backup-controls" style="display: flex; gap: 8px; flex-direction: column;">
+                    <button id="backupBtn" class="btn btn-export"
+                        style="background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); padding: 0.5rem;"><span
+                            class="btn-icon">💾</span> <span class="btn-text">Tạo Backup</span></button>
+                    <button id="restoreBtn" class="btn btn-export"
+                        style="background: linear-gradient(135deg, #ecc94b 0%, #d69e2e 100%); padding: 0.5rem; color: #744210;"><span
+                            class="btn-icon">📂</span> <span class="btn-text">Phục hồi</span></button>
+                    <input type="file" id="restoreInput" accept=".json" style="display: none;">
+                </div>
+            </div>
         </header>
 
         <!-- LỖI CẤU TRÚC VIEW -->

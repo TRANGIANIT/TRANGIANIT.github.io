@@ -18,7 +18,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const quizQuestion = document.getElementById('quizQuestion');
     const quizOptions = document.getElementById('quizOptions');
     const quizFeedback = document.getElementById('quizFeedback');
-    const nextQuizBtn = document.getElementById('nextQuizBtn');
+    // Backup DOM Elements
+    const backupBtn = document.getElementById('backupBtn');
+    const restoreBtn = document.getElementById('restoreBtn');
+    const restoreInput = document.getElementById('restoreInput');
 
     const navTabs = document.querySelectorAll('.nav-tab');
     const viewSections = document.querySelectorAll('.view-section');
@@ -31,20 +34,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const progressRef = database.ref('users/my_progress');
 
     // Load saved preferences from Firebase
-    progressRef.once('value', (snapshot) => {
+    progressRef.on('value', (snapshot) => {
         const savedData = snapshot.val();
         if (savedData) {
             // Merge learned status to memory
-            flashcardsData = flashcardsData.map(card => {
-                const isLearned = savedData[card.id] || false;
-                return { ...card, learned: isLearned };
+            flashcardsData.forEach(card => {
+                card.learned = savedData[card.id] || false;
             });
         }
 
-        // Initialize UI Filters & Tabs
-        initDayFilters();
+        // Initialize UI Filters & Tabs if not done already
+        if (dayFilter.options.length <= 1) {
+            initDayFilters();
+        }
         filterCards();
-        generateQuiz();
+        if (quizWeekFilter) generateQuiz();
     });
 
     // Tab Navigation Logic
@@ -346,6 +350,58 @@ document.addEventListener('DOMContentLoaded', () => {
             exportImageBtn.innerHTML = originalHTML;
         }
     });
+
+    // --- Backup & Restore Logic ---
+    if (backupBtn) {
+        backupBtn.addEventListener('click', () => {
+            progressRef.once('value', (snapshot) => {
+                const data = snapshot.val() || {};
+                const dataStr = JSON.stringify(data, null, 2);
+                const blob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `Flashcard_Backup_${new Date().toISOString().split('T')[0]}.json`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            });
+        });
+    }
+
+    if (restoreBtn && restoreInput) {
+        restoreBtn.addEventListener('click', () => {
+            restoreInput.click();
+        });
+
+        restoreInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const parsedData = JSON.parse(e.target.result);
+                    if (typeof parsedData === 'object' && parsedData !== null) {
+                        progressRef.set(parsedData).then(() => {
+                            alert("✅ Phục hồi dữ liệu thành công! Ứng dụng đã được cập nhật.");
+                            // The `on('value')` listener above will automatically catch this and refresh the UI.
+                        });
+                    } else {
+                        throw new Error("Invalid JSON structure");
+                    }
+                } catch (err) {
+                    console.error("Restore failed:", err);
+                    alert("❌ File không hợp lệ. Vui lòng chọn đúng file Backup JSON.");
+                }
+            };
+            reader.readAsText(file);
+            // Reset input so the same file can be selected again if needed
+            restoreInput.value = '';
+        });
+    }
 
     // --- Quiz Logic ---
 
