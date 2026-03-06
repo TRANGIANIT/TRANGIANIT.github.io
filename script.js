@@ -1,50 +1,4 @@
-// Hardcoded data parsed from Flashcard.txt
-let flashcardsData = [
-    {
-        id: 1,
-        learned: false,
-        grammar: "〜っこない",
-        meaning: "Tuyệt đối không…, chắc chắn không…",
-        usage: "Vます bỏ ます + っこない",
-        note: "👉 Khẳng định mạnh khả năng = 0 (văn nói)",
-        examples: [
-            {
-                type: "Ví dụ (IT)",
-                jp: "そんな短期間でシステムが完成できっこない。",
-                furi: "そんなたんきかんでしすてむがかんせいできっこない。",
-                vi: "Dịch: Thời gian ngắn vậy thì hệ thống chắc chắn không thể hoàn thành."
-            },
-            {
-                type: "Ví dụ (Hằng ngày)",
-                jp: "あの人が嘘をつくっこない。",
-                furi: "あのひとがうそをつくっこない。",
-                vi: "Dịch: Người đó tuyệt đối không nói dối đâu."
-            }
-        ]
-    },
-    {
-        id: 2,
-        learned: false,
-        grammar: "〜つつある",
-        meaning: "Đang dần…, đang trong quá trình thay đổi",
-        usage: "Vます bỏ ます + つつある",
-        note: "👉 Diễn tả sự thay đổi đang tiến triển (văn viết, trang trọng)",
-        examples: [
-            {
-                type: "Ví dụ (IT)",
-                jp: "AI技術は急速に進化しつつある。",
-                furi: "えーあいぎじゅつはきゅうそくにしんかしつつある。",
-                vi: "Dịch: Công nghệ AI đang dần phát triển nhanh chóng."
-            },
-            {
-                type: "Ví dụ (Hằng ngày)",
-                jp: "景気は少しずつ回復しつつある。",
-                furi: "けいきはすこしずつかいふくしつつある。",
-                vi: "Dịch: Kinh tế đang dần hồi phục."
-            }
-        ]
-    }
-];
+// flashcardsData is now loaded globally from data.js
 
 document.addEventListener('DOMContentLoaded', () => {
     const flashcard = document.getElementById('flashcard');
@@ -53,8 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentCardSpan = document.getElementById('currentCard');
     const totalCardsSpan = document.getElementById('totalCards');
     const statusFilter = document.getElementById('statusFilter');
+    const dayFilter = document.getElementById('dayFilter');
     const toggleLearnedBtn = document.getElementById('toggleLearnedBtn');
     const cardBadge = document.getElementById('cardBadge');
+
+    const navTabs = document.querySelectorAll('.nav-tab');
+    const viewSections = document.querySelectorAll('.view-section');
 
     let isFlipped = false;
     let filteredCards = [...flashcardsData];
@@ -66,6 +24,29 @@ document.addEventListener('DOMContentLoaded', () => {
         flashcardsData = JSON.parse(savedData);
         filterCards();
     }
+
+    // Initialize UI Filters & Tabs
+    initDayFilters();
+
+    // Tab Navigation Logic
+    navTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            navTabs.forEach(t => t.classList.remove('active'));
+            viewSections.forEach(v => {
+                v.style.display = 'none';
+                v.classList.remove('active');
+            });
+
+            tab.classList.add('active');
+            const targetId = tab.getAttribute('data-target');
+            const targetView = document.getElementById(targetId);
+            targetView.style.display = 'block';
+
+            // Reflow fix for CSS animation
+            void targetView.offsetWidth;
+            targetView.classList.add('active');
+        });
+    });
 
     // Flip card logic
     // Add event listener to elements inside the flashcard instead, so clicking buttons outside doesn't flip it
@@ -101,15 +82,42 @@ document.addEventListener('DOMContentLoaded', () => {
         resetFlip();
     });
 
+    dayFilter.addEventListener('change', () => {
+        filterCards();
+        resetFlip();
+    });
+
+    function initDayFilters() {
+        const quizDayFilter = document.getElementById('quizDayFilter');
+        const uniqueDays = [...new Set(flashcardsData.map(item => item.day))].sort((a, b) => a - b);
+
+        uniqueDays.forEach(day => {
+            const opt1 = document.createElement('option');
+            opt1.value = day;
+            opt1.textContent = `Ngày ${day}`;
+            dayFilter.appendChild(opt1);
+
+            const opt2 = document.createElement('option');
+            opt2.value = day;
+            opt2.textContent = `Ngày ${day}`;
+            quizDayFilter.appendChild(opt2);
+        });
+    }
+
     function filterCards() {
-        const filterVal = statusFilter.value;
-        if (filterVal === 'not_learned') {
-            filteredCards = flashcardsData.filter(c => !c.learned);
-        } else if (filterVal === 'learned') {
-            filteredCards = flashcardsData.filter(c => c.learned);
-        } else {
-            filteredCards = [...flashcardsData];
-        }
+        const statusVal = statusFilter.value;
+        const dayVal = dayFilter.value;
+
+        filteredCards = flashcardsData.filter(c => {
+            let statusMatch = true;
+            if (statusVal === 'not_learned') statusMatch = !c.learned;
+            else if (statusVal === 'learned') statusMatch = c.learned;
+
+            let dayMatch = true;
+            if (dayVal !== 'all') dayMatch = (c.day === parseInt(dayVal));
+
+            return statusMatch && dayMatch;
+        });
 
         currentIndex = 0;
         renderCard(currentIndex);
@@ -306,6 +314,117 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // --- Quiz Logic ---
+    const quizDayFilter = document.getElementById('quizDayFilter');
+    const quizQuestion = document.getElementById('quizQuestion');
+    const quizOptions = document.getElementById('quizOptions');
+    const quizFeedback = document.getElementById('quizFeedback');
+    const nextQuizBtn = document.getElementById('nextQuizBtn');
+
+    let currentQuizAnswer = null;
+
+    quizDayFilter.addEventListener('change', generateQuiz);
+    nextQuizBtn.addEventListener('click', generateQuiz);
+
+    function generateQuiz() {
+        // Reset UI
+        quizFeedback.className = 'quiz-feedback';
+        quizFeedback.style.display = 'none';
+        nextQuizBtn.style.display = 'none';
+        quizOptions.innerHTML = '';
+
+        const qDayVal = quizDayFilter.value;
+        let pool = flashcardsData;
+        if (qDayVal !== 'all') {
+            pool = flashcardsData.filter(c => c.day === parseInt(qDayVal));
+        }
+
+        if (pool.length < 4) {
+            quizQuestion.textContent = "Không đủ dữ liệu bộ từ vựng để tạo bài Trắc nghiệm. Hãy chọn Ngày khác hoặc Tất cả.";
+            return;
+        }
+
+        // Pick 1 random correct grammar
+        const correctCard = pool[Math.floor(Math.random() * pool.length)];
+
+        // Random question type: 0 = meaning, 1 = usage, 2 = example
+        const qType = Math.floor(Math.random() * 3);
+
+        let questionText = "";
+        let correctOptionText = "";
+        let explanationText = `<strong>${correctCard.grammar}</strong><br>Ý nghĩa: ${correctCard.meaning}<br>Cách dùng: ${correctCard.usage}`;
+
+        if (qType === 0) {
+            questionText = `Ý nghĩa của cấu trúc "<strong>${correctCard.grammar}</strong>" là gì?`;
+            correctOptionText = correctCard.meaning;
+            currentQuizAnswer = correctOptionText;
+        } else if (qType === 1) {
+            questionText = `Cách dùng của cấu trúc "<strong>${correctCard.grammar}</strong>" là gì?`;
+            correctOptionText = correctCard.usage;
+            currentQuizAnswer = correctOptionText;
+        } else {
+            questionText = `Cấu trúc nào phù hợp với câu sau: "<br><i>${correctCard.examples[0].jp}</i>" ?`;
+            correctOptionText = correctCard.grammar;
+            currentQuizAnswer = correctOptionText;
+            explanationText = `<strong>${correctCard.grammar}</strong><br>Dịch nghĩa câu ví dụ: ${correctCard.examples[0].vi}`;
+        }
+
+        quizQuestion.innerHTML = questionText;
+
+        // Generate 3 random wrong options
+        let options = [correctOptionText];
+        while (options.length < 4) {
+            const randomWrong = flashcardsData[Math.floor(Math.random() * flashcardsData.length)];
+            let wrongText = "";
+            if (qType === 0) wrongText = randomWrong.meaning;
+            else if (qType === 1) wrongText = randomWrong.usage;
+            else wrongText = randomWrong.grammar;
+
+            if (!options.includes(wrongText)) {
+                options.push(wrongText);
+            }
+        }
+
+        // Shuffle
+        options.sort(() => Math.random() - 0.5);
+
+        // Render options
+        options.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'quiz-option';
+            btn.textContent = opt;
+            btn.addEventListener('click', () => handleQuizAnswer(btn, opt, correctOptionText, explanationText));
+            quizOptions.appendChild(btn);
+        });
+    }
+
+    function handleQuizAnswer(clickedBtn, selectedText, correctText, explanation) {
+        // Prevent multiple clicks
+        if (nextQuizBtn.style.display === 'block') return;
+
+        const allButtons = quizOptions.querySelectorAll('.quiz-option');
+
+        if (selectedText === correctText) {
+            clickedBtn.classList.add('correct');
+            quizFeedback.innerHTML = `✅ <strong>Chính xác!</strong><br><br>${explanation}`;
+            quizFeedback.className = 'quiz-feedback success';
+        } else {
+            clickedBtn.classList.add('wrong');
+            quizFeedback.innerHTML = `❌ <strong>Sai rồi!</strong><br><br>${explanation}`;
+            quizFeedback.className = 'quiz-feedback error';
+
+            // Highlight the correct one
+            allButtons.forEach(b => {
+                if (b.textContent === correctText) {
+                    b.classList.add('correct');
+                }
+            });
+        }
+
+        nextQuizBtn.style.display = 'block';
+    }
+
     // Init first layout sync
     filterCards();
+    generateQuiz();
 });

@@ -1,0 +1,196 @@
+Tôi đang học ngữ pháp N2. 
+Hãy hãy đứng trên vai trò là giao viên có nhiều năm kinh nghiệm trong việc giản dạy.
+Khi tôi copy cho bạn một list danh sách ngữ pháp theo từng ngày.
+Ban hãy gen cho tôi 1 file flashcard theo format như sau:
+
+TEMPALTE:
+Ý nghĩa: 
+Cách dùng: 
+👉 
+
+Ví dụ (IT):
+
+Ví dụ (Hằng ngày):
+
+Sau đó dưa trên data đã gen tao file flash casrd.
+Dựa trên project flashcard cũ của tôi.
+Phát triển thêm các chức năng sau :
+Cho phép học theo từng ngày.
+Cho phép học theo từng bài.
+Cho phép học theo từng tuần.
+
+Thêm chức năng: ôn tập theo ngày.
+Nội dung chọn trắc nghiệm:
+- Chọn ý nghĩa
+- Chọn ví dụ
+- Chọn cách dùng
+
+Thêm chức năng bài tập vận dụng:
+Bạn có thể tình các đề thì jlpt trên các nguôn theo từng dạng.
+Khi tra loi sai thì sẽ có giải thich chi tiết.
+
+Day 1 :
+1. ⼀⽅だ: Càng ngày càng
+2. 上で : Sau khi/ Trong khi
+3. ようとする: Định làm/ Cố gắng làm
+4. ⽋かさず/⽋かせない: Không thể thiếu
+5. ことはない・こともない: Không cần phải làm
+6. さえ・すら: Đến cả, thậm chí, ngay cả
+7. さえ・すら: Đến cả, thậm chí, ngay cả
+
+
+DAY 2 :
+1 〜末
+2 〜だけ・〜だけ〜
+3 〜だけに・〜だけで
+4 〜だって
+5 〜たら〜で
+6 〜て以来
+7 〜ではないか・〜のではないか
+
+
+DAY 3 :
+1. 〜というと・〜といえば
+2. 〜といった
+3. としたら・とすれば・とすると
+4. 〜として・〜としても
+5. 〜にかけては
+6. 〜にすぎない
+7. によって・により・によらず
+
+DAY 4 :
+1. にわたって・にわたり
+2. ばかりで・ばかりだ
+3. ものだ・ものではない
+4. ものなら
+5. わけだ
+6. わけではない
+7. わけがない
+
+DAY 5: 
+1. ～あまり
+2. ～以上 (は)
+3. ～うえ (に)
+4. ～おきに
+5. ～がたい
+6. ～がちだ・がちの
+
+DAY 6 :
+1. かというと・かといえば
+2. かのようだ
+3. からすると・からすれば
+4. がる・がらずに
+5. きり・きりだ
+6. こと
+7. ことで
+
+DAY 7:
+1. 〜ところだった
+2. 〜どころではない
+3. 〜ざるを得ない
+4. 〜しか〜ない・〜しかない
+5. 〜っこない
+6. 〜つつある
+7. 〜ものか
+
+DAY 8:
+1. 〜てからでないと
+2. 〜てしょうがない・ては仕⽅がない
+3. 〜ては・ていては
+4. 〜ということだ・とのことだ
+5. 〜といっても
+6. 〜とか・とかで
+7. 〜とは
+
+DAY9:
+1. 〜とはいえ
+2. 〜ないことには
+3. 〜ないですむ・ずにすむ
+4. 〜ないでもない・なくもない
+5. 〜ながら・ながらも
+6. 〜に際して・にあたり
+7. 〜に応じて
+
+DAY 10:
+1. 〜1 にかかわらず・にもかかわらず
+2. 〜にかぎる
+3. 〜ばかりに
+4. 〜にしても
+5. 〜につれて
+6. 〜に上る・に達する
+7. 〜ばかりか・ばかりでなく・だけでなく
+
+DAY 11:
+1. 〜 はともかく・ならともなく
+2. 〜はもちろん・はもとより
+3. 〜まい
+4. 〜ものの
+5. 〜にしろ・にせよ
+6. 〜わけにはいかない
+7. 〜ないわけにはいかない
+
+DAY 12:
+1.を問わず
+2.をはじめ
+3.〜ようではないか
+4.うる・える・えない
+5.かぎり・かぎりでは・ないかぎり
+6.かねる
+7.かねない
+
+DAY 13:
+1.からして 
+2.からといって
+3.からには・うえは 
+4.をめぐって
+5.ことから 
+6.最中(に)・最中だ
+7.次第で・次第だ
+
+DAY 14:
+1.ことだ 
+2.のことだから
+3.どんなに〜か 
+4.（ か)と思ったら
+5.どころか 
+6.〜に限ず・のみならす
+
+DAY 15 :
+1. に沿って
+3. ないではいられない/ずにはいられない
+4. にほかならない
+5. 〜割に(は) / にしては
+6. を抜きにして
+
+
+
+
+Ngữ pháp: 〜っこない
+Ý nghĩa: Tuyệt đối không…, chắc chắn không…
+Cách dùng: Vます bỏ ます + っこない
+👉 Khẳng định mạnh khả năng = 0 (văn nói)
+
+Ví dụ (IT):
+そんな短期間でシステムが完成できっこない。
+そんなたんきかんでしすてむがかんせいできっこない。
+Dịch: Thời gian ngắn vậy thì hệ thống chắc chắn không thể hoàn thành.
+
+Ví dụ (Hằng ngày):
+あの人が嘘をつくっこない。
+あのひとがうそをつくっこない。
+Dịch: Người đó tuyệt đối không nói dối đâu.
+
+Ngữ pháp: 〜つつある
+Ý nghĩa: Đang dần…, đang trong quá trình thay đổi
+Cách dùng: Vます bỏ ます + つつある
+👉 Diễn tả sự thay đổi đang tiến triển (văn viết, trang trọng)
+
+Ví dụ (IT):
+AI技術は急速に進化しつつある。
+えーあいぎじゅつはきゅうそくにしんかしつつある。
+Dịch: Công nghệ AI đang dần phát triển nhanh chóng.
+
+Ví dụ (Hằng ngày):
+景気は少しずつ回復しつつある。
+けいきはすこしずつかいふくしつつある。
+Dịch: Kinh tế đang dần hồi phục.

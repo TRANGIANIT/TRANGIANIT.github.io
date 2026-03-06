@@ -23,104 +23,159 @@
         <header>
             <h1>Học Ngữ Pháp Tiếng Nhật 🇯🇵</h1>
             <p>Nhấp vào thẻ để xem chi tiết</p>
+        </header>
+
+        <!-- LỖI CẤU TRÚC VIEW -->
+        <div id="flashcard-view" class="view-section active">
             <div class="filter-controls">
-                <label for="statusFilter">Lọc thẻ:</label>
+                <label for="dayFilter">Bài học:</label>
+                <select id="dayFilter" class="filter-select">
+                    <option value="all">Tất cả các ngày</option>
+                    <!-- Sẽ gen bằng JS -->
+                </select>
+
+                <label for="statusFilter">Trạng thái:</label>
                 <select id="statusFilter" class="filter-select">
                     <option value="all">Tất cả</option>
                     <option value="not_learned">🔴 Chưa thuộc</option>
                     <option value="learned">✅ Đã thuộc</option>
                 </select>
             </div>
-        </header>
 
-        <div class="flashcard-container">
-            <div class="flashcard" id="flashcard">
-                <!-- Mặt trước thẻ -->
-                <div class="front">
-                    <span class="status-badge" id="cardBadge">🔴 Chưa thuộc</span>
-                    <span class="grammar-title" id="grammarTitle">〜っこない</span>
-                    <p class="hint">Nhấp để lật ↺</p>
-                </div>
-
-                <!-- Mặt sau thẻ -->
-                <div class="back">
-                    <div class="content-section">
-                        <h3>📖 Ý nghĩa</h3>
-                        <p id="meaning">Tuyệt đối không…, chắc chắn không…</p>
+            <div class="flashcard-container">
+                <div class="flashcard" id="flashcard">
+                    <!-- Mặt trước thẻ -->
+                    <div class="front">
+                        <span class="status-badge" id="cardBadge">🔴 Chưa thuộc</span>
+                        <span class="grammar-title" id="grammarTitle">〜っこない</span>
+                        <p class="hint">Nhấp để lật ↺</p>
                     </div>
 
-                    <div class="content-section">
-                        <h3>🛠 Cách dùng</h3>
-                        <p id="usage">Vます bỏ ます + っこない</p>
-                        <p class="note" id="note">👉 Khẳng định mạnh khả năng = 0 (văn nói)</p>
-                    </div>
+                    <!-- Mặt sau thẻ -->
+                    <div class="back">
+                        <div class="content-section">
+                            <h3>📖 Ý nghĩa</h3>
+                            <p id="meaning">Tuyệt đối không…, chắc chắn không…</p>
+                        </div>
 
-                    <div class="content-section">
-                        <h3>💡 Ví dụ (IT)</h3>
-                        <p class="jp-text" id="exItJp">そんな短期間でシステムが完成できっこない。</p>
-                        <p class="jp-furi" id="exItFuri">そんなたんきかんでしすてむがかんせいできっこない。</p>
-                        <p class="vi-trans" id="exItVi">Dịch: Thời gian ngắn vậy thì hệ thống chắc chắn không thể hoàn
-                            thành.</p>
-                    </div>
+                        <div class="content-section">
+                            <h3>🛠 Cách dùng</h3>
+                            <p id="usage">Vます bỏ ます + っこない</p>
+                            <p class="note" id="note">👉 Khẳng định mạnh khả năng = 0 (văn nói)</p>
+                        </div>
 
-                    <div class="content-section">
-                        <h3>💬 Ví dụ (Hằng ngày)</h3>
-                        <p class="jp-text" id="exDayJp">あの人が嘘をつくっこない。</p>
-                        <p class="jp-furi" id="exDayFuri">あのひとがうそをつくっこない。</p>
-                        <p class="vi-trans" id="exDayVi">Dịch: Người đó tuyệt đối không nói dối đâu.</p>
+                        <div class="content-section">
+                            <h3>💡 Ví dụ (IT)</h3>
+                            <p class="jp-text" id="exItJp">そんな短期間でシステムが完成できっこない。</p>
+                            <p class="jp-furi" id="exItFuri">そんなたんきかんでしすてむがかんせいできっこない。</p>
+                            <p class="vi-trans" id="exItVi">Dịch: Thời gian ngắn vậy thì hệ thống chắc chắn không thể
+                                hoàn
+                                thành.</p>
+                        </div>
+
+                        <div class="content-section">
+                            <h3>💬 Ví dụ (Hằng ngày)</h3>
+                            <p class="jp-text" id="exDayJp">あの人が嘘をつくっこない。</p>
+                            <p class="jp-furi" id="exDayFuri">あのひとがうそをつくっこない。</p>
+                            <p class="vi-trans" id="exDayVi">Dịch: Người đó tuyệt đối không nói dối đâu.</p>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <div class="controls status-control">
+                <button class="btn btn-status" id="toggleLearnedBtn"><span class="btn-text">Đánh dấu Đã thuộc</span>
+                    <span class="btn-icon">✅</span></button>
+                <button class="btn btn-export" id="exportImageBtn"
+                    style="margin-left: 10px; background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);"><span
+                        class="btn-icon">📸</span> <span class="btn-text">Tải ảnh Thẻ</span></button>
+            </div>
+
+            <div class="controls nav-controls">
+                <button class="btn" id="prevBtn" disabled><span class="btn-icon">❮</span> <span class="btn-text">Thẻ
+                        trước</span></button>
+                <span class="counter"><span id="currentCard">1</span> / <span id="totalCards">1</span></span>
+            </div> <!-- End Flashcard View -->
+
+            <!-- QUIZ VIEW -->
+            <div id="quiz-view" class="view-section" style="display: none;">
+                <div class="quiz-header">
+                    <h2>Trắc Nghiệm 🎯</h2>
+                    <select id="quizDayFilter" class="filter-select">
+                        <option value="all">Tất cả các ngày</option>
+                    </select>
+                </div>
+                <div class="quiz-container" id="quizContainer">
+                    <div class="quiz-question" id="quizQuestion">Đang tải câu hỏi...</div>
+                    <div class="quiz-options" id="quizOptions">
+                        <!-- Nút bấm generate tự động -->
+                    </div>
+                    <div class="quiz-feedback" id="quizFeedback"></div>
+                    <button class="btn btn-export" id="nextQuizBtn"
+                        style="width: 100%; margin-top: 1rem; display: none;">Câu tiếp theo ❯</button>
+                </div>
+            </div> <!-- End Quiz View -->
+
+            <!-- JLPT VIEW -->
+            <div id="jlpt-view" class="view-section" style="display: none;">
+                <div class="quiz-header">
+                    <h2>Thi Thử JLPT 📝</h2>
+                </div>
+                <div class="quiz-container" style="text-align: center; color: var(--text-light); padding: 3rem 1rem;">
+                    <p>Tính năng đang được phát triển...</p>
+                    <p style="font-size: 3rem; margin-top: 1rem;">🚧</p>
+                </div>
+            </div> <!-- End JLPT View -->
+
+            <!-- BOTTOM NAVIGATION -->
+            <nav class="bottom-nav">
+                <button class="nav-tab active" data-target="flashcard-view">
+                    <span class="nav-icon">📇</span>
+                    <span class="nav-text">Thẻ Học</span>
+                </button>
+                <button class="nav-tab" data-target="quiz-view">
+                    <span class="nav-icon">🎯</span>
+                    <span class="nav-text">Ôn Tập</span>
+                </button>
+                <button class="nav-tab" data-target="jlpt-view">
+                    <span class="nav-icon">📝</span>
+                    <span class="nav-text">Thi Thử</span>
+                </button>
+            </nav>
         </div>
 
-        <div class="controls status-control">
-            <button class="btn btn-status" id="toggleLearnedBtn"><span class="btn-text">Đánh dấu Đã thuộc</span> <span
-                    class="btn-icon">✅</span></button>
-            <button class="btn btn-export" id="exportImageBtn"
-                style="margin-left: 10px; background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);"><span
-                    class="btn-icon">📸</span> <span class="btn-text">Tải ảnh Thẻ</span></button>
+        <!-- Bố cục ẩn dùng để chụp ảnh tải về -->
+        <div id="exportTemplate" class="export-template" style="position: absolute; left: -9999px; top: -9999px;">
+            <div class="export-card">
+                <div class="export-header">Học Tiếng Nhật Cùng Nhau 🇯🇵</div>
+                <div class="export-grammar" id="exportGrammar">〜っこない</div>
+                <div class="export-meaning" id="exportMeaning">Tuyệt đối không…, chắc chắn không…</div>
+                <div class="export-usage" id="exportUsage">Vます bỏ ます + っこない</div>
+                <div class="export-ex-jp" id="exportExJp">あの人が嘘をつくっこない。</div>
+                <div class="export-ex-vi" id="exportExVi">Dịch: Người đó tuyệt đối không nói dối đâu.</div>
+                <div class="export-footer">Roku 76 ✨</div>
+            </div>
         </div>
 
-        <div class="controls nav-controls">
-            <button class="btn" id="prevBtn" disabled><span class="btn-icon">❮</span> <span class="btn-text">Thẻ
-                    trước</span></button>
-            <span class="counter"><span id="currentCard">1</span> / <span id="totalCards">1</span></span>
-            <button class="btn" id="nextBtn" disabled><span class="btn-text">Thẻ sau</span> <span
-                    class="btn-icon">❯</span></button>
-        </div>
-    </div>
+        <!-- Html2Canvas Library -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+        <script src="data.js"></script>
+        <script src="script.js"></script>
 
-    <!-- Bố cục ẩn dùng để chụp ảnh tải về -->
-    <div id="exportTemplate" class="export-template" style="position: absolute; left: -9999px; top: -9999px;">
-        <div class="export-card">
-            <div class="export-header">Học Tiếng Nhật Cùng Nhau 🇯🇵</div>
-            <div class="export-grammar" id="exportGrammar">〜っこない</div>
-            <div class="export-meaning" id="exportMeaning">Tuyệt đối không…, chắc chắn không…</div>
-            <div class="export-usage" id="exportUsage">Vます bỏ ます + っこない</div>
-            <div class="export-ex-jp" id="exportExJp">あの人が嘘をつくっこない。</div>
-            <div class="export-ex-vi" id="exportExVi">Dịch: Người đó tuyệt đối không nói dối đâu.</div>
-            <div class="export-footer">Roku 76 ✨</div>
-        </div>
-    </div>
-
-    <!-- Html2Canvas Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="script.js"></script>
-
-    <!-- PWA Service Worker Registration -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then(registration => {
-                        console.log('SW registered: ', registration.scope);
-                    })
-                    .catch(err => {
-                        console.log('SW registration failed: ', err);
-                    });
-            });
-        }
-    </script>
+        <!-- PWA Service Worker Registration -->
+        <script>
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('sw.js')
+                        .then(registration => {
+                            console.log('SW registered: ', registration.scope);
+                        })
+                        .catch(err => {
+                            console.log('SW registration failed: ', err);
+                        });
+                });
+            }
+        </script>
 </body>
 
 </html>
