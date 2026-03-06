@@ -1,0 +1,99 @@
+Ngữ pháp: ～あまり
+Ý nghĩa: Vì quá… nên…
+Cách dùng: Nの / Vた + あまり
+👉 Diễn tả nguyên nhân mạnh
+
+Ví dụ (IT):
+嬉しさのあまり、新しいツールをすぐ試しました。
+うれしさのあまり、あたらしいつーるをすぐためしました。
+Dịch: Vì quá vui nên thử tool mới ngay.
+
+Ví dụ (Hằng ngày):
+驚きのあまり、言葉が出なかった。
+おどろきのあまり、ことばがでなかった。
+Dịch: Vì quá ngạc nhiên nên không nói được.
+
+---
+
+Ngữ pháp: ～以上（は）
+Ý nghĩa: Một khi đã…, vì đã…
+Cách dùng: 普通形 + 以上
+👉 Thường dùng để nói trách nhiệm
+
+Ví dụ (IT):
+プロジェクトを担当した以上、最後までやります。
+ぷろじぇくとをたんとうしたいじょう、さいごまでやります。
+Dịch: Một khi đã phụ trách project thì sẽ làm đến cùng.
+
+Ví dụ (Hằng ngày):
+約束した以上、守るべきです。
+やくそくしたいじょう、まもるべきです。
+Dịch: Một khi đã hứa thì nên giữ lời.
+
+---
+
+Ngữ pháp: ～うえ（に）
+Ý nghĩa: Không những… mà còn…
+Cách dùng: 普通形 + うえに
+👉 Dùng để thêm thông tin
+
+Ví dụ (IT):
+このツールは速いうえに使いやすい。
+このつーるははやいうえにつかいやすい。
+Dịch: Tool này vừa nhanh lại vừa dễ dùng.
+
+Ví dụ (Hằng ngày):
+彼は親切なうえに面白い。
+かれはしんせつなうえにおもしろい。
+Dịch: Anh ấy vừa tốt bụng lại vừa thú vị.
+
+---
+
+Ngữ pháp: ～おきに
+Ý nghĩa: Cứ mỗi…, cách…
+Cách dùng: N + おきに
+👉 Diễn tả khoảng cách
+
+Ví dụ (IT):
+5分おきにログをチェックします。
+ごふんおきにろぐをちぇっくします。
+Dịch: Kiểm tra log mỗi 5 phút.
+
+Ví dụ (Hằng ngày):
+電車は10分おきに来ます。
+でんしゃはじゅっぷんおきにきます。
+Dịch: Tàu đến mỗi 10 phút.
+
+---
+
+Ngữ pháp: ～がたい
+Ý nghĩa: Khó mà…
+Cách dùng: Vます + がたい
+👉 Dùng cho hành động khó thực hiện
+
+Ví dụ (IT):
+このバグの原因は理解しがたい。
+このばぐのげんいんはりかいしがたい。
+Dịch: Nguyên nhân bug này khó hiểu.
+
+Ví dụ (Hằng ngày):
+彼の行動は信じがたい。
+かれのこうどうはしんじがたい。
+Dịch: Hành động của anh ta khó tin.
+
+---
+
+Ngữ pháp: ～がちだ・がちの
+Ý nghĩa: Hay…, dễ…
+Cách dùng: Vます + がち
+👉 Dùng cho xu hướng xấu
+
+Ví dụ (IT):
+初心者はミスをしがちです。
+しょしんしゃはみすをしがちです。
+Dịch: Người mới thường hay mắc lỗi.
+
+Ví dụ (Hằng ngày):
+冬は風邪を引きがちです。
+ふゆはかぜをひきがちです。
+Dịch: Mùa đông dễ bị cảm.

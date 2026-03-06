@@ -8,11 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalCardsSpan = document.getElementById('totalCards');
     const statusFilter = document.getElementById('statusFilter');
     const dayFilter = document.getElementById('dayFilter');
+    const weekFilter = document.getElementById('weekFilter');
     const toggleLearnedBtn = document.getElementById('toggleLearnedBtn');
     const cardBadge = document.getElementById('cardBadge');
 
     // Quiz DOM Elements
     const quizDayFilter = document.getElementById('quizDayFilter');
+    const quizWeekFilter = document.getElementById('quizWeekFilter');
     const quizQuestion = document.getElementById('quizQuestion');
     const quizOptions = document.getElementById('quizOptions');
     const quizFeedback = document.getElementById('quizFeedback');
@@ -93,8 +95,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // --- Quiz Logic ---
+    let currentQuizAnswer = null;
+
+    quizWeekFilter.addEventListener('change', () => {
+        // This filter should trigger a new quiz generation, not filter flashcards
+        generateQuiz();
+    });
+
     // Filtering logic
     statusFilter.addEventListener('change', () => {
+        filterCards();
+        resetFlip();
+    });
+
+    weekFilter.addEventListener('change', () => {
+        updateDayOptions('flashcard');
         filterCards();
         resetFlip();
     });
@@ -104,25 +120,54 @@ document.addEventListener('DOMContentLoaded', () => {
         resetFlip();
     });
 
-    function initDayFilters() {
-        const quizDayFilter = document.getElementById('quizDayFilter');
+    function updateDayOptions(mode) {
+        let wFilter, dFilter;
+        if (mode === 'flashcard') {
+            wFilter = weekFilter.value;
+            dFilter = dayFilter;
+        } else {
+            wFilter = quizWeekFilter.value;
+            dFilter = quizDayFilter;
+        }
+
+        const currentDaySelection = dFilter.value;
+        dFilter.innerHTML = '<option value="all">Tất cả các ngày</option>';
+
         const uniqueDays = [...new Set(flashcardsData.map(item => item.day))].sort((a, b) => a - b);
 
         uniqueDays.forEach(day => {
-            const opt1 = document.createElement('option');
-            opt1.value = day;
-            opt1.textContent = `Ngày ${day}`;
-            dayFilter.appendChild(opt1);
-
-            const opt2 = document.createElement('option');
-            opt2.value = day;
-            opt2.textContent = `Ngày ${day}`;
-            quizDayFilter.appendChild(opt2);
+            const weekOfThisDay = Math.ceil(day / 7);
+            if (wFilter === 'all' || parseInt(wFilter) === weekOfThisDay) {
+                const opt = document.createElement('option');
+                opt.value = day;
+                opt.textContent = `Ngày ${day}`;
+                dFilter.appendChild(opt);
+            }
         });
+
+        // Try to keep the previous day selection if it's still available
+        let optionExists = false;
+        for (let i = 0; i < dFilter.options.length; i++) {
+            if (dFilter.options[i].value === currentDaySelection) {
+                optionExists = true; break;
+            }
+        }
+
+        if (optionExists) {
+            dFilter.value = currentDaySelection;
+        } else {
+            dFilter.value = 'all';
+        }
+    }
+
+    function initDayFilters() {
+        updateDayOptions('flashcard');
+        updateDayOptions('quiz');
     }
 
     function filterCards() {
         const statusVal = statusFilter.value;
+        const weekVal = weekFilter.value;
         const dayVal = dayFilter.value;
 
         filteredCards = flashcardsData.filter(c => {
@@ -130,10 +175,16 @@ document.addEventListener('DOMContentLoaded', () => {
             if (statusVal === 'not_learned') statusMatch = !c.learned;
             else if (statusVal === 'learned') statusMatch = c.learned;
 
+            let weekMatch = true;
+            if (weekVal !== 'all') {
+                const w = parseInt(weekVal);
+                weekMatch = Math.ceil(c.day / 7) === w;
+            }
+
             let dayMatch = true;
             if (dayVal !== 'all') dayMatch = (c.day === parseInt(dayVal));
 
-            return statusMatch && dayMatch;
+            return statusMatch && weekMatch && dayMatch;
         });
 
         currentIndex = 0;
@@ -297,8 +348,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- Quiz Logic ---
-    let currentQuizAnswer = null;
 
+    quizWeekFilter.addEventListener('change', () => {
+        updateDayOptions('quiz');
+        generateQuiz();
+    });
     quizDayFilter.addEventListener('change', generateQuiz);
     nextQuizBtn.addEventListener('click', generateQuiz);
 
@@ -309,11 +363,20 @@ document.addEventListener('DOMContentLoaded', () => {
         nextQuizBtn.style.display = 'none';
         quizOptions.innerHTML = '';
 
+        const qWeekVal = quizWeekFilter.value;
         const qDayVal = quizDayFilter.value;
-        let pool = flashcardsData;
-        if (qDayVal !== 'all') {
-            pool = flashcardsData.filter(c => c.day === parseInt(qDayVal));
-        }
+
+        let pool = flashcardsData.filter(c => {
+            let wMatch = true;
+            if (qWeekVal !== 'all') {
+                wMatch = Math.ceil(c.day / 7) === parseInt(qWeekVal);
+            }
+            let dMatch = true;
+            if (qDayVal !== 'all') {
+                dMatch = c.day === parseInt(qDayVal);
+            }
+            return wMatch && dMatch;
+        });
 
         if (pool.length < 4) {
             quizQuestion.textContent = "Không đủ dữ liệu bộ từ vựng để tạo bài Trắc nghiệm. Hãy chọn Ngày khác hoặc Tất cả.";
@@ -339,10 +402,16 @@ document.addEventListener('DOMContentLoaded', () => {
             correctOptionText = correctCard.usage;
             currentQuizAnswer = correctOptionText;
         } else {
-            questionText = `Cấu trúc nào phù hợp với câu sau: "<br><i>${correctCard.examples[0].jp}</i>" ?`;
+            // Safe fallback if card has no examples
+            if (correctCard.examples && correctCard.examples.length > 0) {
+                questionText = `Cấu trúc nào phù hợp với câu sau: "<br><i>${correctCard.examples[0].jp}</i>" ?`;
+                explanationText = `<strong>${correctCard.grammar}</strong><br>Dịch nghĩa câu ví dụ: ${correctCard.examples[0].vi}`;
+            } else {
+                questionText = `Cấu trúc nào có ý nghĩa sau: "<br><i>${correctCard.meaning}</i>" ?`;
+                explanationText = `<strong>${correctCard.grammar}</strong><br>Ý nghĩa: ${correctCard.meaning}`;
+            }
             correctOptionText = correctCard.grammar;
             currentQuizAnswer = correctOptionText;
-            explanationText = `<strong>${correctCard.grammar}</strong><br>Dịch nghĩa câu ví dụ: ${correctCard.examples[0].vi}`;
         }
 
         quizQuestion.innerHTML = questionText;
@@ -356,7 +425,7 @@ document.addEventListener('DOMContentLoaded', () => {
             else if (qType === 1) wrongText = randomWrong.usage;
             else wrongText = randomWrong.grammar;
 
-            if (!options.includes(wrongText)) {
+            if (wrongText && !options.includes(wrongText)) {
                 options.push(wrongText);
             }
         }

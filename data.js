@@ -2,150 +2,2375 @@ const flashcardsData = [
     {
         "id": "day1_0",
         "day": 1,
-        "grammar": "⼀⽅だ",
-        "meaning": "Càng ngày càng...",
-        "usage": "Vる + 一方だ",
-        "note": "👉 Diễn tả một sự việc, trạng thái đang biến đổi theo một chiều hướng nhất định (thường là hướng xấu đi).",
-        "ex_it": "Đang cập nhật...\n\nDịch: ...",
-        "ex_daily": "Đang cập nhật...\n\nDịch: ...",
+        "grammar": "〜末（すえ）",
+        "meaning": "Sau khi…, kết quả là…",
+        "usage": "Vた + 末に / Nの + 末に",
+        "note": "👉 Diễn tả kết quả sau quá trình dài suy nghĩ hoặc cố gắng",
+        "ex_it": "",
+        "ex_daily": "",
         "learned": false,
         "examples": [
             {
                 "type": "Ví dụ (IT)",
-                "jp": "システムのバグは増える一方だ。",
-                "furi": "システムのバグはふえるいっぽうだ。",
-                "vi": "Dịch: Lỗi hệ thống ngày càng tăng lên."
+                "jp": "長い議論の末、このアーキテクチャを選びました。",
+                "furi": "ながいぎろんのすえ、このあーきてくちゃをえらびました。",
+                "vi": "Dịch: Sau nhiều cuộc thảo luận, chúng tôi chọn kiến trúc này."
             },
             {
                 "type": "Ví dụ (Hằng ngày)",
-                "jp": "最近、物価が上がる一方だ。",
-                "furi": "さいきん、ぶっかがあがるいっぽうだ。",
-                "vi": "Dịch: Gần đây, vật giá ngày càng tăng cao."
+                "jp": "悩んだ末、日本へ留学することにしました。",
+                "furi": "なやんだすえ、にほんへりゅうがくすることにしました。",
+                "vi": "Dịch: Sau khi suy nghĩ nhiều tôi quyết định du học Nhật."
             }
         ]
     },
     {
         "id": "day1_1",
         "day": 1,
-        "grammar": "上で",
-        "meaning": "Sau khi / Trong quá trình (khi)...",
-        "usage": "1. Vた/ Nの + 上(で) (Sau khi)\n2. Vる + 上(で) (Trong quá trình)",
-        "note": "👉 Biểu thị 1 hành động phải được thực hiện (làm căn cứ) trước khi làm việc tiếp theo.",
-        "ex_it": "Đang cập nhật...\n\nDịch: ...",
-        "ex_daily": "Đang cập nhật...\n\nDịch: ...",
+        "grammar": "〜だけ・〜だけ〜",
+        "meaning": "Càng… càng… / Chỉ…",
+        "usage": "Vば + Vる + だけ",
+        "note": "👉 Nhấn mạnh mức độ tăng lên",
+        "ex_it": "",
+        "ex_daily": "",
         "learned": false,
         "examples": [
             {
                 "type": "Ví dụ (IT)",
-                "jp": "仕様書を確認した上で、開発を始めます。",
-                "furi": "しようしょをかくにんしたうえで、かいはつをはじめます。",
-                "vi": "Dịch: Sau khi xác nhận đặc tả yêu cầu, tôi sẽ bắt đầu phát triển."
+                "jp": "テストすればするだけバグが見つかる。",
+                "furi": "てすとすればするだけばぐがみつかる。",
+                "vi": "Dịch: Càng test càng tìm ra nhiều bug."
             },
             {
                 "type": "Ví dụ (Hằng ngày)",
-                "jp": "よく考えた上で、ご返事いたします。",
-                "furi": "よくかんがえたうえで、ごへんじいたします。",
-                "vi": "Dịch: Sau khi suy nghĩ kĩ, tôi sẽ trả lời bạn."
+                "jp": "日本語は勉強すればするだけ上手になる。",
+                "furi": "にほんごはべんきょうすればするだけじょうずになる。",
+                "vi": "Dịch: Tiếng Nhật càng học càng giỏi."
             }
         ]
     },
     {
         "id": "day1_2",
         "day": 1,
-        "grammar": "ようとする",
-        "meaning": "Định làm / Cố gắng làm...",
-        "usage": "V (ý hướng: よう/おう) + とする",
-        "note": "👉 Cố gắng thực hiện một việc gì đó nhưng không thành công, hoặc chỉ vừa mới định làm thì có việc khác chen vào.",
-        "ex_it": "Đang cập nhật...\n\nDịch: ...",
-        "ex_daily": "Đang cập nhật...\n\nDịch: ...",
+        "grammar": "〜だけに・〜だけで",
+        "meaning": "Chính vì…, chỉ cần…",
+        "usage": "N / 普通形 + だけに",
+        "note": "👉 Nhấn mạnh nguyên nhân",
+        "ex_it": "",
+        "ex_daily": "",
         "learned": false,
         "examples": [
             {
                 "type": "Ví dụ (IT)",
-                "jp": "デプロイしようとしたら、エラーが発生した。",
-                "furi": "でぷろいしようとしたら、えらーがはっせいした。",
-                "vi": "Dịch: Vừa định triển khai (deploy) thì phát sinh lỗi."
+                "jp": "重要なシステムだけに、慎重にテストする必要がある。",
+                "furi": "じゅうようなしすてむだけに、しんちょうにてすとするひつようがある。",
+                "vi": "Dịch: Vì là hệ thống quan trọng nên cần test cẩn thận."
             },
             {
                 "type": "Ví dụ (Hằng ngày)",
-                "jp": "出かけようとしたとき、雨が降り出した。",
-                "furi": "でかけようとしたとき、あめがふりだした。",
-                "vi": "Dịch: Đúng lúc định đi ra ngoài thì trời đổ mưa."
+                "jp": "有名な店だけに、いつも混んでいる。",
+                "furi": "ゆうめいなみせだけに、いつもこんでいる。",
+                "vi": "Dịch: Vì là quán nổi tiếng nên lúc nào cũng đông."
             }
         ]
     },
     {
         "id": "day1_3",
         "day": 1,
-        "grammar": "⽋かさず/⽋かせない",
-        "meaning": "Không thể thiếu / Không bỏ sót",
-        "usage": "N + が欠かせない / Vるのを欠かさない",
-        "note": "👉 Nhấn mạnh sự vật, sự việc cực kỳ quan trọng, bắt buộc phải có.",
-        "ex_it": "Đang cập nhật...\n\nDịch: ...",
-        "ex_daily": "Đang cập nhật...\n\nDịch: ...",
+        "grammar": "〜だって",
+        "meaning": "Ngay cả…, ngay cả tôi cũng…",
+        "usage": "N + だって",
+        "note": "👉 Nhấn mạnh giống 〜でも",
+        "ex_it": "",
+        "ex_daily": "",
         "learned": false,
         "examples": [
             {
                 "type": "Ví dụ (IT)",
-                "jp": "AI開発には膨大なデータが欠かせない。",
-                "furi": "えーあいかいはつにはぼうだいなでーたがかかせない。",
-                "vi": "Dịch: Trong phát triển AI thì dữ liệu khổng lồ là không thể thiếu."
+                "jp": "初心者だってこのツールを使えます。",
+                "furi": "しょしんしゃだってこのつーるをつかえます。",
+                "vi": "Dịch: Ngay cả người mới cũng dùng được tool này."
             },
             {
                 "type": "Ví dụ (Hằng ngày)",
-                "jp": "毎日欠かさずジョギングをしている。",
-                "furi": "まいにちかかさずじょぎんぐをしている。",
-                "vi": "Dịch: Ngày nào tôi cũng chạy bộ không bỏ sót ngày nào."
+                "jp": "私だって疲れています。",
+                "furi": "わたしだってつかれています。",
+                "vi": "Dịch: Ngay cả tôi cũng mệt."
             }
         ]
     },
     {
         "id": "day1_4",
         "day": 1,
-        "grammar": "ことはない・こともない",
-        "meaning": "Không cần thiết phải làm / Chưa từng làm",
-        "usage": "Vる + ことはない",
-        "note": "👉 Khuyên nhủ, nhắc nhở đối phương không cần phải làm việc đó.",
-        "ex_it": "Đang cập nhật...\n\nDịch: ...",
-        "ex_daily": "Đang cập nhật...\n\nDịch: ...",
+        "grammar": "〜たら〜で",
+        "meaning": "Nếu… thì… (kết quả không tốt)",
+        "usage": "Vたら + V / N",
+        "note": "👉 Thường diễn tả hậu quả tiêu cực",
+        "ex_it": "",
+        "ex_daily": "",
         "learned": false,
         "examples": [
             {
                 "type": "Ví dụ (IT)",
-                "jp": "軽微なバグなので、心配することはない。",
-                "furi": "けいびなばぐなので、しんぱいすることはない。",
-                "vi": "Dịch: Chỉ là lỗi nhỏ thôi nên không cần phải lo lắng."
+                "jp": "このコードを変更したらで、大きなバグが出た。",
+                "furi": "このこーどをへんこうしたらで、おおきなばぐがでた。",
+                "vi": "Dịch: Vì sửa code này nên xuất hiện bug lớn."
             },
             {
                 "type": "Ví dụ (Hằng ngày)",
-                "jp": "君が謝ることはないよ。",
-                "furi": "きみがあやまることはないよ。",
-                "vi": "Dịch: Cậu không cần phải xin lỗi đâu."
+                "jp": "寝不足だったらで、仕事に集中できない。",
+                "furi": "ねぶそくだったらで、しごとにしゅうちゅうできない。",
+                "vi": "Dịch: Vì thiếu ngủ nên không tập trung làm việc."
             }
         ]
     },
     {
         "id": "day1_5",
         "day": 1,
-        "grammar": "さえ・すら",
-        "meaning": "Đến cả, thậm chí, ngay cả",
-        "usage": "N (+ trợ từ) + さえ/すら",
-        "note": "👉 Đưa ra một ví dụ cực đoan (cao nhất hoặc thấp nhất) để ám chỉ những thứ khác cũng đương nhiên như vậy.",
-        "ex_it": "Đang cập nhật...\n\nDịch: ...",
-        "ex_daily": "Đang cập nhật...\n\nDịch: ...",
+        "grammar": "〜て以来（ていらい）",
+        "meaning": "Kể từ khi…",
+        "usage": "Vて + 以来",
+        "note": "👉 Diễn tả hành động bắt đầu từ quá khứ và kéo dài đến hiện tại",
+        "ex_it": "",
+        "ex_daily": "",
         "learned": false,
         "examples": [
             {
                 "type": "Ví dụ (IT)",
-                "jp": "このシステムは新入社員でさえ簡単に操作できる。",
-                "furi": "このしすてむはしんにゅうしゃいんでさえかんたんにもうさせきる。",
-                "vi": "Dịch: Hệ thống này dễ đến mức cả nhân viên mới cũng thao tác được."
+                "jp": "このフレームワークを使って以来、開発が速くなった。",
+                "furi": "このふれーむわーくをつかっていらい、かいはつがはやくなった。",
+                "vi": "Dịch: Từ khi dùng framework này việc phát triển nhanh hơn."
             },
             {
                 "type": "Ví dụ (Hằng ngày)",
-                "jp": "忙しくて、ご飯を食べる暇さえない。",
-                "furi": "いそがしくて、ごはんをたべるひまさえない。",
-                "vi": "Dịch: Bận đến mức ngay cả thời gian ăn cơm cũng không có."
+                "jp": "日本に来て以来、寿司が好きになった。",
+                "furi": "にほんにきていらい、すしがすきになった。",
+                "vi": "Dịch: Từ khi đến Nhật tôi thích sushi."
+            }
+        ]
+    },
+    {
+        "id": "day1_6",
+        "day": 1,
+        "grammar": "〜ではないか・〜のではないか",
+        "meaning": "Có lẽ là…, chẳng phải là… sao",
+        "usage": "普通形 + のではないか",
+        "note": "👉 Diễn tả suy đoán",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "これはメモリリークではないかと思います。",
+                "furi": "これはめもりりーくではないかとおもいます。",
+                "vi": "Dịch: Tôi nghĩ có lẽ đây là memory leak."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "彼はもう帰ったのではないか。",
+                "furi": "かれはもうかえったのではないか。",
+                "vi": "Dịch: Có lẽ anh ấy đã về rồi."
+            }
+        ]
+    },
+    {
+        "id": "day2_0",
+        "day": 2,
+        "grammar": "〜末（すえ）",
+        "meaning": "Sau khi…, kết quả là…",
+        "usage": "Vた + 末に / Nの + 末に",
+        "note": "👉 Diễn tả kết quả sau quá trình dài suy nghĩ hoặc cố gắng",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "長い議論の末、このアーキテクチャを選びました。",
+                "furi": "ながいぎろんのすえ、このあーきてくちゃをえらびました。",
+                "vi": "Dịch: Sau nhiều cuộc thảo luận, chúng tôi chọn kiến trúc này."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "悩んだ末、日本へ留学することにしました。",
+                "furi": "なやんだすえ、にほんへりゅうがくすることにしました。",
+                "vi": "Dịch: Sau khi suy nghĩ nhiều tôi quyết định du học Nhật."
+            }
+        ]
+    },
+    {
+        "id": "day2_1",
+        "day": 2,
+        "grammar": "〜だけ・〜だけ〜",
+        "meaning": "Càng… càng… / Chỉ…",
+        "usage": "Vば + Vる + だけ",
+        "note": "👉 Nhấn mạnh mức độ tăng lên",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "テストすればするだけバグが見つかる。",
+                "furi": "てすとすればするだけばぐがみつかる。",
+                "vi": "Dịch: Càng test càng tìm ra nhiều bug."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "日本語は勉強すればするだけ上手になる。",
+                "furi": "にほんごはべんきょうすればするだけじょうずになる。",
+                "vi": "Dịch: Tiếng Nhật càng học càng giỏi."
+            }
+        ]
+    },
+    {
+        "id": "day2_2",
+        "day": 2,
+        "grammar": "〜だけに・〜だけで",
+        "meaning": "Chính vì…, chỉ cần…",
+        "usage": "N / 普通形 + だけに",
+        "note": "👉 Nhấn mạnh nguyên nhân",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "重要なシステムだけに、慎重にテストする必要がある。",
+                "furi": "じゅうようなしすてむだけに、しんちょうにてすとするひつようがある。",
+                "vi": "Dịch: Vì là hệ thống quan trọng nên cần test cẩn thận."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "有名な店だけに、いつも混んでいる。",
+                "furi": "ゆうめいなみせだけに、いつもこんでいる。",
+                "vi": "Dịch: Vì là quán nổi tiếng nên lúc nào cũng đông."
+            }
+        ]
+    },
+    {
+        "id": "day2_3",
+        "day": 2,
+        "grammar": "〜だって",
+        "meaning": "Ngay cả…, ngay cả tôi cũng…",
+        "usage": "N + だって",
+        "note": "👉 Nhấn mạnh giống 〜でも",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "初心者だってこのツールを使えます。",
+                "furi": "しょしんしゃだってこのつーるをつかえます。",
+                "vi": "Dịch: Ngay cả người mới cũng dùng được tool này."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "私だって疲れています。",
+                "furi": "わたしだってつかれています。",
+                "vi": "Dịch: Ngay cả tôi cũng mệt."
+            }
+        ]
+    },
+    {
+        "id": "day2_4",
+        "day": 2,
+        "grammar": "〜たら〜で",
+        "meaning": "Nếu… thì… (kết quả không tốt)",
+        "usage": "Vたら + V / N",
+        "note": "👉 Thường diễn tả hậu quả tiêu cực",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "このコードを変更したらで、大きなバグが出た。",
+                "furi": "このこーどをへんこうしたらで、おおきなばぐがでた。",
+                "vi": "Dịch: Vì sửa code này nên xuất hiện bug lớn."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "寝不足だったらで、仕事に集中できない。",
+                "furi": "ねぶそくだったらで、しごとにしゅうちゅうできない。",
+                "vi": "Dịch: Vì thiếu ngủ nên không tập trung làm việc."
+            }
+        ]
+    },
+    {
+        "id": "day2_5",
+        "day": 2,
+        "grammar": "〜て以来（ていらい）",
+        "meaning": "Kể từ khi…",
+        "usage": "Vて + 以来",
+        "note": "👉 Diễn tả hành động bắt đầu từ quá khứ và kéo dài đến hiện tại",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "このフレームワークを使って以来、開発が速くなった。",
+                "furi": "このふれーむわーくをつかっていらい、かいはつがはやくなった。",
+                "vi": "Dịch: Từ khi dùng framework này việc phát triển nhanh hơn."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "日本に来て以来、寿司が好きになった。",
+                "furi": "にほんにきていらい、すしがすきになった。",
+                "vi": "Dịch: Từ khi đến Nhật tôi thích sushi."
+            }
+        ]
+    },
+    {
+        "id": "day2_6",
+        "day": 2,
+        "grammar": "〜ではないか・〜のではないか",
+        "meaning": "Có lẽ là…, chẳng phải là… sao",
+        "usage": "普通形 + のではないか",
+        "note": "👉 Diễn tả suy đoán",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "これはメモリリークではないかと思います。",
+                "furi": "これはめもりりーくではないかとおもいます。",
+                "vi": "Dịch: Tôi nghĩ có lẽ đây là memory leak."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "彼はもう帰ったのではないか。",
+                "furi": "かれはもうかえったのではないか。",
+                "vi": "Dịch: Có lẽ anh ấy đã về rồi."
+            }
+        ]
+    },
+    {
+        "id": "day3_0",
+        "day": 3,
+        "grammar": "〜というと・〜といえば",
+        "meaning": "Nói đến…, nhắc đến…",
+        "usage": "N + というと / といえば",
+        "note": "👉 Dùng khi nhắc đến một chủ đề gợi nhớ đến điều gì đó",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "プログラミングといえば、Javaが思い浮かびます。",
+                "furi": "ぷろぐらみんぐといえば、じゃばがおもいうかびます。",
+                "vi": "Dịch: Nhắc đến lập trình thì tôi nghĩ đến Java."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "日本といえば、寿司が有名です。",
+                "furi": "にほんといえば、すしがゆうめいです。",
+                "vi": "Dịch: Nhắc đến Nhật Bản thì sushi nổi tiếng."
+            }
+        ]
+    },
+    {
+        "id": "day3_1",
+        "day": 3,
+        "grammar": "〜といった",
+        "meaning": "Như là…, chẳng hạn như…",
+        "usage": "N + といった + N",
+        "note": "👉 Dùng để liệt kê ví dụ tiêu biểu",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "JavaやGoといった言語を勉強しています。",
+                "furi": "じゃばやごーといったげんごをべんきょうしています。",
+                "vi": "Dịch: Tôi đang học các ngôn ngữ như Java và Go."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "京都や奈良といった町が好きです。",
+                "furi": "きょうとやならといったまちがすきです。",
+                "vi": "Dịch: Tôi thích các thành phố như Kyoto và Nara."
+            }
+        ]
+    },
+    {
+        "id": "day3_2",
+        "day": 3,
+        "grammar": "としたら・とすれば・とすると",
+        "meaning": "Nếu giả sử…, nếu mà…",
+        "usage": "普通形 + としたら / とすれば / とすると",
+        "note": "👉 Dùng khi đưa ra giả định",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "もしサーバーが落ちたとしたら、大きな問題です。",
+                "furi": "もしさーばーがおちたとしたら、おおきなもんだいです。",
+                "vi": "Dịch: Nếu server sập thì là vấn đề lớn."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "もし雨だとしたら、旅行は延期します。",
+                "furi": "もしあめだとしたら、りょこうはえんきします。",
+                "vi": "Dịch: Nếu trời mưa thì chuyến đi sẽ hoãn."
+            }
+        ]
+    },
+    {
+        "id": "day3_3",
+        "day": 3,
+        "grammar": "〜として・〜としても",
+        "meaning": "Với tư cách là…, ngay cả khi…",
+        "usage": "N + として / としても",
+        "note": "👉 Diễn tả vai trò hoặc giả định",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "エンジニアとして、常に勉強し続ける必要がある。",
+                "furi": "えんじにあとして、つねにべんきょうしつづけるひつようがある。",
+                "vi": "Dịch: Với tư cách kỹ sư cần liên tục học hỏi."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "たとえ忙しいとしても、健康は大事です。",
+                "furi": "たとえいそがしいとしても、けんこうはだいじです。",
+                "vi": "Dịch: Dù bận thì sức khỏe vẫn quan trọng."
+            }
+        ]
+    },
+    {
+        "id": "day3_4",
+        "day": 3,
+        "grammar": "〜にかけては",
+        "meaning": "Về mặt…, khi nói đến…",
+        "usage": "N + にかけては",
+        "note": "👉 Nhấn mạnh điểm mạnh",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "プログラミングにかけては彼が一番です。",
+                "furi": "ぷろぐらみんぐにかけてはかれがいちばんです。",
+                "vi": "Dịch: Về lập trình thì anh ấy là giỏi nhất."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "料理にかけては母にかなう人はいない。",
+                "furi": "りょうりにかけてはははにかなうひとはいない。",
+                "vi": "Dịch: Về nấu ăn không ai bằng mẹ tôi."
+            }
+        ]
+    },
+    {
+        "id": "day3_5",
+        "day": 3,
+        "grammar": "〜にすぎない",
+        "meaning": "Chỉ là…, không hơn…",
+        "usage": "普通形 + にすぎない",
+        "note": "👉 Nhấn mạnh mức độ nhỏ",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "これは単なるテストコードにすぎない。",
+                "furi": "これはたんなるてすとこーどにすぎない。",
+                "vi": "Dịch: Đây chỉ là code test thôi."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "それは噂にすぎない。",
+                "furi": "それはうわさにすぎない。",
+                "vi": "Dịch: Đó chỉ là tin đồn."
+            }
+        ]
+    },
+    {
+        "id": "day3_6",
+        "day": 3,
+        "grammar": "〜によって・〜により・〜によらず",
+        "meaning": "Tùy theo…, bởi…, bất kể…",
+        "usage": "N + によって / により / によらず",
+        "note": "👉 Dùng trong văn viết",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "環境によって動作が違う。",
+                "furi": "かんきょうによってどうさがちがう。",
+                "vi": "Dịch: Tùy môi trường mà hoạt động khác."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "年齢によらず参加できます。",
+                "furi": "ねんれいによらずさんかできます。",
+                "vi": "Dịch: Bất kể tuổi tác đều có thể tham gia."
+            }
+        ]
+    },
+    {
+        "id": "day4_0",
+        "day": 4,
+        "grammar": "〜にわたって・〜にわたり",
+        "meaning": "Trong suốt…, kéo dài…",
+        "usage": "N + にわたって",
+        "note": "👉 Diễn tả phạm vi thời gian hoặc không gian dài",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "このプロジェクトは3ヶ月にわたって行われた。",
+                "furi": "このぷろじぇくとはさんかげつにわたっておこなわれた。",
+                "vi": "Dịch: Project này kéo dài 3 tháng."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "会議は2時間にわたって続いた。",
+                "furi": "かいぎはにじかんにわたってつづいた。",
+                "vi": "Dịch: Cuộc họp kéo dài 2 tiếng."
+            }
+        ]
+    },
+    {
+        "id": "day4_1",
+        "day": 4,
+        "grammar": "ばかりで・ばかりだ",
+        "meaning": "Chỉ toàn…, càng ngày càng…",
+        "usage": "Vて + ばかりだ",
+        "note": "👉 Diễn tả xu hướng tiêu cực",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "バグは増えるばかりだ。",
+                "furi": "ばぐはふえるばかりだ。",
+                "vi": "Dịch: Bug chỉ ngày càng tăng."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "物価は上がるばかりだ。",
+                "furi": "ぶっかはあがるばかりだ。",
+                "vi": "Dịch: Giá cả chỉ tăng lên."
+            }
+        ]
+    },
+    {
+        "id": "day4_2",
+        "day": 4,
+        "grammar": "ものだ・ものではない",
+        "meaning": "Nên…, không nên…",
+        "usage": "V辞書形 + ものだ / ものではない",
+        "note": "👉 Dùng để khuyên hoặc phê bình",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "コードは丁寧に書くものだ。",
+                "furi": "こーどはていねいにかくものだ。",
+                "vi": "Dịch: Code nên được viết cẩn thận."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "嘘をつくものではない。",
+                "furi": "うそをつくものではない。",
+                "vi": "Dịch: Không nên nói dối."
+            }
+        ]
+    },
+    {
+        "id": "day4_3",
+        "day": 4,
+        "grammar": "ものなら",
+        "meaning": "Nếu mà có thể…, nếu dám…",
+        "usage": "V可能形 + ものなら",
+        "note": "👉 Diễn tả điều khó xảy ra",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "できるものならこのバグを直してほしい。",
+                "furi": "できるものならこのばぐをなおしてほしい。",
+                "vi": "Dịch: Nếu có thể hãy sửa bug này."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "行けるものなら日本へ行きたい。",
+                "furi": "いけるものならにほんへいきたい。",
+                "vi": "Dịch: Nếu có thể tôi muốn đi Nhật."
+            }
+        ]
+    },
+    {
+        "id": "day4_4",
+        "day": 4,
+        "grammar": "わけだ",
+        "meaning": "Thảo nào…, hóa ra…",
+        "usage": "普通形 + わけだ",
+        "note": "",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "バージョンが違う。動かないわけだ。",
+                "furi": "ばーじょんがちがう。うごかないわけだ。",
+                "vi": "Dịch: Version khác nên không chạy, thảo nào."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "毎日練習している。上手なわけだ。",
+                "furi": "まいにちれんしゅうしている。じょうずなわけだ。",
+                "vi": "Dịch: Luyện mỗi ngày nên giỏi là phải."
+            }
+        ]
+    },
+    {
+        "id": "day4_5",
+        "day": 4,
+        "grammar": "わけではない",
+        "meaning": "Không hẳn là…",
+        "usage": "普通形 + わけではない",
+        "note": "",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "この方法が完璧なわけではない。",
+                "furi": "このほうほうがかんぺきなわけではない。",
+                "vi": "Dịch: Cách này không phải hoàn hảo."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "嫌いなわけではない。",
+                "furi": "きらいなわけではない。",
+                "vi": "Dịch: Không phải là ghét."
+            }
+        ]
+    },
+    {
+        "id": "day4_6",
+        "day": 4,
+        "grammar": "にわたって・にわたり",
+        "meaning": "Trong suốt…, kéo dài trong…",
+        "usage": "N + にわたって",
+        "note": "👉 Diễn tả khoảng thời gian dài",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "そんな短時間で完成できるわけがない。",
+                "furi": "そんなたんじかんでかんせいできるわけがない。",
+                "vi": "Dịch: Chúng tôi phát triển hệ thống suốt 3 tháng."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "彼が嘘をつくわけがない。",
+                "furi": "かれがうそをつくわけがない。",
+                "vi": "Dịch: Cuộc họp kéo dài suốt 5 giờ."
+            }
+        ]
+    },
+    {
+        "id": "day4_7",
+        "day": 4,
+        "grammar": "ばかりで・ばかりだ",
+        "meaning": "Toàn là…, chỉ…",
+        "usage": "Vて + ばかりいる",
+        "note": "👉 Diễn tả hành động lặp lại nhiều",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "彼はバグを出してばかりいる。",
+                "furi": "かれはばぐをだしてばかりいる。",
+                "vi": "Dịch: Anh ta toàn tạo bug."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "甘い物ばかり食べている。",
+                "furi": "あまいものばかりたべている。",
+                "vi": "Dịch: Toàn ăn đồ ngọt."
+            }
+        ]
+    },
+    {
+        "id": "day4_8",
+        "day": 4,
+        "grammar": "ものだ・ものではない",
+        "meaning": "Nên…, không nên…",
+        "usage": "Vる + ものだ",
+        "note": "👉 Dùng để khuyên hoặc nói quy tắc",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "コードを書く前に設計するものだ。",
+                "furi": "こーどをかくまえにせっけいするものだ。",
+                "vi": "Dịch: Trước khi code thì nên thiết kế."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "人の悪口を言うものではない。",
+                "furi": "ひとのわるぐちをいうものではない。",
+                "vi": "Dịch: Không nên nói xấu người khác."
+            }
+        ]
+    },
+    {
+        "id": "day4_9",
+        "day": 4,
+        "grammar": "ものなら",
+        "meaning": "Nếu có thể…, nếu mà…",
+        "usage": "V可能形 + ものなら",
+        "note": "👉 Thường dùng cho điều khó",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "直せるものなら、このバグを直してみてください。",
+                "furi": "なおせるものなら、このばぐをなおしてみてください。",
+                "vi": "Dịch: Nếu sửa được thì hãy thử sửa bug này."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "行けるものなら、日本へ行きたい。",
+                "furi": "いけるものなら、にほんへいきたい。",
+                "vi": "Dịch: Nếu có thể thì tôi muốn đi Nhật."
+            }
+        ]
+    },
+    {
+        "id": "day4_10",
+        "day": 4,
+        "grammar": "わけだ",
+        "meaning": "Thảo nào…, hóa ra…",
+        "usage": "普通形 + わけだ",
+        "note": "👉 Dùng khi hiểu ra nguyên nhân",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "バグが多いわけだ、テストしていなかった。",
+                "furi": "ばぐがおおいわけだ、てすとしていなかった。",
+                "vi": "Dịch: Thảo nào nhiều bug, hóa ra chưa test."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "彼が疲れているわけだ、昨日徹夜した。",
+                "furi": "かれがつかれているわけだ、きのうてつやした。",
+                "vi": "Dịch: Thảo nào anh ấy mệt, hóa ra thức trắng."
+            }
+        ]
+    },
+    {
+        "id": "day4_11",
+        "day": 4,
+        "grammar": "わけではない",
+        "meaning": "Không hẳn là…",
+        "usage": "普通形 + わけではない",
+        "note": "👉 Phủ định một phần",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "この方法が悪いわけではない。",
+                "furi": "このほうほうがわるいわけではない。",
+                "vi": "Dịch: Không hẳn cách này tệ."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "嫌いなわけではない。",
+                "furi": "きらいなわけではない。",
+                "vi": "Dịch: Không phải là ghét."
+            }
+        ]
+    },
+    {
+        "id": "day4_12",
+        "day": 4,
+        "grammar": "わけがない",
+        "meaning": "Không thể nào…",
+        "usage": "普通形 + わけがない",
+        "note": "👉 Phủ định mạnh",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "このコードが動くわけがない。",
+                "furi": "このこーどがうごくわけがない。",
+                "vi": "Dịch: Code này không thể chạy được."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "彼が嘘をつくわけがない。",
+                "furi": "かれがうそをつくわけがない。",
+                "vi": "Dịch: Anh ấy không thể nói dối."
+            }
+        ]
+    },
+    {
+        "id": "day5_0",
+        "day": 5,
+        "grammar": "～あまり",
+        "meaning": "Vì quá… nên…",
+        "usage": "Nの / Vた + あまり",
+        "note": "👉 Diễn tả nguyên nhân mạnh",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "嬉しさのあまり、新しいツールをすぐ試しました。",
+                "furi": "うれしさのあまり、あたらしいつーるをすぐためしました。",
+                "vi": "Dịch: Vì quá vui nên thử tool mới ngay."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "驚きのあまり、言葉が出なかった。",
+                "furi": "おどろきのあまり、ことばがでなかった。",
+                "vi": "Dịch: Vì quá ngạc nhiên nên không nói được."
+            }
+        ]
+    },
+    {
+        "id": "day5_1",
+        "day": 5,
+        "grammar": "～以上（は）",
+        "meaning": "Một khi đã…, vì đã…",
+        "usage": "普通形 + 以上",
+        "note": "👉 Thường dùng để nói trách nhiệm",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "プロジェクトを担当した以上、最後までやります。",
+                "furi": "ぷろじぇくとをたんとうしたいじょう、さいごまでやります。",
+                "vi": "Dịch: Một khi đã phụ trách project thì sẽ làm đến cùng."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "約束した以上、守るべきです。",
+                "furi": "やくそくしたいじょう、まもるべきです。",
+                "vi": "Dịch: Một khi đã hứa thì nên giữ lời."
+            }
+        ]
+    },
+    {
+        "id": "day5_2",
+        "day": 5,
+        "grammar": "～うえ（に）",
+        "meaning": "Không những… mà còn…",
+        "usage": "普通形 + うえに",
+        "note": "👉 Dùng để thêm thông tin",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "このツールは速いうえに使いやすい。",
+                "furi": "このつーるははやいうえにつかいやすい。",
+                "vi": "Dịch: Tool này vừa nhanh lại vừa dễ dùng."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "彼は親切なうえに面白い。",
+                "furi": "かれはしんせつなうえにおもしろい。",
+                "vi": "Dịch: Anh ấy vừa tốt bụng lại vừa thú vị."
+            }
+        ]
+    },
+    {
+        "id": "day5_3",
+        "day": 5,
+        "grammar": "～おきに",
+        "meaning": "Cứ mỗi…, cách…",
+        "usage": "N + おきに",
+        "note": "👉 Diễn tả khoảng cách",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "5分おきにログをチェックします。",
+                "furi": "ごふんおきにろぐをちぇっくします。",
+                "vi": "Dịch: Kiểm tra log mỗi 5 phút."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "電車は10分おきに来ます。",
+                "furi": "でんしゃはじゅっぷんおきにきます。",
+                "vi": "Dịch: Tàu đến mỗi 10 phút."
+            }
+        ]
+    },
+    {
+        "id": "day5_4",
+        "day": 5,
+        "grammar": "～がたい",
+        "meaning": "Khó mà…",
+        "usage": "Vます + がたい",
+        "note": "👉 Dùng cho hành động khó thực hiện",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "このバグの原因は理解しがたい。",
+                "furi": "このばぐのげんいんはりかいしがたい。",
+                "vi": "Dịch: Nguyên nhân bug này khó hiểu."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "彼の行動は信じがたい。",
+                "furi": "かれのこうどうはしんじがたい。",
+                "vi": "Dịch: Hành động của anh ta khó tin."
+            }
+        ]
+    },
+    {
+        "id": "day5_5",
+        "day": 5,
+        "grammar": "～がちだ・がちの",
+        "meaning": "Hay…, dễ…",
+        "usage": "Vます + がち",
+        "note": "👉 Dùng cho xu hướng xấu",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "初心者はミスをしがちです。",
+                "furi": "しょしんしゃはみすをしがちです。",
+                "vi": "Dịch: Người mới thường hay mắc lỗi."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "冬は風邪を引きがちです。",
+                "furi": "ふゆはかぜをひきがちです。",
+                "vi": "Dịch: Mùa đông dễ bị cảm."
+            }
+        ]
+    },
+    {
+        "id": "day6_0",
+        "day": 6,
+        "grammar": "〜かというと・〜かといえば",
+        "meaning": "Nói là… thì cũng không hẳn…, nếu hỏi là… thì…",
+        "usage": "普通形 + かというと / かといえば",
+        "note": "👉 Dùng khi đưa ra câu trả lời mang tính không hoàn toàn khẳng định",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "このフレームワークが一番いいかというと、そうでもない。",
+                "furi": "このふれーむわーくがいちばんいいかというと、そうでもない。",
+                "vi": "Dịch: Nếu nói framework này là tốt nhất thì cũng không hẳn."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "彼が嫌いかというと、そうでもない。",
+                "furi": "かれがきらいかというと、そうでもない。",
+                "vi": "Dịch: Nếu nói là ghét anh ấy thì cũng không hẳn."
+            }
+        ]
+    },
+    {
+        "id": "day6_1",
+        "day": 6,
+        "grammar": "〜かのようだ",
+        "meaning": "Như thể là…, giống như…",
+        "usage": "普通形 + かのようだ",
+        "note": "👉 Dùng để so sánh giống như một điều gì đó",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "彼はすべてのコードを理解しているかのように話します。",
+                "furi": "かれはすべてのこーどをりかいしているかのようにはなします。",
+                "vi": "Dịch: Anh ấy nói như thể hiểu hết mọi code."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "彼女は何も知らないかのように笑った。",
+                "furi": "かのじょはなにもしらないかのようにわらった。",
+                "vi": "Dịch: Cô ấy cười như thể không biết gì."
+            }
+        ]
+    },
+    {
+        "id": "day6_2",
+        "day": 6,
+        "grammar": "〜からすると・〜からすれば",
+        "meaning": "Xét từ…, theo quan điểm của…",
+        "usage": "N + からすると / からすれば",
+        "note": "👉 Diễn tả đánh giá từ một góc nhìn",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "初心者からすると、このコードは難しい。",
+                "furi": "しょしんしゃからすると、このこーどはむずかしい。",
+                "vi": "Dịch: Với người mới thì code này khó."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "親からすると、子供が一番大事です。",
+                "furi": "おやからすると、こどもがいちばんだいじです。",
+                "vi": "Dịch: Với cha mẹ thì con cái là quan trọng nhất."
+            }
+        ]
+    },
+    {
+        "id": "day6_3",
+        "day": 6,
+        "grammar": "〜がる・〜がらずに",
+        "meaning": "Tỏ ra…, có vẻ…",
+        "usage": "い形容詞 + がる",
+        "note": "👉 Dùng khi nói về cảm xúc của người khác",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "彼は新しい技術を学びたがっています。",
+                "furi": "かれはあたらしいぎじゅつをまなびたがっています。",
+                "vi": "Dịch: Anh ấy tỏ ra muốn học công nghệ mới."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "子供が帰りたがらない。",
+                "furi": "こどもがかえりたがらない。",
+                "vi": "Dịch: Đứa trẻ không muốn về."
+            }
+        ]
+    },
+    {
+        "id": "day6_4",
+        "day": 6,
+        "grammar": "〜きり・〜きりだ",
+        "meaning": "Chỉ…, từ đó đến nay không…",
+        "usage": "N + きり",
+        "note": "👉 Diễn tả trạng thái tiếp diễn",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "彼とはプロジェクトが終わってきり会っていない。",
+                "furi": "かれとはぷろじぇくとがおわってきりあっていない。",
+                "vi": "Dịch: Từ khi project kết thúc đến giờ chưa gặp lại anh ấy."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "彼女は出て行ったきり帰ってこない。",
+                "furi": "かのじょはでていったきりかえってこない。",
+                "vi": "Dịch: Cô ấy đi rồi không quay lại."
+            }
+        ]
+    },
+    {
+        "id": "day6_5",
+        "day": 6,
+        "grammar": "〜こと",
+        "meaning": "Hãy…, cần phải…",
+        "usage": "Vる + こと",
+        "note": "👉 Thường dùng trong quy định",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "コードを書く前に仕様を確認すること。",
+                "furi": "こーどをかくまえにしようをかくにんすること。",
+                "vi": "Dịch: Hãy kiểm tra spec trước khi code."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "ここで写真を撮らないこと。",
+                "furi": "ここでしゃしんをとらないこと。",
+                "vi": "Dịch: Không được chụp ảnh ở đây."
+            }
+        ]
+    },
+    {
+        "id": "day6_6",
+        "day": 6,
+        "grammar": "〜ことで",
+        "meaning": "Bằng cách…, nhờ…",
+        "usage": "Vる + ことで",
+        "note": "👉 Diễn tả phương pháp",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "ログを分析することで問題を見つけました。",
+                "furi": "ろぐをぶんせきすることで、もんだいをみつけました。",
+                "vi": "Dịch: Bằng cách phân tích log tôi tìm ra vấn đề."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "毎日運動することで健康になります。",
+                "furi": "まいにちうんどうすることでけんこうになります。",
+                "vi": "Dịch: Tập thể dục mỗi ngày sẽ khỏe mạnh."
+            }
+        ]
+    },
+    {
+        "id": "day7_0",
+        "day": 7,
+        "grammar": "〜ところだった",
+        "meaning": "Suýt nữa thì…",
+        "usage": "Vる / Vた + ところだった",
+        "note": "👉 Hành động suýt xảy ra nhưng chưa xảy ra",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "危ない、サーバーを削除するところだった。",
+                "furi": "あぶない、さーばーをさくじょするところだった。",
+                "vi": "Dịch: Nguy hiểm, suýt nữa xóa server."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "もう少しで電車を乗り過ごすところだった。",
+                "furi": "もうすこしででんしゃをのりすごすところだった。",
+                "vi": "Dịch: Suýt nữa đi quá ga tàu."
+            }
+        ]
+    },
+    {
+        "id": "day7_1",
+        "day": 7,
+        "grammar": "〜どころではない",
+        "meaning": "Không phải lúc để…",
+        "usage": "Vる + どころではない",
+        "note": "👉 Tình huống nghiêm trọng hơn",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "バグが多すぎて、新機能を作るどころではない。",
+                "furi": "ばぐがおおすぎて、しんきのうをつくるどころではない。",
+                "vi": "Dịch: Bug quá nhiều nên không phải lúc làm tính năng mới."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "忙しくて旅行どころではない。",
+                "furi": "いそがしくてりょこうどころではない。",
+                "vi": "Dịch: Bận quá nên không thể đi du lịch."
+            }
+        ]
+    },
+    {
+        "id": "day7_2",
+        "day": 7,
+        "grammar": "〜ざるを得ない",
+        "meaning": "Buộc phải…, không còn cách nào khác",
+        "usage": "Vない + ざるを得ない",
+        "note": "👉 Bị hoàn cảnh ép buộc",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "サーバーが落ちたので再起動せざるを得ない。",
+                "furi": "さーばーがおちたのでさいきどうせざるをえない。",
+                "vi": "Dịch: Server sập nên buộc phải restart."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "雨なので家にいるざるを得ない。",
+                "furi": "あめなのでいえにいるざるをえない。",
+                "vi": "Dịch: Vì mưa nên buộc phải ở nhà."
+            }
+        ]
+    },
+    {
+        "id": "day7_3",
+        "day": 7,
+        "grammar": "〜しか〜ない",
+        "meaning": "Chỉ còn cách…",
+        "usage": "N / Vる + しか〜ない",
+        "note": "👉 Nhấn mạnh sự giới hạn",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "ログを見るしかない。",
+                "furi": "ろぐをみるしかない。",
+                "vi": "Dịch: Chỉ còn cách xem log."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "電車で行くしかない。",
+                "furi": "でんしゃでいくしかない。",
+                "vi": "Dịch: Chỉ còn cách đi tàu."
+            }
+        ]
+    },
+    {
+        "id": "day7_4",
+        "day": 7,
+        "grammar": "〜っこない",
+        "meaning": "Không đời nào…, không thể nào",
+        "usage": "Vます + っこない",
+        "note": "👉 Phủ định mạnh",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "こんなコードは動きっこない。",
+                "furi": "こんなこーどはうごきっこない。",
+                "vi": "Dịch: Code thế này không thể chạy."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "彼が来るっこない。",
+                "furi": "かれがくるっこない。",
+                "vi": "Dịch: Anh ta không đời nào đến."
+            }
+        ]
+    },
+    {
+        "id": "day7_5",
+        "day": 7,
+        "grammar": "〜つつある",
+        "meaning": "Đang dần…, đang trong quá trình…",
+        "usage": "Vます + つつある",
+        "note": "👉 Diễn tả sự thay đổi đang diễn ra",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "AIは急速に発展しつつある。",
+                "furi": "えーあいはきゅうそくにはってんしつつある。",
+                "vi": "Dịch: AI đang phát triển nhanh."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "天気は良くなりつつある。",
+                "furi": "てんきはよくなりつつある。",
+                "vi": "Dịch: Thời tiết đang dần tốt lên."
+            }
+        ]
+    },
+    {
+        "id": "day7_6",
+        "day": 7,
+        "grammar": "〜ものか",
+        "meaning": "Không đời nào…, làm sao mà…",
+        "usage": "普通形 + ものか",
+        "note": "👉 Phủ định mạnh cảm xúc",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "こんなバグ、直せるものか。",
+                "furi": "こんなばぐ、なおせるものか。",
+                "vi": "Dịch: Bug này làm sao sửa được."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "彼のことなんか信じるものか。",
+                "furi": "かれのことなんかしんじるものか。",
+                "vi": "Dịch: Tôi không đời nào tin anh ta."
+            }
+        ]
+    },
+    {
+        "id": "day8_0",
+        "day": 8,
+        "grammar": "〜とは",
+        "meaning": "Thật là…, không ngờ rằng…",
+        "usage": "普通形 + とは",
+        "note": "👉 Dùng khi ngạc nhiên",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "テストをしてからでないと本番環境にデプロイできない。",
+                "furi": "てすとをしてからでないとほんばんかんきょうにでぷろいできない。",
+                "vi": "Dịch: Không ngờ lại có bug như vậy."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "宿題を終えてからでないと遊びに行けない。",
+                "furi": "しゅくだいをおえてからでないとあそびにいけない。",
+                "vi": "Dịch: Không ngờ anh ấy lại đến."
+            }
+        ]
+    },
+    {
+        "id": "day9_0",
+        "day": 9,
+        "grammar": "〜に応じて",
+        "meaning": "Tùy theo…",
+        "usage": "N + に応じて",
+        "note": "👉 Điều kiện bắt buộc",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "AIとはいえまだ完璧ではない。",
+                "furi": "えーあいとはいえまだかんぺきではない。",
+                "vi": "Dịch: Tăng server tùy theo số lượng user."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "冬とはいえ今日は暖かい。",
+                "furi": "ふゆとはいえきょうはあたたかい。",
+                "vi": "Dịch: Xử lý tùy theo tình huống."
+            }
+        ]
+    },
+    {
+        "id": "day10_0",
+        "day": 10,
+        "grammar": "〜にかかわらず・にもかかわらず",
+        "meaning": "Bất kể…, mặc dù…",
+        "usage": "",
+        "note": "👉 Diễn tả kết quả không thay đổi dù điều kiện khác nhau",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "経験の有無にかかわらず、この研修に参加できます。",
+                "furi": "けいけんのうむにかかわらず、このけんしゅうにさんかできます。",
+                "vi": "Dịch: Bất kể có kinh nghiệm hay không cũng có thể tham gia khóa training này."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "雨にもかかわらず、多くの人が来ました。",
+                "furi": "あめにもかかわらず、おおくのひとがきました。",
+                "vi": "Dịch: Mặc dù trời mưa nhưng nhiều người vẫn đến."
+            }
+        ]
+    },
+    {
+        "id": "day10_1",
+        "day": 10,
+        "grammar": "〜にかぎる",
+        "meaning": "Tốt nhất là…, không gì bằng…",
+        "usage": "",
+        "note": "👉 Diễn tả lựa chọn tốt nhất theo quan điểm người nói",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "バグを見つけたら、すぐ修正するにかぎる。",
+                "furi": "ばぐをみつけたら、すぐしゅうせいするにかぎる。",
+                "vi": "Dịch: Khi phát hiện bug thì tốt nhất là sửa ngay."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "暑い日は冷たいビールにかぎる。",
+                "furi": "あついひはつめたいびーるにかぎる。",
+                "vi": "Dịch: Ngày nóng thì không gì bằng bia lạnh."
+            }
+        ]
+    },
+    {
+        "id": "day10_2",
+        "day": 10,
+        "grammar": "〜ばかりに",
+        "meaning": "Chỉ vì…, chỉ bởi vì… mà dẫn đến kết quả xấu",
+        "usage": "",
+        "note": "👉 Nhấn mạnh nguyên nhân dẫn đến kết quả tiêu cực",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "小さなミスをしたばかりに、システムが止まった。",
+                "furi": "ちいさなみすをしたばかりに、しすてむがとまりました。",
+                "vi": "Dịch: Chỉ vì một lỗi nhỏ mà hệ thống bị dừng."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "寝坊したばかりに、電車に乗り遅れた。",
+                "furi": "ねぼうしたばかりに、でんしゃにのりおくれた。",
+                "vi": "Dịch: Chỉ vì ngủ quên mà lỡ tàu."
+            }
+        ]
+    },
+    {
+        "id": "day10_3",
+        "day": 10,
+        "grammar": "〜にしても",
+        "meaning": "Dù cho…, ngay cả khi…",
+        "usage": "",
+        "note": "👉 Diễn tả giả định hoặc nhượng bộ",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "バグを直すにしても、時間が必要です。",
+                "furi": "ばぐをなおすにしても、じかんがひつようです。",
+                "vi": "Dịch: Dù sửa bug thì cũng cần thời gian."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "行くにしても、もう少し待ちましょう。",
+                "furi": "いくにしても、もうすこしまちましょう。",
+                "vi": "Dịch: Dù đi thì cũng hãy đợi thêm chút."
+            }
+        ]
+    },
+    {
+        "id": "day10_4",
+        "day": 10,
+        "grammar": "〜につれて",
+        "meaning": "Càng… thì càng…",
+        "usage": "",
+        "note": "👉 Hai sự thay đổi diễn ra song song",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "ユーザーが増えるにつれて、サーバーの負荷も増える。",
+                "furi": "ゆーざーがふえるにつれて、さーばーのふかもふえる。",
+                "vi": "Dịch: Người dùng càng tăng thì tải server cũng tăng."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "年を取るにつれて、体力が落ちる。",
+                "furi": "としをとるにつれて、たいりょくがおちる。",
+                "vi": "Dịch: Càng lớn tuổi thì thể lực càng giảm."
+            }
+        ]
+    },
+    {
+        "id": "day10_5",
+        "day": 10,
+        "grammar": "〜に上る・に達する",
+        "meaning": "Lên tới…, đạt tới…",
+        "usage": "",
+        "note": "👉 Dùng khi con số lớn",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "アクセス数は一日に100万件に達した。",
+                "furi": "あくせすすうはいちにちにひゃくまんけんにたっした。",
+                "vi": "Dịch: Lượt truy cập đạt tới 1 triệu mỗi ngày."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "被害額は10億円に上った。",
+                "furi": "ひがいがくはじゅうおくえんにのぼった。",
+                "vi": "Dịch: Thiệt hại lên tới 1 tỉ yên."
+            }
+        ]
+    },
+    {
+        "id": "day10_6",
+        "day": 10,
+        "grammar": "〜ばかりか・ばかりでなく・だけでなく",
+        "meaning": "Không những… mà còn…",
+        "usage": "",
+        "note": "👉 Nhấn mạnh B mạnh hơn A",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "このツールは高速なばかりか、安全性も高い。",
+                "furi": "このつーるはこうそくなばかりか、あんぜんせいもたかい。",
+                "vi": "Dịch: Tool này không những nhanh mà còn an toàn."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "彼は親切なばかりでなく、面白い人です。",
+                "furi": "かれはしんせつなばかりでなく、おもしろいひとです。",
+                "vi": "Dịch: Anh ấy không chỉ tốt bụng mà còn thú vị."
+            }
+        ]
+    },
+    {
+        "id": "day11_0",
+        "day": 11,
+        "grammar": "〜はともかく・ならともかく",
+        "meaning": "Tạm gác chuyện…, còn nếu là… thì…",
+        "usage": "N + はともかく / ならともかく",
+        "note": "👉 Dùng khi tạm bỏ qua một vấn đề để nói điều quan trọng hơn",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "UIのデザインはともかく、まずシステムを動かすべきだ。",
+                "furi": "ゆーあいのでざいんはともかく、まずしすてむをうごかすべきだ。",
+                "vi": "Dịch: Tạm gác chuyện UI lại, trước tiên phải làm hệ thống chạy đã."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "子供ならともかく、大人がそんなことをするべきではない。",
+                "furi": "こどもならともかく、おとながそんなことをするべきではない。",
+                "vi": "Dịch: Nếu là trẻ con thì còn được, chứ người lớn không nên làm vậy."
+            }
+        ]
+    },
+    {
+        "id": "day11_1",
+        "day": 11,
+        "grammar": "〜はもちろん・はもとより",
+        "meaning": "Không chỉ…, mà còn…",
+        "usage": "N + はもちろん / はもとより",
+        "note": "👉 Nhấn mạnh A đương nhiên đúng và B cũng đúng",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "Javaはもちろん、GoやPythonも使えます。",
+                "furi": "じゃばはもちろん、ごーやぱいそんもつかえます。",
+                "vi": "Dịch: Không chỉ Java mà tôi còn dùng được Go và Python."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "彼は日本語はもちろん、英語も話せる。",
+                "furi": "かれはにほんごはもちろん、えいごもはなせる。",
+                "vi": "Dịch: Anh ấy không chỉ nói được tiếng Nhật mà còn nói được tiếng Anh."
+            }
+        ]
+    },
+    {
+        "id": "day11_2",
+        "day": 11,
+        "grammar": "〜まい",
+        "meaning": "Sẽ không…, chắc không…",
+        "usage": "V辞書形 + まい",
+        "note": "👉 Dạng phủ định ý chí (văn viết)",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "こんな設計ではシステムは成功するまい。",
+                "furi": "こんなせっけいではしすてむはせいこうするまい。",
+                "vi": "Dịch: Với thiết kế này hệ thống khó mà thành công."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "もう彼を信じまい。",
+                "furi": "もうかれをしんじまい。",
+                "vi": "Dịch: Tôi sẽ không tin anh ta nữa."
+            }
+        ]
+    },
+    {
+        "id": "day11_3",
+        "day": 11,
+        "grammar": "〜ものの",
+        "meaning": "Tuy… nhưng…",
+        "usage": "普通形 + ものの",
+        "note": "👉 Dùng trong văn viết trang trọng",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "実装したものの、バグが多すぎる。",
+                "furi": "じっそうしたものの、ばぐがおおすぎる。",
+                "vi": "Dịch: Tuy đã implement nhưng bug quá nhiều."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "買ったものの、使っていない。",
+                "furi": "かったものの、つかっていない。",
+                "vi": "Dịch: Tuy mua rồi nhưng không dùng."
+            }
+        ]
+    },
+    {
+        "id": "day11_4",
+        "day": 11,
+        "grammar": "〜にしろ・にせよ",
+        "meaning": "Dù… đi nữa",
+        "usage": "N / 普通形 + にしろ / にせよ",
+        "note": "👉 Nhấn mạnh giả định",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "どの言語にしろ、基本はアルゴリズムだ。",
+                "furi": "どのげんごにしろ、きほんはあるごりずむだ。",
+                "vi": "Dịch: Dù là ngôn ngữ nào thì cơ bản vẫn là thuật toán."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "行くにしろ行かないにせよ、早く決めてください。",
+                "furi": "いくにしろいかないにせよ、はやくきめてください。",
+                "vi": "Dịch: Dù đi hay không thì hãy quyết định sớm."
+            }
+        ]
+    },
+    {
+        "id": "day11_5",
+        "day": 11,
+        "grammar": "〜わけにはいかない",
+        "meaning": "Không thể… (vì hoàn cảnh / trách nhiệm)",
+        "usage": "V辞書形 + わけにはいかない",
+        "note": "👉 Không thể làm vì lý do xã hội",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "締め切りがあるので、このバグを無視するわけにはいかない。",
+                "furi": "しめきりがあるので、このばぐをむしするわけにはいかない。",
+                "vi": "Dịch: Vì có deadline nên không thể bỏ qua bug này."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "約束したので、行かないわけにはいかない。",
+                "furi": "やくそくしたので、いかないわけにはいかない。",
+                "vi": "Dịch: Vì đã hứa nên không thể không đi."
+            }
+        ]
+    },
+    {
+        "id": "day11_6",
+        "day": 11,
+        "grammar": "〜ないわけにはいかない",
+        "meaning": "Không thể không…",
+        "usage": "Vない + わけにはいかない",
+        "note": "👉 Bắt buộc phải làm",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "重大なバグなので修正しないわけにはいかない。",
+                "furi": "じゅうだいなばぐなのでしゅうせいしないわけにはいかない。",
+                "vi": "Dịch: Vì là bug nghiêm trọng nên không thể không sửa."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "上司に呼ばれたので行かないわけにはいかない。",
+                "furi": "じょうしによばれたのでいかないわけにはいかない。",
+                "vi": "Dịch: Vì sếp gọi nên không thể không đi."
+            }
+        ]
+    },
+    {
+        "id": "day12_0",
+        "day": 12,
+        "grammar": "〜を問わず",
+        "meaning": "Không phân biệt…, bất kể…",
+        "usage": "N + を問わず",
+        "note": "👉 Diễn tả phạm vi rộng, không phân biệt điều kiện",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "経験年数を問わず、このプロジェクトに参加できます。",
+                "furi": "けいけんねんすうをとわず、このぷろじぇくとにさんかできます。",
+                "vi": "Dịch: Không phân biệt số năm kinh nghiệm, đều có thể tham gia project này."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "年齢を問わず人気がある。",
+                "furi": "ねんれいをとわずにんきがある。",
+                "vi": "Dịch: Được yêu thích bất kể tuổi tác."
+            }
+        ]
+    },
+    {
+        "id": "day12_1",
+        "day": 12,
+        "grammar": "〜をはじめ",
+        "meaning": "Bắt đầu từ…, tiêu biểu là…",
+        "usage": "N + をはじめ",
+        "note": "👉 Dùng để đưa ví dụ tiêu biểu",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "Javaをはじめ、多くのプログラミング言語を勉強しています。",
+                "furi": "じゃばをはじめ、おおくのぷろぐらみんぐげんごをべんきょうしています。",
+                "vi": "Dịch: Tôi học nhiều ngôn ngữ lập trình, tiêu biểu là Java."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "東京をはじめ、日本の都市は便利だ。",
+                "furi": "とうきょうをはじめ、にほんのとしはべんりだ。",
+                "vi": "Dịch: Các thành phố Nhật Bản như Tokyo rất tiện lợi."
+            }
+        ]
+    },
+    {
+        "id": "day12_2",
+        "day": 12,
+        "grammar": "〜ようではないか",
+        "meaning": "Chẳng phải là… sao",
+        "usage": "普通形 + ようではないか",
+        "note": "👉 Dùng khi nhấn mạnh ý kiến",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "この設計ではパフォーマンスが悪いのではないか。",
+                "furi": "このせっけいではぱふぉーまんすがわるいのではないか。",
+                "vi": "Dịch: Với thiết kế này chẳng phải hiệu năng sẽ kém sao?"
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "彼はもう帰ったのではないか。",
+                "furi": "かれはもうかえったのではないか。",
+                "vi": "Dịch: Chẳng phải anh ấy đã về rồi sao?"
+            }
+        ]
+    },
+    {
+        "id": "day12_3",
+        "day": 12,
+        "grammar": "うる・える・えない",
+        "meaning": "Có thể / không thể xảy ra",
+        "usage": "Vます bỏ ます + うる / えない",
+        "note": "👉 Diễn tả khả năng có thể xảy ra",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "このバグは再発しうる問題だ。",
+                "furi": "このばぐはさいはつしうるもんだいだ。",
+                "vi": "Dịch: Bug này là vấn đề có thể tái diễn."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "そんなことはありえない。",
+                "furi": "そんなことはありえない。",
+                "vi": "Dịch: Chuyện đó không thể xảy ra."
+            }
+        ]
+    },
+    {
+        "id": "day12_4",
+        "day": 12,
+        "grammar": "かぎり・かぎりでは・ないかぎり",
+        "meaning": "Trong phạm vi…, miễn là…",
+        "usage": "V / N の + かぎり",
+        "note": "👉 Chỉ phạm vi điều kiện",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "私が知っているかぎり、このバグはまだ直っていない。",
+                "furi": "わたしがしっているかぎり、このばぐはまだなおっていない。",
+                "vi": "Dịch: Trong phạm vi tôi biết thì bug này chưa được sửa."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "雨が降らないかぎり、試合は行われます。",
+                "furi": "あめがふらないかぎり、しあいはおこなわれます。",
+                "vi": "Dịch: Miễn là không mưa thì trận đấu sẽ diễn ra."
+            }
+        ]
+    },
+    {
+        "id": "day12_5",
+        "day": 12,
+        "grammar": "かねる",
+        "meaning": "Khó có thể…, không tiện…",
+        "usage": "Vます bỏ ます + かねる",
+        "note": "👉 Dùng trong văn lịch sự",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "その仕様変更には対応しかねます。",
+                "furi": "そのしようへんこうにはたいおうしかねます。",
+                "vi": "Dịch: Chúng tôi khó có thể đáp ứng thay đổi spec đó."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "そのお願いは受けかねます。",
+                "furi": "そのおねがいはうけかねます。",
+                "vi": "Dịch: Tôi khó có thể nhận lời đề nghị đó."
+            }
+        ]
+    },
+    {
+        "id": "day12_6",
+        "day": 12,
+        "grammar": "かねない",
+        "meaning": "Có khả năng xảy ra điều xấu",
+        "usage": "Vます bỏ ます + かねない",
+        "note": "👉 Diễn tả lo ngại",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "このバグはシステム停止を引き起こしかねない。",
+                "furi": "このばぐはしすてむていしをひきおこしかねない。",
+                "vi": "Dịch: Bug này có thể gây dừng hệ thống."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "油断すると事故になりかねない。",
+                "furi": "ゆだんするとじこになりかねない。",
+                "vi": "Dịch: Bất cẩn có thể gây tai nạn."
+            }
+        ]
+    },
+    {
+        "id": "day13_0",
+        "day": 13,
+        "grammar": "〜を問わず",
+        "meaning": "Không phân biệt…, bất kể…",
+        "usage": "N + を問わず",
+        "note": "👉 Diễn tả phạm vi rộng, không phân biệt điều kiện",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "経験年数を問わず、このプロジェクトに参加できます。",
+                "furi": "けいけんねんすうをとわず、このぷろじぇくとにさんかできます。",
+                "vi": "Dịch: Không phân biệt số năm kinh nghiệm, đều có thể tham gia project này."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "年齢を問わず人気がある。",
+                "furi": "ねんれいをとわずにんきがある。",
+                "vi": "Dịch: Được yêu thích bất kể tuổi tác."
+            }
+        ]
+    },
+    {
+        "id": "day13_1",
+        "day": 13,
+        "grammar": "〜をはじめ",
+        "meaning": "Bắt đầu từ…, tiêu biểu là…",
+        "usage": "N + をはじめ",
+        "note": "👉 Dùng để đưa ví dụ tiêu biểu",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "Javaをはじめ、多くのプログラミング言語を勉強しています。",
+                "furi": "じゃばをはじめ、おおくのぷろぐらみんぐげんごをべんきょうしています。",
+                "vi": "Dịch: Tôi học nhiều ngôn ngữ lập trình, tiêu biểu là Java."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "東京をはじめ、日本の都市は便利だ。",
+                "furi": "とうきょうをはじめ、にほんのとしはべんりだ。",
+                "vi": "Dịch: Các thành phố Nhật Bản như Tokyo rất tiện lợi."
+            }
+        ]
+    },
+    {
+        "id": "day13_2",
+        "day": 13,
+        "grammar": "〜ようではないか",
+        "meaning": "Chẳng phải là… sao",
+        "usage": "普通形 + ようではないか",
+        "note": "👉 Dùng khi nhấn mạnh ý kiến",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "この設計ではパフォーマンスが悪いのではないか。",
+                "furi": "このせっけいではぱふぉーまんすがわるいのではないか。",
+                "vi": "Dịch: Với thiết kế này chẳng phải hiệu năng sẽ kém sao?"
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "彼はもう帰ったのではないか。",
+                "furi": "かれはもうかえったのではないか。",
+                "vi": "Dịch: Chẳng phải anh ấy đã về rồi sao?"
+            }
+        ]
+    },
+    {
+        "id": "day13_3",
+        "day": 13,
+        "grammar": "うる・える・えない",
+        "meaning": "Có thể / không thể xảy ra",
+        "usage": "Vます bỏ ます + うる / えない",
+        "note": "👉 Diễn tả khả năng có thể xảy ra",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "このバグは再発しうる問題だ。",
+                "furi": "このばぐはさいはつしうるもんだいだ。",
+                "vi": "Dịch: Bug này là vấn đề có thể tái diễn."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "そんなことはありえない。",
+                "furi": "そんなことはありえない。",
+                "vi": "Dịch: Chuyện đó không thể xảy ra."
+            }
+        ]
+    },
+    {
+        "id": "day13_4",
+        "day": 13,
+        "grammar": "かぎり・かぎりでは・ないかぎり",
+        "meaning": "Trong phạm vi…, miễn là…",
+        "usage": "V / N の + かぎり",
+        "note": "👉 Chỉ phạm vi điều kiện",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "私が知っているかぎり、このバグはまだ直っていない。",
+                "furi": "わたしがしっているかぎり、このばぐはまだなおっていない。",
+                "vi": "Dịch: Trong phạm vi tôi biết thì bug này chưa được sửa."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "雨が降らないかぎり、試合は行われます。",
+                "furi": "あめがふらないかぎり、しあいはおこなわれます。",
+                "vi": "Dịch: Miễn là không mưa thì trận đấu sẽ diễn ra."
+            }
+        ]
+    },
+    {
+        "id": "day13_5",
+        "day": 13,
+        "grammar": "かねる",
+        "meaning": "Khó có thể…, không tiện…",
+        "usage": "Vます bỏ ます + かねる",
+        "note": "👉 Dùng trong văn lịch sự",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "その仕様変更には対応しかねます。",
+                "furi": "そのしようへんこうにはたいおうしかねます。",
+                "vi": "Dịch: Chúng tôi khó có thể đáp ứng thay đổi spec đó."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "そのお願いは受けかねます。",
+                "furi": "そのおねがいはうけかねます。",
+                "vi": "Dịch: Tôi khó có thể nhận lời đề nghị đó."
+            }
+        ]
+    },
+    {
+        "id": "day13_6",
+        "day": 13,
+        "grammar": "かねない",
+        "meaning": "Có khả năng xảy ra điều xấu",
+        "usage": "Vます bỏ ます + かねない",
+        "note": "👉 Diễn tả lo ngại",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "このバグはシステム停止を引き起こしかねない。",
+                "furi": "このばぐはしすてむていしをひきおこしかねない。",
+                "vi": "Dịch: Bug này có thể gây dừng hệ thống."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "油断すると事故になりかねない。",
+                "furi": "ゆだんするとじこになりかねない。",
+                "vi": "Dịch: Bất cẩn có thể gây tai nạn."
+            }
+        ]
+    },
+    {
+        "id": "day14_0",
+        "day": 14,
+        "grammar": "〜ことだ",
+        "meaning": "Nên…, tốt nhất là nên…",
+        "usage": "Vる / Vない + ことだ",
+        "note": "👉 Dùng khi đưa lời khuyên",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "バグを減らしたいなら、テストをしっかり書くことだ。",
+                "furi": "ばぐをへらしたいなら、てすとをしっかりかくことだ。",
+                "vi": "Dịch: Nếu muốn giảm bug thì nên viết test cẩn thận."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "健康のために毎日運動することだ。",
+                "furi": "けんこうのためにまいにちうんどうすることだ。",
+                "vi": "Dịch: Vì sức khỏe thì nên tập thể dục mỗi ngày."
+            }
+        ]
+    },
+    {
+        "id": "day14_1",
+        "day": 14,
+        "grammar": "〜のことだから",
+        "meaning": "Vì là… nên chắc là…",
+        "usage": "N + のことだから",
+        "note": "👉 Suy đoán dựa trên tính cách / đặc điểm",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "彼のことだから、このバグもすぐ直すだろう。",
+                "furi": "かれのことだから、このばぐもすぐなおすだろう。",
+                "vi": "Dịch: Vì là anh ấy nên chắc bug này cũng sửa nhanh thôi."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "彼女のことだから、きっと時間通り来る。",
+                "furi": "かのじょのことだから、きっとじかんどおりくる。",
+                "vi": "Dịch: Vì là cô ấy nên chắc chắn sẽ đến đúng giờ."
+            }
+        ]
+    },
+    {
+        "id": "day14_2",
+        "day": 14,
+        "grammar": "どんなに〜か",
+        "meaning": "Biết bao nhiêu…, rất…",
+        "usage": "どんなに + 普通形 + か",
+        "note": "👉 Nhấn mạnh cảm xúc",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "このバグを直すのがどんなに大変か分からない。",
+                "furi": "このばぐをなおすのがどんなにたいへんかわからない。",
+                "vi": "Dịch: Không biết sửa bug này khó đến mức nào."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "家族に会えてどんなに嬉しいか。",
+                "furi": "かぞくにあえてどんなにうれしいか。",
+                "vi": "Dịch: Không biết tôi vui thế nào khi gặp lại gia đình."
+            }
+        ]
+    },
+    {
+        "id": "day14_3",
+        "day": 14,
+        "grammar": "（〜か）と思ったら",
+        "meaning": "Vừa mới… thì đã…",
+        "usage": "Vた + かと思ったら",
+        "note": "👉 Diễn tả hai hành động xảy ra nhanh",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "サーバーが復旧したかと思ったら、また落ちた。",
+                "furi": "さーばーがふっきゅうしたかとおもったら、またおちた。",
+                "vi": "Dịch: Tưởng server vừa khôi phục thì lại sập tiếp."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "雨が止んだかと思ったら、また降り出した。",
+                "furi": "あめがやんだかとおもったら、またふりだした。",
+                "vi": "Dịch: Tưởng mưa tạnh rồi thì lại mưa tiếp."
+            }
+        ]
+    },
+    {
+        "id": "day14_4",
+        "day": 14,
+        "grammar": "〜どころか",
+        "meaning": "Không những không… mà còn…",
+        "usage": "普通形 + どころか",
+        "note": "👉 Kết quả ngược lại với kỳ vọng",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "修正するどころか、バグが増えてしまった。",
+                "furi": "しゅうせいするどころか、ばぐがふえてしまった。",
+                "vi": "Dịch: Không những không sửa được mà bug còn tăng."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "休むどころか、もっと忙しくなった。",
+                "furi": "やすむどころか、もっといそがしくなった。",
+                "vi": "Dịch: Không những không được nghỉ mà còn bận hơn."
+            }
+        ]
+    },
+    {
+        "id": "day14_5",
+        "day": 14,
+        "grammar": "〜に限らず・〜のみならず",
+        "meaning": "Không chỉ… mà còn…",
+        "usage": "N + に限らず / のみならず",
+        "note": "👉 Diễn tả phạm vi mở rộng",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "Javaに限らず、GoやPythonも使える。",
+                "furi": "じゃばにかぎらず、ごーやぱいそんもつかえる。",
+                "vi": "Dịch: Không chỉ Java mà Go và Python cũng dùng được."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "日本のみならず世界で人気がある。",
+                "furi": "にほんのみならずせかいでにんきがある。",
+                "vi": "Dịch: Không chỉ ở Nhật mà còn nổi tiếng trên thế giới."
+            }
+        ]
+    },
+    {
+        "id": "day15_0",
+        "day": 15,
+        "grammar": "〜に沿って",
+        "meaning": "Theo…, dựa theo…",
+        "usage": "N + に沿って",
+        "note": "👉 Làm theo kế hoạch / quy tắc",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "仕様書に沿ってシステムを開発する。",
+                "furi": "しようしょにそってしすてむをかいはつする。",
+                "vi": "Dịch: Phát triển hệ thống theo tài liệu spec."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "計画に沿って旅行を進める。",
+                "furi": "けいかくにそってりょこうをすすめる。",
+                "vi": "Dịch: Tiến hành chuyến đi theo kế hoạch."
+            }
+        ]
+    },
+    {
+        "id": "day15_1",
+        "day": 15,
+        "grammar": "〜ないではいられない / 〜ずにはいられない",
+        "meaning": "Không thể không…, không kìm được…",
+        "usage": "Vない + ではいられない",
+        "note": "👉 Diễn tả cảm xúc mạnh",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "このエラーを見ると修正せずにはいられない。",
+                "furi": "このえらーをみるとしゅうせいせずにはいられない。",
+                "vi": "Dịch: Nhìn lỗi này thì không thể không sửa."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "その話を聞いて笑わずにはいられない。",
+                "furi": "そのはなしをきいてわらわずにはいられない。",
+                "vi": "Dịch: Nghe chuyện đó không thể nhịn cười."
+            }
+        ]
+    },
+    {
+        "id": "day15_2",
+        "day": 15,
+        "grammar": "〜にほかならない",
+        "meaning": "Không gì khác ngoài…",
+        "usage": "N + にほかならない",
+        "note": "👉 Nhấn mạnh kết luận",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "システム停止の原因は設定ミスにほかならない。",
+                "furi": "しすてむていしのげんいんはせっていみすにほかならない。",
+                "vi": "Dịch: Nguyên nhân hệ thống dừng chính là lỗi cấu hình."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "彼の成功は努力の結果にほかならない。",
+                "furi": "かれのせいこうはどりょくのけっかにほかならない。",
+                "vi": "Dịch: Thành công của anh ấy không gì khác ngoài nỗ lực."
+            }
+        ]
+    },
+    {
+        "id": "day15_3",
+        "day": 15,
+        "grammar": "〜割に(は) / 〜にしては",
+        "meaning": "So với… thì…",
+        "usage": "普通形 + 割に / にしては",
+        "note": "👉 Kết quả khác với kỳ vọng",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "このシステムはシンプルな割に性能が高い。",
+                "furi": "このしすてむはしんぷるなわりにせいのうがたかい。",
+                "vi": "Dịch: Hệ thống này đơn giản nhưng hiệu năng cao."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "彼は初心者にしては上手だ。",
+                "furi": "かれはしょしんしゃにしてはじょうずだ。",
+                "vi": "Dịch: So với người mới thì anh ấy khá giỏi."
+            }
+        ]
+    },
+    {
+        "id": "day15_4",
+        "day": 15,
+        "grammar": "〜を抜きにして",
+        "meaning": "Không có…, bỏ qua…",
+        "usage": "N + を抜きにして",
+        "note": "👉 Loại bỏ yếu tố nào đó",
+        "ex_it": "",
+        "ex_daily": "",
+        "learned": false,
+        "examples": [
+            {
+                "type": "Ví dụ (IT)",
+                "jp": "セキュリティを抜きにしてシステム開発はできない。",
+                "furi": "せきゅりてぃをぬきにしてしすてむかいはつはできない。",
+                "vi": "Dịch: Không thể phát triển hệ thống nếu bỏ qua bảo mật."
+            },
+            {
+                "type": "Ví dụ (Hằng ngày)",
+                "jp": "冗談を抜きにして真面目に話そう。",
+                "furi": "じょうだんをぬきにしてまじめにはなそう。",
+                "vi": "Dịch: Bỏ đùa sang một bên, hãy nói chuyện nghiêm túc."
             }
         ]
     }

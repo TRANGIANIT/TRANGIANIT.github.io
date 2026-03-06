@@ -1,0 +1,104 @@
+Ngữ pháp: 〜てからでないと
+Ý nghĩa: Nếu không… thì không thể…, phải sau khi… mới…
+Cách dùng: Vて + からでないと
+👉 Nhấn mạnh điều kiện bắt buộc trước khi làm việc gì
+
+Ví dụ (IT):
+テストをしてからでないと本番環境にデプロイできない。
+てすとをしてからでないとほんばんかんきょうにでぷろいできない。
+Dịch: Nếu chưa test thì không thể deploy lên môi trường production.
+
+Ví dụ (Hằng ngày):
+宿題を終えてからでないと遊びに行けない。
+しゅくだいをおえてからでないとあそびにいけない。
+Dịch: Nếu chưa làm xong bài tập thì không thể đi chơi.
+
+Ngữ pháp: 〜てしょうがない・ては仕方がない
+Ý nghĩa: Rất…, không chịu nổi…
+Cách dùng: Aくて / Aで / Vて + しょうがない
+👉 Diễn tả cảm xúc hoặc trạng thái quá mạnh
+
+Ví dụ (IT):
+バグが多くてしょうがない。
+ばぐがおおくてしょうがない。
+Dịch: Bug quá nhiều chịu không nổi.
+
+Ví dụ (Hằng ngày):
+今日は暑くてしょうがない。
+きょうはあつくてしょうがない。
+Dịch: Hôm nay nóng không chịu nổi.
+
+Ngữ pháp: 〜ては・ていては
+Ý nghĩa: Nếu cứ… thì (kết quả xấu)
+Cách dùng: Vては / Vていては
+👉 Phê phán hành động lặp lại
+
+Ví dụ (IT):
+そんなにバグを出していてはいいエンジニアになれない。
+そんなにばぐをだしていてはいいえんじにあになれない。
+Dịch: Nếu cứ tạo bug như vậy thì không thể trở thành engineer giỏi.
+
+Ví dụ (Hằng ngày):
+毎日遅く寝ていては健康に良くない。
+まいにちおそくねていてはけんこうによくない。
+Dịch: Nếu cứ ngủ muộn mỗi ngày thì không tốt cho sức khỏe.
+
+Ngữ pháp: 〜ということだ・とのことだ
+Ý nghĩa: Nghe nói rằng…, theo như…
+Cách dùng: 普通形 + ということだ / とのことだ
+👉 Dùng để truyền đạt thông tin gián tiếp
+
+Ví dụ (IT):
+新しいシステムは来月リリースするということだ。
+あたらしいしすてむはらいげつりりーすするということだ。
+Dịch: Nghe nói hệ thống mới sẽ release tháng sau.
+
+Ví dụ (Hằng ngày):
+明日は雨だとのことだ。
+あしたはあめだとのことだ。
+Dịch: Nghe nói ngày mai sẽ mưa.
+
+Ngữ pháp: 〜といっても
+Ý nghĩa: Tuy nói là… nhưng thực ra…
+Cách dùng: 普通形 + といっても
+👉 Đính chính thông tin
+
+Ví dụ (IT):
+AIといっても簡単なアルゴリズムだけです。
+えーあいといってもかんたんなあるごりずむだけです。
+Dịch: Nói là AI nhưng thực ra chỉ là thuật toán đơn giản.
+
+Ví dụ (Hằng ngày):
+料理といってもインスタントラーメンだけです。
+りょうりといってもいんすたんとらーめんだけです。
+Dịch: Nói là nấu ăn nhưng chỉ là mì ăn liền.
+
+Ngữ pháp: 〜とか・とかで
+Ý nghĩa: Vì… các kiểu…, nghe nói vì…
+Cách dùng: 普通形 + とかで
+👉 Lý do nghe nói từ người khác
+
+Ví dụ (IT):
+サーバーが落ちたとかでサービスが止まった。
+さーばーがおちたとかでさーびすがとまった。
+Dịch: Nghe nói server bị sập nên service dừng.
+
+Ví dụ (Hằng ngày):
+事故があったとかで電車が遅れている。
+じこがあったとかででんしゃがおくれている。
+Dịch: Nghe nói có tai nạn nên tàu bị trễ.
+
+Ngữ pháp: 〜とは
+Ý nghĩa: Thật là…, không ngờ rằng…
+Cách dùng: 普通形 + とは
+👉 Dùng khi ngạc nhiên
+
+Ví dụ (IT):
+こんなバグがあるとは思わなかった。
+こんなばぐがあるとはおもわなかった。
+Dịch: Không ngờ lại có bug như vậy.
+
+Ví dụ (Hằng ngày):
+彼が来るとは思わなかった。
+かれがくるとはおもわなかった。
+Dịch: Không ngờ anh ấy lại đến.

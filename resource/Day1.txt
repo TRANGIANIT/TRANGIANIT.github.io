@@ -1,0 +1,116 @@
+Ngữ pháp: 〜末（すえ）
+Ý nghĩa: Sau khi…, kết quả là…
+Cách dùng: Vた + 末に / Nの + 末に
+👉 Diễn tả kết quả sau quá trình dài suy nghĩ hoặc cố gắng
+
+Ví dụ (IT):
+長い議論の末、このアーキテクチャを選びました。
+ながいぎろんのすえ、このあーきてくちゃをえらびました。
+Dịch: Sau nhiều cuộc thảo luận, chúng tôi chọn kiến trúc này.
+
+Ví dụ (Hằng ngày):
+悩んだ末、日本へ留学することにしました。
+なやんだすえ、にほんへりゅうがくすることにしました。
+Dịch: Sau khi suy nghĩ nhiều tôi quyết định du học Nhật.
+
+---
+
+Ngữ pháp: 〜だけ・〜だけ〜
+Ý nghĩa: Càng… càng… / Chỉ…
+Cách dùng: Vば + Vる + だけ
+👉 Nhấn mạnh mức độ tăng lên
+
+Ví dụ (IT):
+テストすればするだけバグが見つかる。
+てすとすればするだけばぐがみつかる。
+Dịch: Càng test càng tìm ra nhiều bug.
+
+Ví dụ (Hằng ngày):
+日本語は勉強すればするだけ上手になる。
+にほんごはべんきょうすればするだけじょうずになる。
+Dịch: Tiếng Nhật càng học càng giỏi.
+
+---
+
+Ngữ pháp: 〜だけに・〜だけで
+Ý nghĩa: Chính vì…, chỉ cần…
+Cách dùng: N / 普通形 + だけに
+👉 Nhấn mạnh nguyên nhân
+
+Ví dụ (IT):
+重要なシステムだけに、慎重にテストする必要がある。
+じゅうようなしすてむだけに、しんちょうにてすとするひつようがある。
+Dịch: Vì là hệ thống quan trọng nên cần test cẩn thận.
+
+Ví dụ (Hằng ngày):
+有名な店だけに、いつも混んでいる。
+ゆうめいなみせだけに、いつもこんでいる。
+Dịch: Vì là quán nổi tiếng nên lúc nào cũng đông.
+
+---
+
+Ngữ pháp: 〜だって
+Ý nghĩa: Ngay cả…, ngay cả tôi cũng…
+Cách dùng: N + だって
+👉 Nhấn mạnh giống 〜でも
+
+Ví dụ (IT):
+初心者だってこのツールを使えます。
+しょしんしゃだってこのつーるをつかえます。
+Dịch: Ngay cả người mới cũng dùng được tool này.
+
+Ví dụ (Hằng ngày):
+私だって疲れています。
+わたしだってつかれています。
+Dịch: Ngay cả tôi cũng mệt.
+
+---
+
+Ngữ pháp: 〜たら〜で
+Ý nghĩa: Nếu… thì… (kết quả không tốt)
+Cách dùng: Vたら + V / N
+👉 Thường diễn tả hậu quả tiêu cực
+
+Ví dụ (IT):
+このコードを変更したらで、大きなバグが出た。
+このこーどをへんこうしたらで、おおきなばぐがでた。
+Dịch: Vì sửa code này nên xuất hiện bug lớn.
+
+Ví dụ (Hằng ngày):
+寝不足だったらで、仕事に集中できない。
+ねぶそくだったらで、しごとにしゅうちゅうできない。
+Dịch: Vì thiếu ngủ nên không tập trung làm việc.
+
+---
+
+Ngữ pháp: 〜て以来（ていらい）
+Ý nghĩa: Kể từ khi…
+Cách dùng: Vて + 以来
+👉 Diễn tả hành động bắt đầu từ quá khứ và kéo dài đến hiện tại
+
+Ví dụ (IT):
+このフレームワークを使って以来、開発が速くなった。
+このふれーむわーくをつかっていらい、かいはつがはやくなった。
+Dịch: Từ khi dùng framework này việc phát triển nhanh hơn.
+
+Ví dụ (Hằng ngày):
+日本に来て以来、寿司が好きになった。
+にほんにきていらい、すしがすきになった。
+Dịch: Từ khi đến Nhật tôi thích sushi.
+
+---
+
+Ngữ pháp: 〜ではないか・〜のではないか
+Ý nghĩa: Có lẽ là…, chẳng phải là… sao
+Cách dùng: 普通形 + のではないか
+👉 Diễn tả suy đoán
+
+Ví dụ (IT):
+これはメモリリークではないかと思います。
+これはめもりりーくではないかとおもいます。
+Dịch: Tôi nghĩ có lẽ đây là memory leak.
+
+Ví dụ (Hằng ngày):
+彼はもう帰ったのではないか。
+かれはもうかえったのではないか。
+Dịch: Có lẽ anh ấy đã về rồi.

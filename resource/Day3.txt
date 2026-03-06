@@ -1,0 +1,116 @@
+Ngữ pháp: 〜というと・〜といえば
+Ý nghĩa: Nói đến…, nhắc đến…
+Cách dùng: N + というと / といえば
+👉 Dùng khi nhắc đến một chủ đề gợi nhớ đến điều gì đó
+
+Ví dụ (IT):
+プログラミングといえば、Javaが思い浮かびます。
+ぷろぐらみんぐといえば、じゃばがおもいうかびます。
+Dịch: Nhắc đến lập trình thì tôi nghĩ đến Java.
+
+Ví dụ (Hằng ngày):
+日本といえば、寿司が有名です。
+にほんといえば、すしがゆうめいです。
+Dịch: Nhắc đến Nhật Bản thì sushi nổi tiếng.
+
+---
+
+Ngữ pháp: 〜といった
+Ý nghĩa: Như là…, chẳng hạn như…
+Cách dùng: N + といった + N
+👉 Dùng để liệt kê ví dụ tiêu biểu
+
+Ví dụ (IT):
+JavaやGoといった言語を勉強しています。
+じゃばやごーといったげんごをべんきょうしています。
+Dịch: Tôi đang học các ngôn ngữ như Java và Go.
+
+Ví dụ (Hằng ngày):
+京都や奈良といった町が好きです。
+きょうとやならといったまちがすきです。
+Dịch: Tôi thích các thành phố như Kyoto và Nara.
+
+---
+
+Ngữ pháp: としたら・とすれば・とすると
+Ý nghĩa: Nếu giả sử…, nếu mà…
+Cách dùng: 普通形 + としたら / とすれば / とすると
+👉 Dùng khi đưa ra giả định
+
+Ví dụ (IT):
+もしサーバーが落ちたとしたら、大きな問題です。
+もしさーばーがおちたとしたら、おおきなもんだいです。
+Dịch: Nếu server sập thì là vấn đề lớn.
+
+Ví dụ (Hằng ngày):
+もし雨だとしたら、旅行は延期します。
+もしあめだとしたら、りょこうはえんきします。
+Dịch: Nếu trời mưa thì chuyến đi sẽ hoãn.
+
+---
+
+Ngữ pháp: 〜として・〜としても
+Ý nghĩa: Với tư cách là…, ngay cả khi…
+Cách dùng: N + として / としても
+👉 Diễn tả vai trò hoặc giả định
+
+Ví dụ (IT):
+エンジニアとして、常に勉強し続ける必要がある。
+えんじにあとして、つねにべんきょうしつづけるひつようがある。
+Dịch: Với tư cách kỹ sư cần liên tục học hỏi.
+
+Ví dụ (Hằng ngày):
+たとえ忙しいとしても、健康は大事です。
+たとえいそがしいとしても、けんこうはだいじです。
+Dịch: Dù bận thì sức khỏe vẫn quan trọng.
+
+---
+
+Ngữ pháp: 〜にかけては
+Ý nghĩa: Về mặt…, khi nói đến…
+Cách dùng: N + にかけては
+👉 Nhấn mạnh điểm mạnh
+
+Ví dụ (IT):
+プログラミングにかけては彼が一番です。
+ぷろぐらみんぐにかけてはかれがいちばんです。
+Dịch: Về lập trình thì anh ấy là giỏi nhất.
+
+Ví dụ (Hằng ngày):
+料理にかけては母にかなう人はいない。
+りょうりにかけてはははにかなうひとはいない。
+Dịch: Về nấu ăn không ai bằng mẹ tôi.
+
+---
+
+Ngữ pháp: 〜にすぎない
+Ý nghĩa: Chỉ là…, không hơn…
+Cách dùng: 普通形 + にすぎない
+👉 Nhấn mạnh mức độ nhỏ
+
+Ví dụ (IT):
+これは単なるテストコードにすぎない。
+これはたんなるてすとこーどにすぎない。
+Dịch: Đây chỉ là code test thôi.
+
+Ví dụ (Hằng ngày):
+それは噂にすぎない。
+それはうわさにすぎない。
+Dịch: Đó chỉ là tin đồn.
+
+---
+
+Ngữ pháp: 〜によって・〜により・〜によらず
+Ý nghĩa: Tùy theo…, bởi…, bất kể…
+Cách dùng: N + によって / により / によらず
+👉 Dùng trong văn viết
+
+Ví dụ (IT):
+環境によって動作が違う。
+かんきょうによってどうさがちがう。
+Dịch: Tùy môi trường mà hoạt động khác.
+
+Ví dụ (Hằng ngày):
+年齢によらず参加できます。
+ねんれいによらずさんかできます。
+Dịch: Bất kể tuổi tác đều có thể tham gia.

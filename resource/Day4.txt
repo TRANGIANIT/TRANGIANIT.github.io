@@ -1,0 +1,229 @@
+Ngữ pháp: 〜にわたって・〜にわたり
+Ý nghĩa: Trong suốt…, kéo dài…
+Cách dùng: N + にわたって
+👉 Diễn tả phạm vi thời gian hoặc không gian dài
+
+Ví dụ (IT):
+このプロジェクトは3ヶ月にわたって行われた。
+このぷろじぇくとはさんかげつにわたっておこなわれた。
+Dịch: Project này kéo dài 3 tháng.
+
+Ví dụ (Hằng ngày):
+会議は2時間にわたって続いた。
+かいぎはにじかんにわたってつづいた。
+Dịch: Cuộc họp kéo dài 2 tiếng.
+
+---
+
+Ngữ pháp: ばかりで・ばかりだ
+Ý nghĩa: Chỉ toàn…, càng ngày càng…
+Cách dùng: Vて + ばかりだ
+👉 Diễn tả xu hướng tiêu cực
+
+Ví dụ (IT):
+バグは増えるばかりだ。
+ばぐはふえるばかりだ。
+Dịch: Bug chỉ ngày càng tăng.
+
+Ví dụ (Hằng ngày):
+物価は上がるばかりだ。
+ぶっかはあがるばかりだ。
+Dịch: Giá cả chỉ tăng lên.
+
+---
+
+Ngữ pháp: ものだ・ものではない
+Ý nghĩa: Nên…, không nên…
+Cách dùng: V辞書形 + ものだ / ものではない
+👉 Dùng để khuyên hoặc phê bình
+
+Ví dụ (IT):
+コードは丁寧に書くものだ。
+こーどはていねいにかくものだ。
+Dịch: Code nên được viết cẩn thận.
+
+Ví dụ (Hằng ngày):
+嘘をつくものではない。
+うそをつくものではない。
+Dịch: Không nên nói dối.
+
+---
+
+Ngữ pháp: ものなら
+Ý nghĩa: Nếu mà có thể…, nếu dám…
+Cách dùng: V可能形 + ものなら
+👉 Diễn tả điều khó xảy ra
+
+Ví dụ (IT):
+できるものならこのバグを直してほしい。
+できるものならこのばぐをなおしてほしい。
+Dịch: Nếu có thể hãy sửa bug này.
+
+Ví dụ (Hằng ngày):
+行けるものなら日本へ行きたい。
+いけるものならにほんへいきたい。
+Dịch: Nếu có thể tôi muốn đi Nhật.
+
+---
+
+Ngữ pháp: わけだ
+Ý nghĩa: Thảo nào…, hóa ra…
+Cách dùng: 普通形 + わけだ
+
+Ví dụ (IT):
+バージョンが違う。動かないわけだ。
+ばーじょんがちがう。うごかないわけだ。
+Dịch: Version khác nên không chạy, thảo nào.
+
+Ví dụ (Hằng ngày):
+毎日練習している。上手なわけだ。
+まいにちれんしゅうしている。じょうずなわけだ。
+Dịch: Luyện mỗi ngày nên giỏi là phải.
+
+---
+
+Ngữ pháp: わけではない
+Ý nghĩa: Không hẳn là…
+Cách dùng: 普通形 + わけではない
+
+Ví dụ (IT):
+この方法が完璧なわけではない。
+このほうほうがかんぺきなわけではない。
+Dịch: Cách này không phải hoàn hảo.
+
+Ví dụ (Hằng ngày):
+嫌いなわけではない。
+きらいなわけではない。
+Dịch: Không phải là ghét.
+
+---
+
+Ngữ pháp: わけがない
+Ý nghĩa: Không thể nào…
+Cách dùng: 普通形 + わけがない
+
+Ví dụ (IT):
+そんな短時間で完成できるわけがない。
+そんなたんじかんでかんせいできるわけがない。
+Dịch: Không thể hoàn thành nhanh vậy.
+
+Ví dụ (Hằng ngày):
+彼が嘘をつくわけがない。
+かれがうそをつくわけがない。
+Dịch: Anh ấy không thể nói dối.
+Ngữ pháp: にわたって・にわたり
+Ý nghĩa: Trong suốt…, kéo dài trong…
+Cách dùng: N + にわたって
+👉 Diễn tả khoảng thời gian dài
+
+Ví dụ (IT):
+3ヶ月にわたってシステムを開発しました。
+さんかげつにわたってしすてむをかいはつしました。
+Dịch: Chúng tôi phát triển hệ thống suốt 3 tháng.
+
+Ví dụ (Hằng ngày):
+会議は5時間にわたって続きました。
+かいぎはごじかんにわたってつづきました。
+Dịch: Cuộc họp kéo dài suốt 5 giờ.
+
+---
+
+Ngữ pháp: ばかりで・ばかりだ
+Ý nghĩa: Toàn là…, chỉ…
+Cách dùng: Vて + ばかりいる
+👉 Diễn tả hành động lặp lại nhiều
+
+Ví dụ (IT):
+彼はバグを出してばかりいる。
+かれはばぐをだしてばかりいる。
+Dịch: Anh ta toàn tạo bug.
+
+Ví dụ (Hằng ngày):
+甘い物ばかり食べている。
+あまいものばかりたべている。
+Dịch: Toàn ăn đồ ngọt.
+
+---
+
+Ngữ pháp: ものだ・ものではない
+Ý nghĩa: Nên…, không nên…
+Cách dùng: Vる + ものだ
+👉 Dùng để khuyên hoặc nói quy tắc
+
+Ví dụ (IT):
+コードを書く前に設計するものだ。
+こーどをかくまえにせっけいするものだ。
+Dịch: Trước khi code thì nên thiết kế.
+
+Ví dụ (Hằng ngày):
+人の悪口を言うものではない。
+ひとのわるぐちをいうものではない。
+Dịch: Không nên nói xấu người khác.
+
+---
+
+Ngữ pháp: ものなら
+Ý nghĩa: Nếu có thể…, nếu mà…
+Cách dùng: V可能形 + ものなら
+👉 Thường dùng cho điều khó
+
+Ví dụ (IT):
+直せるものなら、このバグを直してみてください。
+なおせるものなら、このばぐをなおしてみてください。
+Dịch: Nếu sửa được thì hãy thử sửa bug này.
+
+Ví dụ (Hằng ngày):
+行けるものなら、日本へ行きたい。
+いけるものなら、にほんへいきたい。
+Dịch: Nếu có thể thì tôi muốn đi Nhật.
+
+---
+
+Ngữ pháp: わけだ
+Ý nghĩa: Thảo nào…, hóa ra…
+Cách dùng: 普通形 + わけだ
+👉 Dùng khi hiểu ra nguyên nhân
+
+Ví dụ (IT):
+バグが多いわけだ、テストしていなかった。
+ばぐがおおいわけだ、てすとしていなかった。
+Dịch: Thảo nào nhiều bug, hóa ra chưa test.
+
+Ví dụ (Hằng ngày):
+彼が疲れているわけだ、昨日徹夜した。
+かれがつかれているわけだ、きのうてつやした。
+Dịch: Thảo nào anh ấy mệt, hóa ra thức trắng.
+
+---
+
+Ngữ pháp: わけではない
+Ý nghĩa: Không hẳn là…
+Cách dùng: 普通形 + わけではない
+👉 Phủ định một phần
+
+Ví dụ (IT):
+この方法が悪いわけではない。
+このほうほうがわるいわけではない。
+Dịch: Không hẳn cách này tệ.
+
+Ví dụ (Hằng ngày):
+嫌いなわけではない。
+きらいなわけではない。
+Dịch: Không phải là ghét.
+
+---
+
+Ngữ pháp: わけがない
+Ý nghĩa: Không thể nào…
+Cách dùng: 普通形 + わけがない
+👉 Phủ định mạnh
+
+Ví dụ (IT):
+このコードが動くわけがない。
+このこーどがうごくわけがない。
+Dịch: Code này không thể chạy được.
+
+Ví dụ (Hằng ngày):
+彼が嘘をつくわけがない。
+かれがうそをつくわけがない。
+Dịch: Anh ấy không thể nói dối.
