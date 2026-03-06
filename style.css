@@ -84,6 +84,10 @@ header p {
     padding: 2rem;
     background: var(--card-bg);
     overflow-y: auto;
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
 }
 
 /* Mặt trước */
@@ -119,17 +123,10 @@ header p {
     border-top: 5px solid var(--jp-red);
 }
 
+/* Hide scrollbar for Chrome, Safari and Opera */
+.front::-webkit-scrollbar,
 .back::-webkit-scrollbar {
-    width: 6px;
-}
-
-.back::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.back::-webkit-scrollbar-thumb {
-    background: #cbd5e0;
-    border-radius: 3px;
+    display: none;
 }
 
 .content-section h3 {
