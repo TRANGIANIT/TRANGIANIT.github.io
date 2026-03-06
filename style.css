@@ -365,12 +365,13 @@ header p {
         padding-top: 1rem;
     }
 
-    header h1 {
-        font-size: 1.1rem;
+    header h1,
+    header p {
+        display: none;
     }
 
     .flashcard-container {
-        height: 65vh;
+        height: 68vh;
         /* Dynamically scale height based on screen */
         min-height: 420px;
         margin-bottom: 1rem;
