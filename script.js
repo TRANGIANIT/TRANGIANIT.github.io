@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const quizQuestion = document.getElementById('quizQuestion');
     const quizOptions = document.getElementById('quizOptions');
     const quizFeedback = document.getElementById('quizFeedback');
+    const nextQuizBtn = document.getElementById('nextQuizBtn');
+
     // Backup DOM Elements
     const backupBtn = document.getElementById('backupBtn');
     const restoreBtn = document.getElementById('restoreBtn');
@@ -26,12 +28,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const navTabs = document.querySelectorAll('.nav-tab');
     const viewSections = document.querySelectorAll('.view-section');
 
+    var currentQuizAnswer = null;
     let isFlipped = false;
     let filteredCards = [...flashcardsData];
     let currentIndex = 0;
 
     // Firebase Syncing Reference
     const progressRef = database.ref('users/my_progress');
+
+    let isFirebaseLoaded = false;
 
     // Load saved preferences from Firebase
     progressRef.on('value', (snapshot) => {
@@ -43,12 +48,18 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Initialize UI Filters & Tabs if not done already
-        if (dayFilter.options.length <= 1) {
-            initDayFilters();
+        if (!isFirebaseLoaded) {
+            // Initialize UI Filters & Tabs if not done already
+            if (dayFilter.options.length <= 1) {
+                initDayFilters();
+            }
+            filterCards();
+            if (quizWeekFilter) generateQuiz();
+            isFirebaseLoaded = true;
+        } else {
+            // Update visually smoothly if data syncing from cloud
+            filterCards(true);
         }
-        filterCards();
-        if (quizWeekFilter) generateQuiz();
     });
 
     // Tab Navigation Logic
@@ -100,8 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- Quiz Logic ---
-    let currentQuizAnswer = null;
-
     quizWeekFilter.addEventListener('change', () => {
         // This filter should trigger a new quiz generation, not filter flashcards
         generateQuiz();
@@ -169,10 +178,13 @@ document.addEventListener('DOMContentLoaded', () => {
         updateDayOptions('quiz');
     }
 
-    function filterCards() {
+    function filterCards(preserveId = false) {
         const statusVal = statusFilter.value;
         const weekVal = weekFilter.value;
         const dayVal = dayFilter.value;
+
+        // Remember which card we are deeply observing
+        const currentCardId = filteredCards[currentIndex]?.id;
 
         filteredCards = flashcardsData.filter(c => {
             let statusMatch = true;
@@ -191,7 +203,18 @@ document.addEventListener('DOMContentLoaded', () => {
             return statusMatch && weekMatch && dayMatch;
         });
 
-        currentIndex = 0;
+        if (preserveId && currentCardId) {
+            // Try to reconnect to the exact same card in the new filtered array
+            let nextIndex = filteredCards.findIndex(c => c.id === currentCardId);
+            if (nextIndex === -1 && filteredCards.length > 0) {
+                // If it faded out due to filter logic, clamp down nicely 
+                nextIndex = Math.min(currentIndex, filteredCards.length - 1);
+            }
+            currentIndex = Math.max(0, nextIndex);
+        } else {
+            currentIndex = 0;
+        }
+
         renderCard(currentIndex);
     }
 
