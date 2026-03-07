@@ -658,7 +658,12 @@ document.addEventListener('DOMContentLoaded', () => {
         requestDownloadBtn.disabled = true;
         requestDownloadBtn.innerHTML = "<span class='btn-icon'>⏳</span> <span class='btn-text'>Đang gửi yêu cầu...</span>";
         database.ref('users/' + currentUser.uid + '/profile/downloadStatus').set('pending').then(() => {
-            alert("Đã gửi yêu cầu cấp quyền tải ảnh cho Admin!");
+            const followModal = document.getElementById('followModal');
+            if (followModal) {
+                followModal.style.display = 'flex';
+            } else {
+                alert("Đã gửi yêu cầu cấp quyền tải ảnh cho Admin!");
+            }
             requestDownloadBtn.innerHTML = "<span class='btn-icon'>⏳</span> <span class='btn-text'>Đang chờ duyệt tải...</span>";
         });
     });
@@ -945,6 +950,33 @@ document.addEventListener('DOMContentLoaded', () => {
     closeAuthModal.addEventListener('click', () => {
         authModal.style.display = 'none';
         authForm.reset();
+    });
+
+    const followModal = document.getElementById('followModal');
+    const closeFollowModal = document.getElementById('closeFollowModal');
+    const skipFollowBtn = document.getElementById('skipFollowBtn');
+
+    if (closeFollowModal) {
+        closeFollowModal.addEventListener('click', () => {
+            if (followModal) followModal.style.display = 'none';
+        });
+    }
+
+    if (skipFollowBtn) {
+        skipFollowBtn.addEventListener('click', () => {
+            if (followModal) followModal.style.display = 'none';
+        });
+    }
+
+    // Đóng Modal khi click ra ngoài overlay
+    window.addEventListener('click', (e) => {
+        if (e.target === authModal) {
+            authModal.style.display = 'none';
+            authForm.reset();
+        }
+        if (followModal && e.target === followModal) {
+            followModal.style.display = 'none';
+        }
     });
 
     authToggleLink.addEventListener('click', (e) => {
