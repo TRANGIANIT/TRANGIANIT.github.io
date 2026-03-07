@@ -34,6 +34,44 @@ body {
     align-items: center;
 }
 
+/* --- Hiệu ứng Sakura Động --- */
+.sakura-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none; /* User can click through it */
+    z-index: -1;
+    overflow: hidden;
+}
+
+.sakura {
+    position: absolute;
+    background-color: #ffd1dc;
+    border-radius: 100% 0 100% 0;
+    box-shadow: 0 0 10px rgba(255, 183, 197, 0.8);
+    opacity: 0;
+    animation: fall linear forwards;
+}
+
+@keyframes fall {
+    0% {
+        opacity: 0;
+        top: -10%;
+        transform: translateX(0) scale(1) rotate(0deg);
+    }
+    10% {
+        opacity: 0.9;
+    }
+    100% {
+        opacity: 0;
+        top: 110%;
+        transform: translateX(var(--drift, 100px)) scale(0.8) rotate(360deg);
+    }
+}
+
+
 header {
     text-align: center;
     margin-bottom: 1rem;
@@ -309,7 +347,7 @@ header p {
     width: 600px;
     min-height: 600px;
     height: auto;
-    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+    background: transparent; /* Nền tĩnh đã được thêm vào thông qua mảng thẻ img trong html */
     display: flex;
     justify-content: center;
     align-items: center;

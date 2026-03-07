@@ -59,6 +59,46 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // --- Sakura Animation Logic ---
+    function createSakura() {
+        const sakuraContainer = document.getElementById('sakuraContainer');
+        if (!sakuraContainer) return;
+
+        const sakura = document.createElement('div');
+        sakura.className = 'sakura';
+        
+        // Random properties
+        const size = Math.random() * 12 + 8; // 8px to 20px
+        const left = Math.random() * 100; // 0vw to 100vw
+        const animationDuration = Math.random() * 5 + 4; // 4s to 9s
+        const colorVariation = Math.random() > 0.5 ? '#ffd1dc' : '#ffb7c5';
+        
+        // Optional: random drift direction
+        const drift = Math.random() * 150 - 75; // -75px to +75px
+
+        sakura.style.width = `${size}px`;
+        sakura.style.height = `${size}px`;
+        sakura.style.left = `${left}vw`;
+        sakura.style.animationDuration = `${animationDuration}s`;
+        sakura.style.backgroundColor = colorVariation;
+        sakura.style.setProperty('--drift', `${drift}px`);
+
+        sakuraContainer.appendChild(sakura);
+
+        // Remove element after animation finishes
+        setTimeout(() => {
+            sakura.remove();
+        }, animationDuration * 1000);
+    }
+
+    // Spawn sakura petals every 300ms
+    setInterval(createSakura, 300);
+
+    // Initial burst
+    for(let i = 0; i < 15; i++) {
+        setTimeout(createSakura, Math.random() * 2000);
+    }
+
     // Tab Navigation Logic
     navTabs.forEach(tab => {
         tab.addEventListener('click', () => {
