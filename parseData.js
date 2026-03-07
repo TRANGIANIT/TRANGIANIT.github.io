@@ -17,12 +17,12 @@ files.forEach(file => {
     const dayMatch = file.match(/^DA?y(\d+)/i);
     if (!dayMatch) return;
     const dayNum = parseInt(dayMatch[1]);
-    
+
     const content = fs.readFileSync(path.join(resDir, file), 'utf-8');
-    
+
     // Split by line break markers '---' or '. ' or just look for 'Ngữ pháp:'
-    const blocks = content.split(/---|\n\.\n|\n\.(\s|$)/).filter(b => b && b.includes('Ngữ pháp:'));
-    
+    const blocks = content.split(/---|\n(?=Ngữ pháp:)/i).filter(b => b && b.includes('Ngữ pháp:'));
+
     blocks.forEach((block, index) => {
         const item = {
             id: `day${dayNum}_${index}`,
@@ -36,14 +36,14 @@ files.forEach(file => {
             learned: false,
             examples: []
         };
-        
+
         let inIT = false;
         let inDaily = false;
         let curITJp = "", curITFuri = "", curITVi = "";
         let curDailyJp = "", curDailyFuri = "", curDailyVi = "";
 
         const lines = block.split('\n').map(l => l.trim()).filter(l => l);
-        
+
         lines.forEach(line => {
             if (line.startsWith('Ngữ pháp:')) {
                 item.grammar = line.replace('Ngữ pháp:', '').trim();
@@ -75,7 +75,7 @@ files.forEach(file => {
                 }
             }
         });
-        
+
         if (curITJp || curITVi) {
             item.examples.push({
                 type: 'Ví dụ (IT)',
@@ -92,7 +92,7 @@ files.forEach(file => {
                 vi: curDailyVi || ""
             });
         }
-        
+
         if (item.grammar) {
             allData.push(item);
         }
