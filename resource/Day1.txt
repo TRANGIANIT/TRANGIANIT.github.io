@@ -101,17 +101,11 @@ Dịch: Anh ấy thậm chí còn không nhớ tên.
 ---
 
 Ngữ pháp: 〜次第（しだい）
-Ý nghĩa:
-
-1. Tùy thuộc vào…, phụ thuộc vào…
-2. Ngay sau khi…, vừa… là… (văn trang trọng)
+Ý nghĩa:Tùy thuộc vào…, phụ thuộc vào… /Ngay sau khi…, vừa… là… (văn trang trọng)
 
 Cách dùng:
-① N + 次第だ / 次第で
-👉 Kết quả phụ thuộc vào yếu tố nào đó
-
-② Vます bỏ ます + 次第
-👉 Ngay sau khi hoàn thành hành động
+① N/す bỏ ます + 次第だ / 次第で : ② Vます bỏ ます + 次第
+👉 Kết quả phụ thuộc vào yếu tố nào đó /Ngay sau khi hoàn thành hành động
 
 Ví dụ (IT):
 プロジェクトの成功はチームの努力次第だ。
