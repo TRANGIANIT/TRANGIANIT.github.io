@@ -281,20 +281,22 @@ document.addEventListener('DOMContentLoaded', () => {
         // Sync to Export Template
         const exportGrammar = document.getElementById('exportGrammar');
         if (exportGrammar) exportGrammar.textContent = data.grammar;
-        const exportMeaning = document.getElementById('exportMeaning');
-        if (exportMeaning) exportMeaning.innerHTML = `<strong>📖 Ý nghĩa:</strong> ${data.meaning}`;
-        const exportUsage = document.getElementById('exportUsage');
-        if (exportUsage) exportUsage.innerHTML = `<strong>🛠 Cách dùng:</strong> ${data.usage}`;
+        const exportMeaningVal = document.getElementById('exportMeaningVal');
+        if (exportMeaningVal) exportMeaningVal.textContent = data.meaning;
+        const exportUsageVal = document.getElementById('exportUsageVal');
+        if (exportUsageVal) exportUsageVal.textContent = data.usage;
 
         if (data.examples && data.examples.length > 0) {
-            const exportExJp = document.getElementById('exportExJp');
-            if (exportExJp) exportExJp.textContent = data.examples[0].jp;
-            const exportExFuri = document.getElementById('exportExFuri');
-            if (exportExFuri) exportExFuri.textContent = data.examples[0].furi || '';
-            const exportExVi = document.getElementById('exportExVi');
-            if (exportExVi) {
+            const exportExJpVal = document.getElementById('exportExJpVal');
+            if (exportExJpVal) exportExJpVal.textContent = data.examples[0].jp;
+
+            const exportExFuriVal = document.getElementById('exportExFuriVal');
+            if (exportExFuriVal) exportExFuriVal.textContent = data.examples[0].furi || '';
+
+            const exportExViVal = document.getElementById('exportExViVal');
+            if (exportExViVal) {
                 let cleanVi = data.examples[0].vi.replace(/^Dịch:\s*/i, '');
-                exportExVi.innerHTML = `<strong>💬 Dịch:</strong> ${cleanVi}`;
+                exportExViVal.textContent = cleanVi;
             }
         }
 
