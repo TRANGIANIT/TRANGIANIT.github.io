@@ -1,50 +1,44 @@
- # Japanese Grammar Flashcard Application - Walkthrough
+# Antigravity Japanese Flashcard - Bách Khoa Toàn Thư (Walkthrough)
 
-## Overview
-Dựa trên yêu cầu và nội dung từ `Flashcard.txt`, một ứng dụng Web (HTML/CSS/JS) học ngữ pháp tiếng Nhật đã được xây dựng thành công. 
+## 📌 Khái quát Dự án (Overview)
+Từ một tài liệu `Flashcard.txt` dạng văn bản thô, ứng dụng này đã được xây dựng và biến hình thành một cỗ máy học Ngữ Pháp Tiếng Nhật N2 đầy mạnh mẽ mang tên **Antigravity**. Hệ thống hiện nay phát triển đầy đủ các tính năng Học Tương Tác, Kiểm tra và Quản lý Lớp học thời gian thực (Real-time).
 
-Ứng dụng cho phép bạn xem thông tin ngữ pháp dưới dạng Thẻ lật (Flashcard) trực quan, đẹp mắt và dễ học.
-- **Mặt trước:** Hiển thị tựa đề ngữ pháp `〜っこない`.
-- **Mặt sau:** Trình bày chi tiết về: Ý nghĩa, Cách dùng, Lưu ý và 2 ví dụ (kể cả phiên âm Hiragana trên ví dụ).
+Người dùng (User) có thể lướt xem thẻ, lật mặt sau (`rotateY`), ôn tập trắc nghiệm và tải ảnh ra nền tảng mạng xã hội khoe thành quả. Trong khi Quản trị viên (Admin) được cấp quyền theo dõi hành vi, phê duyệt lệnh tải và xóa dữ liệu những người dùng ngừng hoạt động.
 
-## File Structure
-Source code được lưu tại thư mục `/Users/locnm/Downloads/Code/antigravity/japanese_flashcard/` bao gồm:
-- `index.html`: Cấu trúc thẻ 3D (`front`, `back`).
-- `style.css`: Hệ thống thiết kế màu sắc, layout flexbox, typography tiếng Nhật và đặc biệt là animation lật thẻ bằng property `transform: rotateY()`.
-- `script.js`: Xử lý click lật thẻ (Thêm/xoá class `.flipped`). Database thẻ được mô hình hoá dưới dạng mảng JSON `flashcardsData` để dễ định dạng sau này cho nhiều ngữ pháp khác.
+## 📁 Cấu Trúc File Chính (Core Files)
+- `index.html`: Bộ xương HTML phân chia thành 4 View (`Flashcard View`, `Quiz View`, `JLPT View` và `Admin View`). Tích hợp Firebase SDK (`app`, `auth`, `database`).
+- `style.css`: Quản trị UI/UX của toàn bộ ứng dụng. Kéo dãn thiết kế theo Responsive Mobile:
+  - Gradient Backgrounds sang trọng (`#3e6e9b` -> `#464479`, `Xanh Lá Quiz`, Đỏ Cảnh Báo).
+  - Khung ẩn Tải thẻ dọc (Portrait TikTok) kích cỡ `720px * 800px` mượt mà, viền trắng mờ `blur(10px)` (Kỹ thuật Glassmorphism).
+- `script.js`: Bộ não vận hành với các hàm kéo thả thẻ, xác thực Auth, bộ đếm điểm, lặp vòng (Loop) sinh ảnh và sắp xếp Dashboard (Sort / Filter User).
+- `data.js`: Kho Dữ Liệu Ngữ Pháp Nhật-Việt (Array of Objects) đi kèm hệ thống phiên âm Furigana động.
 
-## Các Tính Năng Được Cập Nhật (Ngày 06/03)
+## 🚀 Các Tính Năng Đỉnh Cao Kỹ Thuật Số (Feature Walkthrough)
 
-### 1. Nút Theo Dõi & Lọc Trạng Thái Học (Filter Logic)
-- **Đánh dấu thẻ**: Nút "Đánh dấu Đã thuộc ✅" phía dưới giúp bạn phân biệt ngữ pháp này mình đã ghi nhớ lâu chưa.
-- **Huy hiệu (Badge) thời gian thực**: Góc mặt trước sẽ luôn hiển thị trạng thái `🔴 Chưa thuộc` hoặc `✅ Đã thuộc` tuỳ vào thiết lập của bạn.
-- **Lưu LocalStorage**: Dữ liệu trạng thái thuộc bài được lưu tại trình duyệt web nên nếu bạn đóng web và mở lại, nó vẫn còn lưu.
-- **Bộ Lọc**: Phía trên cùng có một Menu Dropdown giúp bạn tập trung chỉ vào những thẻ "Chưa thuộc" để ôn tập hiệu quả.
+### 1. Tinder-Swipe & Random Motivation
+Khi đang xem giải nghĩa ở mặt sau thẻ, người học chỉ cần dùng ngón tay Vuốt thẻ sang Trái (Failed - Quên Từ) hoặc Phải (Passed - Thuộc Từ). Hiệu ứng tem đánh giá (`swipe-stamp.red/green`) sẽ nghiêng 15 độ, hiển thị ngay trên mặt thẻ cùng tên của Cấu trúc ngữ pháp để "Đóng dấu" vào não bộ. Các câu Slogan (như "ĐỈNH CỦA CHÓP", "CỐ LÊN NÀO!") liên tục xáo trộn (Math.random()) để chống lại sự nhàm chán.
 
-### 2. Tải Ảnh Mạng Xã Hội (Export to Image 📸)
-Để thuận tiện chia sẻ kiến thức lên Story (Facebook, Instagram, TikTok), ứng dụng nay có thêm tính năng "Chụp lại thẻ".
-- **Cách thức hoạt động**: Thay vì chụp riêng lẻ mặt trước (mất giải nghĩa) hay mặt sau (vắng tựa đề), ứng dụng tự ngầm định tạo ra một thiết kế **Bố cục dạng thẻ vuông chuẩn đẹp** chứa đồng thời Ngữ pháp nổi bật và Nội dung ngay phía dưới.
-- **html2canvas**: Thư viện này tự động render thẻ ẩn này thành ảnh `PNG` độ nét cao `x2` và tải tự động về máy với tên chuẩn chỉ như `TuVung_*.png`.
+### 2. Export Card (Mạng Xã Hội TikTok/Facebook Layer)
+Học viên có thể tải thẻ bài đã học về máy thông qua Engine `html2canvas`. Khung hình lưu về không bị lệch hoặc méo nhờ chế độ Scale x2, mang một layout hình chữ nhật dọc `9:16`. Tên Ngữ Pháp nằm chễm chệ to bự với font `2.8rem`, đỏ rực, cùng thiết kế bảng Ý Nghĩa, Ví Dụ bo góc tinh tế nằm sát phần ghi nguồn Website & TikTok Footer.
 
-### 3. Hỗ trợ Cài đặt App (PWA 📲)
-Vừa được cập nhật! Bây giờ bạn có thể mang ứng dụng Flashcard này lên điện thoại của mình để học mọi lúc mọi nơi như một ứng dụng Native, hỗ trợ cả lúc mất mạng (Offline).
-- **Trên iPhone/iPad (iOS)**: 
-  - Mở trang web này bằng trình duyệt Safari.
-  - Bấm vào nút **Chia sẻ (Share)** ở dưới đáy màn hình.
-  - Chọn **Thêm vào MH chính (Add to Home Screen)**.
-- **Trên Android**: 
-  - Mở web bằng Chrome.
-  - Sẽ có một popup hiện lên gợi ý **"Thêm Flashcard vào Màn hình chính"**, chỉ cần ấn Cài đặt.
-  - Nếu không có popup, bấm vào menu 3 chấm ở góc phải ⇨ Chọn **Cài đặt ứng dụng / Thêm vào màn hình chính**.
-- Ứng dụng sẽ có một Icon chữ "あ" cực dễ thương trên màn hình điện thoại của bạn!
+### 3. Dynamic Quiz System (Hệ Thống Trắc Nghiệm Động)
+Ở thẻ "Trắc Nghiệm 🎯", thuật toán JS sẽ lấy **Ngữ Pháp chính (Core Grammar)** ở Day/Week mà bạn chọn làm Đích, đồng thời nhặt Random 3 cấu trúc Ngữ Pháp không liên quan để tạo thành 4 nút đáp án. Màu xanh lá chuối sẽ hiện ra nếu bạn chọn đúng, hoặc Đỏ còi báo động nếu sai. Sau khi submit, nút **"Câu tiếp theo ❯" (Xanh Rêu đậm `btn-quiz-next`)** sẽ hiện ra.
 
-## Verification
-- ✅ Trạng thái Load/Lưu LocalStorage hoạt động ổn định.
-- ✅ Bố cục chia sẻ lên hình không bị lỗi FONT.
-- ✅ Service Worker (sw.js) và manifest đã được thiết lập đúng chuẩn PWA.
+### 4. Bảng Quản Trị Hệ Thống Nâng Cao (Admin Dashboard)
+Chỉ những Account có gắn mác `role: 'admin'` trên Database mới nhìn thấy màn hình này (Gia tăng Tính Bảo Mật).
+- **Trạng thái Real-time (Active Status)**: Server đọc dấu mốc `lastLogin` của UID. Báo `'🔴 Ngoại tuyến'` trực tiếp nếu quá 24h không mở App.
+- **Bộ Lọc Siêu Tốc (Super Filters UI)**: Nhờ sự kết hợp của `.filter()` và `.sort()` JS Array Function:
+  - Khả năng Lọc người xin phép Tải Card (`Pending / Approved`). Dễ dàng phê duyệt cho thành viên VIP (Nút "Duyệt tải" màu cam).
+  - Khả năng Điểm Danh Top những học sinh Xuất Sắc hoặc Lười nhác thông qua thao tác xổ Dropdown Sắp xếp ("Tải/Học Nhiều Nhất").
+- **Nhấn Lệnh Tải Hàng Loạt (Bulk Image Download Button)**: Admins có thể bấm Tải một nhát là máy tự động sinh và đẻ ra toàn bộ số Lượng Thẻ của Ngày (DAY_X) đang đứng và Auto-save xuống ổ cứng Máy Tính.
 
-## How to Try It
-Nếu đang dùng máy tính:
+## 📲 Chuẩn PWA (Cài đặt Offline trên Điện thoại)
+Với 2 file `manifest.json` và `sw.js` (Service Worker), người dùng hoàn toàn có thể "Thêm vào màn hình chính" (Add to Homescreen) từ trình duyệt Google Chrome/Safari trên Android và iPhone. Ứng dụng biến hóa giao diện toàn màn hình, không bị lộ URL và có dung lượng nhẹ như chiếc lông vũ!
+
+## 🔧 How to Run it (Tự tay chạy Source)
+Máy chủ ảo (Local Server) là điều bắt buộc để html2canvas không bị dính chấu CORS khi vẽ hình ảnh:
 ```bash
-open /Users/locnm/Downloads/Code/antigravity/japanese_flashcard/index.html
+# MacOS / Linux mở Terminal và phi thẳng lệnh này:
+python3 -m http.server 8000
 ```
+Sau đó truy cập **[http://localhost:8000](http://localhost:8000)** và tận hưởng cỗ máy học thuật Nhật Bản này! Mở Log trình duyệt F12 nếu muốn soi Data Firebase trả về.

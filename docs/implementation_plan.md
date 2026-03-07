@@ -1,101 +1,40 @@
-# Ứng dụng Flashcard Học Tiếng Nhật
+# Ứng dụng Antigravity - Flashcard Học Tiếng Nhật
 
-Tạo một trang web (HTML/CSS/JS) để học ngữ pháp tiếng Nhật từ file `Flashcard.txt`. Ứng dụng sẽ có giao diện thẻ bài (flashcard) có thể lật (flip) để xem mặt trước và mặt sau, giúp người dùng ghi nhớ ngữ pháp hiệu quả.
+## Tổng Quan Kiến Trúc Nền Tảng (Architecture Overview)
 
-## User Review Required
-Bạn có đồng ý với thiết kế sau không?
-- **Mặt trước:** Tên ngữ pháp (Ví dụ: `〜っこない`)
-- **Mặt sau:** Ý nghĩa, Cách dùng, và các Ví dụ đi kèm.
-- **Giao diện:** Đẹp, hiện đại, có hiệu ứng lật thẻ 3D khi click chuột. Màu sắc thân thiện, dễ nhìn.
+Dự án ban đầu được thiết kế từ một thẻ tĩnh đơn giản trong `/japanese_flashcard/` và phát triển lên thành một hệ thống **Học tập Tương tác Toàn diện (Interactive Learning System)** kết nối thời gian thực với Cơ sở dữ liệu Firebase.
 
-## Proposed Changes
+### Các Hệ Thống (Sub-systems) Đã Hoàn Thiện:
+1. **Core Flashcard Engine & Swipe Component (`index.html`, `style.css`, `script.js`):**
+    - Sử dụng các thuộc tính CSS 3D (`perspective`, `transform-style: preserve-3d`, `rotateY`) để giải lập chiếc Thẻ hai mặt.
+    - Xây dựng cử chỉ vuốt Touch/Mouse Drag-and-Drop (kéo-thả). Khi tọa độ ngón tay > 10px, giao diện bắt đầu lật theo ngón tay, và khi thả ra nó sẽ phán đoán Hướng Vuốt: Trái (Quên), Phải (Thuộc).
+    - Các nhãn dán Text 2 bên được lập trình **Random (ngẫu nhiên)** giữa 10 từ khóa khích lệ (Ví dụ: "TUYỆT VỜI!", "THỬ LẠI NHÉ!") kèm theo tiêu đề Ngữ pháp hiện tại để ghim chặt vào não bộ.
 
-Khu vực làm việc sẽ nằm trong thư mục `/Users/locnm/Downloads/Code/antigravity/japanese_flashcard/`.
+2. **Smart Quiz Generator (Hệ thống Câu Hỏi Trắc Nghiệm Thông Minh):**
+    - Xây dựng lưới giao diện `<div id="quiz-view">`.
+    - Sinh tự động câu hỏi dựa trên mảng Object JSON `flashcardsData` trong `data.js`.
+    - Thuật toán tạo 1 câu Đúng và trộn lẫn với 3 lựa chọn Sai lấy từ các bài khác.
+    - Hỗ trợ xem kết quả tức thì (màu Xanh đúng/ Đỏ sai) cùng nút "Câu tiếp theo" được cấu hình màu tương phản tách rời hoàn toàn với màn hình Flashcard.
 
----
+3. **Export Canvas Layer (Bộ Động Hình Chụp Ảnh Mạng Xã Hội):**
+    - Một template CSS Flex Box (`#exportTemplate`) với khung ảnh `720px` x `min-height 800px` được ngầm cấu hình trong HTML/CSS.
+    - Template sử dụng tông màu Gradient Navy/Indigo, loại bỏ phong nền xung quanh khối Ngữ Pháp lõi (`.export-grammar`), phóng to phông chữ Vietsub (`1.25rem - 1.4rem`) để Tối ưu hiển thị cho TikTok/Reels Portrait (9:16).
+    - Thư viện Cốt lõi: `html2canvas` vẽ (render) DOM HTML ẩn sang định dạng ảnh PNG và truyền về Local. Cấu hình scale sắc nét x2.
 
-### Bộ source code ứng dụng
+4. **Hệ Thống Phân Quyền Nâng Cao (Firebase Authentication & Admin Role):**
+    - Gắn `firebase.auth().onAuthStateChanged((user))`. User Login thông qua các giao thức `signInWithPopup(Google/Facebook)` hoặc `signInWithEmailAndPassword`.
+    - Tiến độ thuộc thẻ `my_progress` được đẩy lên `Realtime Database`.
+    - **Admin Dashboard**: Cụm code chỉ kích hoạt (Render Table HTML) nếu biến `role === 'admin'`. Quản trị viên theo dõi hàng loạt `uid` người dùng, số lượt logouts, số ảnh Downloads.
+    - **Logic Sorting & Filtering**: Kết hợp mảng Javascript Array `.sort()` (cho Login, Download, Learned) và `.filter()` (cho Pending/Approved requests). Thao tác cập nhật tức thì khi đổi Dropdown Status.
 
-#### [NEW] [index.html](file:///Users/locnm/Downloads/Code/antigravity/japanese_flashcard/index.html)
-Thiết lập cấu trúc HTML cho flashcard container, nút điều hướng (nếu có nhiều thẻ), và bao gồm các file CSS/JS.
+## Verification / Validation Checklists
 
-#### [NEW] [style.css](file:///Users/locnm/Downloads/Code/antigravity/japanese_flashcard/style.css)
-Định dạng cho flashcard, sử dụng CSS properties như `perspective`, `transform-style`, `backface-visibility`, và `rotateY` để tạo hiệu ứng lật 3D mượt mà.
+Dự án đã trải qua các đợt kiểm thử sau (Manual Verification):
+1. ✅ Giao diện đã đổi: Avatar Facebook hoạt động trơn tru. `guestWarning` ẩn đi khi đăng nhập.
+2. ✅ Sắp xếp Admin: Dropdown Menu chọn 'Thời gian' hay 'Số bài đã thuộc' đều thay đổi trật tự xếp hạng trên table thành công ngay lập tức.
+3. ✅ Download Button: Giao diện thẻ tải dọc 9:16 (TikTok) hoạt động, phông chữ lớn, chữ Ngữ Pháp về lại màu đỏ nguyên gốc (Red Natural). Nút `Bulk Download` hoạt động mượt mà cho các tài khoản Quản trị.
+4. ✅ Quiz View: Nút "Câu tiếp theo" có màu xanh rêu (`#2f855a`), không đụng chạm đến màu của nút Export Flashcard.
 
-#### [NEW] [script.js](file:///Users/locnm/Downloads/Code/antigravity/japanese_flashcard/script.js)
-Logic xử lý sự kiện click để thêm/bỏ class lật thẻ. Dữ liệu từ `Flashcard.txt` sẽ được mã hóa tĩnh (hardcoded) vào mảng JavaScript ban đầu để dễ dàng chạy trực tiếp trên trình duyệt mà không cần server.
-
-## Verification Plan
-
-### Manual Verification
-1. Dùng lệnh Terminal `open /Users/locnm/Downloads/Code/antigravity/japanese_flashcard/index.html` để mở trang web.
-2. Click vào thẻ trên giao diện, kiểm tra xem nó có lật lại và hiển thị đúng chi tiết ngữ pháp, ý nghĩa, cách dùng và ví dụ không.
-3. Kiểm tra xem thẻ có lật về mặt trước khi click lần nữa không.
-
----
-
-# Tính năng mới: Tải ảnh Flashcard để chia sẻ
-
-## Yêu cầu
-Người dùng muốn tải nội dung thẻ học dưới dạng Ảnh để chia sẻ lên Facebook, TikTok. Nội dung ảnh cần có bao gồm: Ngữ pháp, Ý nghĩa (và có thể là ví dụ tiêu biểu) trên cùng một khung hình.
-
-## User Review Required
-Bạn có đồng ý với thiết kế sau không?
-- Thay vì chỉ chụp mặt trước hoặc mặt sau (vốn dĩ độc lập), ứng dụng sẽ tạo ra một layout **"Ảnh chia sẻ"** ẩn. Layout này sẽ chứa đồng thời cả Tên ngữ pháp và Ý nghĩa để ảnh tải xuống có đầy đủ thông tin nhất.
-- Nút bấm `📸 Tải ảnh thẻ này` sẽ được đặt bên dưới các nút điều hướng.
-- Sử dụng thư viện `html2canvas` để biến thẻ HTML thành file ảnh `.png` và tự động tải về thiết bị.
-
-## Proposed Changes
-
-### [MODIFY] [index.html](file:///Users/locnm/Downloads/Code/antigravity/japanese_flashcard/index.html)
-- Tích hợp CDN của thư viện `html2canvas`.
-- Thêm một thẻ div `#exportTemplate` (có thể bị ẩn đi khỏi màn hình chính nhưng chứa đầy đủ thiết kế đẹp mắt của cả Title và Meaning).
-- Thêm nút Download.
-
-### [MODIFY] [style.css](file:///Users/locnm/Downloads/Code/antigravity/japanese_flashcard/style.css)
-- Thiết kế style cho khối `#exportTemplate` sao cho giống một tấm Card hoàn chỉnh phù hợp để làm ảnh story TikTok/FB (tỷ lệ đẹp hoặc khung vuông đẹp).
-
-### [MODIFY] [script.js](file:///Users/locnm/Downloads/Code/antigravity/japanese_flashcard/script.js)
-- Thêm hàm xử lý sự kiện click vào nút Download.
-- Đồng bộ dữ liệu hiện hành vào `#exportTemplate` trước khi gọi `html2canvas` chụp màn hình khối đó.
-
-## Verification Plan
-1. Lại thao tác click vào nút thẻ tải ảnh.
-2. Kiểm tra log và file `.png` rơi vào thư mục local (hoặc trình tự động mở Download dialogue trên trình duyệt).
-3. Xác nhận ảnh sắc nét, có đủ Ngữ pháp và Ý nghĩa.
-
----
-
-# Đưa ứng dụng lên Android, iOS và Web (PWA)
-
-## Yêu cầu
-Để một trang web HTML/CSS/JS thông thường có thể cài đặt như một ứng dụng Native trên điện thoại (xuất hiện icon trên màn hình chính của Android/iOS, có thể mở full màn hình không hiện thanh địa chỉ trình duyệt, và hoạt động mượt mà), cách tối ưu và nhanh nhất là biến nó thành một **Progressive Web App (PWA)**.
-
-## User Review Required
-Bạn có đồng ý với phương pháp PWA này không?
-- **PWA (Progressive Web App)** cho phép người dùng Android (qua Chrome) và iOS (qua Safari) mở menu web và chọn mục `"Thêm vào màn hình chính" (Add to Home Screen)`.
-- Ứng dụng sẽ có Icon app riêng.
-- Ứng dụng sẽ có thể hoạt động **Offline** (không cần mạng) nhờ Service Worker.
-
-## Proposed Changes
-
-Khu vực làm việc sẽ tiếp tục tại `japanese_flashcard/`.
-
-### [NEW] [Xây dựng Icon]
-- Tạo ra các file icon `icon-192x192.png` và `icon-512x512.png` bằng SVG/Canvas cho ứng dụng để nhận diện trên màn hình điện thoại.
-
-### [NEW] [manifest.json](file:///Users/locnm/Downloads/Code/antigravity/japanese_flashcard/manifest.json)
-- Khai báo tên ứng dụng ("Flashcard Tiếng Nhật"), màu chủ đạo (theme color), và danh sách các Icon.
-- Khai báo chế độ `display: standalone` để app chạy full màn hình y như app thật.
-
-### [NEW] [sw.js](file:///Users/locnm/Downloads/Code/antigravity/japanese_flashcard/sw.js)
-- Thêm Service Worker để cache (lưu trữ) lại toàn bộ file `index.html`, `style.css`, `script.js` và `Flashcard.txt`. Nếu sau này không có wifi/4G, app vẫn mở được.
-
-### [MODIFY] [index.html](file:///Users/locnm/Downloads/Code/antigravity/japanese_flashcard/index.html)
-- Khai báo thẻ `<link rel="manifest" href="manifest.json">`.
-- Khai báo các thẻ Meta quan trọng cho iOS (`apple-mobile-web-app-capable`).
-- Viết một đoạn script nhỏ cuối trang để đăng ký Service Worker.
-
-## Verification Plan
-1. Chạy trên trình duyệt, xem console xem Service Worker đã được cài đặt thành công không.
-2. Nếu mở bằng thiết bị giả lập/hoặc Chrome, sẽ thấy biểu tượng tải xuống App trên thanh tìm kiếm.
+## PWA & Tương lai
+- Code đã tối ưu cho ứng dụng PWA (`manifest.json` và `sw.js`). Có khả năng cài đặt App Web Cứng vào màn hình Màn hình thiết bị Android/iOS.
+- Nền móng Source Code (Vanilla JS + Firebase) sẵn sàng để bổ sung thêm chức năng JLPT View (Thi Thử 120 phút N2) với Timer đếm ngược ở Phrase tiếp theo.
