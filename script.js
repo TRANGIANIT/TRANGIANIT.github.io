@@ -573,6 +573,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const exportUsageVal = document.getElementById('exportUsageVal');
         if (exportUsageVal) exportUsageVal.textContent = data.usage;
 
+        const exportNote = document.getElementById('exportNote');
+        const exportNoteVal = document.getElementById('exportNoteVal');
+
+        if (exportNote && exportNoteVal) {
+            if (data.note) {
+                exportNote.style.display = 'block';
+                exportNoteVal.style.display = 'block';
+                exportNoteVal.textContent = data.note.replace(/^👉\s*/i, '');
+            } else {
+                exportNote.style.display = 'none';
+                exportNoteVal.style.display = 'none';
+            }
+        }
+
         [1, 2].forEach(num => {
             const exIndex = num - 1;
             const exGroup = [
