@@ -292,7 +292,7 @@ header p {
 }
 
 .btn-export {
-    color: white;
+    color: #2f9e5c;
     box-shadow: var(--shadow);
     padding: 0.8rem 1.5rem;
     border-radius: 50px;
