@@ -239,31 +239,41 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    let hasMoved = false;
+
     function dragStart(clientX) {
         touchStartX = clientX;
         isDragging = true;
         isSwiping = false;
-        flashcard.style.transition = 'none'; // Follow finger instantly
+        hasMoved = false;
     }
 
     function dragMove(clientX) {
         if (!isDragging) return;
         currentDragX = clientX - touchStartX;
 
-        if (Math.abs(currentDragX) > 10) isSwiping = true;
+        if (Math.abs(currentDragX) > 10) {
+            isSwiping = true;
+            if (!hasMoved) {
+                hasMoved = true;
+                flashcard.style.transition = 'none'; // Only attach 'none' when actually dragged
+            }
+        }
 
-        flashcard.style.transform = `translateX(${currentDragX}px) rotate(${currentDragX * 0.05}deg) ${isFlipped ? 'rotateY(180deg)' : ''}`;
+        if (hasMoved) {
+            flashcard.style.transform = `translateX(${currentDragX}px) rotate(${currentDragX * 0.05}deg) ${isFlipped ? 'rotateY(180deg)' : ''}`;
 
-        // Show stamps based on direction
-        if (currentDragX > 15) {
-            if (swipeStampRight) swipeStampRight.style.opacity = Math.min(currentDragX / 80, 1);
-            if (swipeStampLeft) swipeStampLeft.style.opacity = 0;
-        } else if (currentDragX < -15) {
-            if (swipeStampLeft) swipeStampLeft.style.opacity = Math.min(Math.abs(currentDragX) / 80, 1);
-            if (swipeStampRight) swipeStampRight.style.opacity = 0;
-        } else {
-            if (swipeStampLeft) swipeStampLeft.style.opacity = 0;
-            if (swipeStampRight) swipeStampRight.style.opacity = 0;
+            // Show stamps based on direction
+            if (currentDragX > 15) {
+                if (swipeStampRight) swipeStampRight.style.opacity = Math.min(currentDragX / 80, 1);
+                if (swipeStampLeft) swipeStampLeft.style.opacity = 0;
+            } else if (currentDragX < -15) {
+                if (swipeStampLeft) swipeStampLeft.style.opacity = Math.min(Math.abs(currentDragX) / 80, 1);
+                if (swipeStampRight) swipeStampRight.style.opacity = 0;
+            } else {
+                if (swipeStampLeft) swipeStampLeft.style.opacity = 0;
+                if (swipeStampRight) swipeStampRight.style.opacity = 0;
+            }
         }
     }
 
@@ -326,12 +336,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } else {
             // Revert bounce if threshold not met
-            flashcard.style.transition = 'all 0.3s cubic-bezier(0.4, 0.2, 0.2, 1)';
-            flashcard.style.transform = '';
+            if (hasMoved) {
+                flashcard.style.transition = 'all 0.3s cubic-bezier(0.4, 0.2, 0.2, 1)';
+                flashcard.style.transform = '';
+            }
             if (swipeStampLeft) swipeStampLeft.style.opacity = 0;
             if (swipeStampRight) swipeStampRight.style.opacity = 0;
             setTimeout(() => {
-                if (!isDragging) {
+                if (!isDragging && hasMoved) {
                     flashcard.style.transition = 'transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1)';
                     isSwiping = false;
                 }
@@ -339,6 +351,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         currentDragX = 0;
+        hasMoved = false;
     }
 
     flashcard.addEventListener('touchstart', e => dragStart(e.changedTouches[0].screenX), { passive: true });
