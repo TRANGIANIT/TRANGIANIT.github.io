@@ -152,25 +152,25 @@ const flashcardsData = [
     {
         "id": "day1_6",
         "day": 1,
-        "grammar": "〜さえ・〜すら（強調用法）",
-        "meaning": "Thậm chí…, đến cả…",
-        "usage": "N + さえ + Vば",
-        "note": "👉 Nếu ngay cả A còn… thì B càng…",
+        "grammar": "〜次第（しだい）",
+        "meaning": "",
+        "usage": "",
+        "note": "👉 Ngay sau khi hoàn thành hành động",
         "ex_it": "",
         "ex_daily": "",
         "learned": false,
         "examples": [
             {
                 "type": "Ví dụ (IT)",
-                "jp": "このツールさえ使えば、デバッグは簡単です。",
-                "furi": "このつーるさえつかえば、でばっぐはかんたんです。",
-                "vi": "Dịch: Chỉ cần dùng tool này thì debug rất dễ."
+                "jp": "プロジェクトの成功はチームの努力次第だ。",
+                "furi": "ぷろじぇくとのせいこうはちーむのどりょくしだいだ。",
+                "vi": "Dịch: Ngay khi server chuẩn bị xong, chúng tôi sẽ bắt đầu deploy."
             },
             {
                 "type": "Ví dụ (Hằng ngày)",
-                "jp": "水さえあれば生きられる。",
-                "furi": "みずさえあればいきられる。",
-                "vi": "Dịch: Chỉ cần có nước là sống được."
+                "jp": "結果はあなたの努力次第です。",
+                "furi": "けっかはあなたのどりょくしだいです。",
+                "vi": "Dịch: Khi chuẩn bị xong thì chúng ta xuất phát。"
             }
         ]
     },

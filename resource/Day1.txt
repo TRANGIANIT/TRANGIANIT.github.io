@@ -100,17 +100,34 @@ Dịch: Anh ấy thậm chí còn không nhớ tên.
 
 ---
 
-Ngữ pháp: 〜さえ・〜すら（強調用法）
-Ý nghĩa: Thậm chí…, đến cả…
-Cách dùng: N + さえ + Vば
-👉 Nếu ngay cả A còn… thì B càng…
+Ngữ pháp: 〜次第（しだい）
+Ý nghĩa:
+
+1. Tùy thuộc vào…, phụ thuộc vào…
+2. Ngay sau khi…, vừa… là… (văn trang trọng)
+
+Cách dùng:
+① N + 次第だ / 次第で
+👉 Kết quả phụ thuộc vào yếu tố nào đó
+
+② Vます bỏ ます + 次第
+👉 Ngay sau khi hoàn thành hành động
 
 Ví dụ (IT):
-このツールさえ使えば、デバッグは簡単です。
-このつーるさえつかえば、でばっぐはかんたんです。
-Dịch: Chỉ cần dùng tool này thì debug rất dễ.
+プロジェクトの成功はチームの努力次第だ。
+ぷろじぇくとのせいこうはちーむのどりょくしだいだ。
+Dịch: Thành công của dự án phụ thuộc vào nỗ lực của team.
+
+サーバーの準備ができ次第、デプロイを開始します。
+さーばーのじゅんびができしだい、でぷろいをかいしします。
+Dịch: Ngay khi server chuẩn bị xong, chúng tôi sẽ bắt đầu deploy.
 
 Ví dụ (Hằng ngày):
-水さえあれば生きられる。
-みずさえあればいきられる。
-Dịch: Chỉ cần có nước là sống được.
+結果はあなたの努力次第です。
+けっかはあなたのどりょくしだいです。
+Dịch: Kết quả phụ thuộc vào nỗ lực của bạn.
+
+準備ができ次第、出発しましょう。
+じゅんびができしだい、しゅっぱつしましょう。
+Dịch: Khi chuẩn bị xong thì chúng ta xuất phát。
+
