@@ -32,6 +32,98 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    transition: max-width 0.3s ease;
+}
+
+.app-container.admin-mode {
+    max-width: 1200px;
+    /* Expand for admin view */
+}
+
+/* --- Admin Table Styles --- */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.85rem;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 8px 10px;
+}
+
+@media (max-width: 768px) {
+    .admin-table-container {
+        overflow-x: hidden !important;
+    }
+
+    .admin-table thead {
+        display: none;
+        /* Hide table headers on mobile */
+    }
+
+    .admin-table,
+    .admin-table tbody,
+    .admin-table tr,
+    .admin-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .admin-table tr {
+        background: #fff;
+        margin-bottom: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e2e8f0;
+        padding: 10px;
+    }
+
+    .admin-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px dashed #e2e8f0;
+        text-align: right;
+    }
+
+    .admin-table td:last-child {
+        border-bottom: none;
+        flex-direction: column;
+        gap: 5px;
+        align-items: flex-end;
+    }
+
+    /* Add pseudo-labels based on column index for mobile view */
+    .admin-table td::before {
+        font-weight: 600;
+        color: var(--text-light);
+        text-align: left;
+        margin-right: 15px;
+        flex-shrink: 0;
+    }
+
+    .admin-table td:nth-child(1)::before {
+        content: "Thông tin:";
+    }
+
+    .admin-table td:nth-child(2)::before {
+        content: "Quyền tải:";
+    }
+
+    .admin-table td:nth-child(3)::before {
+        content: "Thống kê:";
+    }
+
+    .admin-table td:nth-child(4)::before {
+        content: "Hoạt động:";
+    }
+
+    .admin-table td:nth-child(5)::before {
+        content: "Hành động:";
+    }
 }
 
 /* --- Hiệu ứng Sakura Động --- */

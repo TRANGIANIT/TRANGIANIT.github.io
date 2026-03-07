@@ -18,11 +18,11 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
 
-<body>
+<body class="bg-gray-100">
     <!-- Container cho hiệu ứng Sakura động trên web -->
     <div id="sakuraContainer" class="sakura-container"></div>
 
-    <div class="app-container">
+    <div class="app-container" id="mainAppContainer">
         <header style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem;">
             <div style="display: flex; justify-content: center; align-items: flex-start; flex-direction: column;">
                 <h1>Học Tiếng Nhật 🇯🇵 Cùng Roku 76 🇻🇳</h1>
@@ -55,6 +55,11 @@
                     <div class="form-group" id="confirmPasswordGroup" style="display: none;">
                         <label>Xác nhận Mật khẩu</label>
                         <input type="password" id="authConfirmPassword" placeholder="Nhập lại mật khẩu...">
+                    </div>
+
+                    <div style="text-align: right; margin-top: -5px; margin-bottom: 10px;" id="forgotPasswordContainer">
+                        <a href="#" id="forgotPasswordLink"
+                            style="font-size: 0.8rem; color: var(--primary); text-decoration: none;">Quên mật khẩu?</a>
                     </div>
 
                     <button type="submit" class="btn btn-status" style="width: 100%; margin-top: 1rem;"
@@ -227,9 +232,8 @@
             <div class="quiz-container" style="padding: 1rem;">
                 <p style="margin-bottom: 1rem; color: var(--text-main); font-weight: 500;">Chi tiết Người dùng Mạng lưới
                 </p>
-                <div style="overflow-x: auto;">
-                    <table
-                        style="width: 100%; border-collapse: collapse; min-width: 800px; text-align: left; font-size: 0.85rem;">
+                <div class="admin-table-container" style="overflow-x: auto;">
+                    <table class="admin-table">
                         <thead>
                             <tr style="background: var(--bg-color); border-bottom: 2px solid #e2e8f0;">
                                 <th style="padding: 8px;">Thông tin (Email/UID)</th>

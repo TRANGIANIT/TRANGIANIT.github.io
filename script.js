@@ -176,6 +176,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const targetView = document.getElementById(targetId);
             targetView.style.display = 'block';
 
+            // Mở rộng Layout khi vào Admin View
+            const mainContainer = document.getElementById('mainAppContainer');
+            if (mainContainer) {
+                if (targetId === 'admin-view') {
+                    mainContainer.classList.add('admin-mode');
+                } else {
+                    mainContainer.classList.remove('admin-mode');
+                }
+            }
+
             // Reflow fix for CSS animation
             void targetView.offsetWidth;
             targetView.classList.add('active');
@@ -686,6 +696,7 @@ document.addEventListener('DOMContentLoaded', () => {
             submitAuthBtn.textContent = "Đăng Ký Khóa Học";
             confirmPasswordGroup.style.display = 'block';
             document.getElementById('authConfirmPassword').setAttribute('required', 'true');
+            if (document.getElementById('forgotPasswordContainer')) document.getElementById('forgotPasswordContainer').style.display = 'none';
             authToggleText.textContent = "Đã có tài khoản?";
             authToggleLink.textContent = "Đăng Nhập";
         } else {
@@ -693,10 +704,31 @@ document.addEventListener('DOMContentLoaded', () => {
             submitAuthBtn.textContent = "Đăng Nhập";
             confirmPasswordGroup.style.display = 'none';
             document.getElementById('authConfirmPassword').removeAttribute('required');
+            if (document.getElementById('forgotPasswordContainer')) document.getElementById('forgotPasswordContainer').style.display = 'block';
             authToggleText.textContent = "Chưa có tài khoản?";
             authToggleLink.textContent = "Đăng Ký Ngay";
         }
     });
+
+    const forgotPasswordLink = document.getElementById('forgotPasswordLink');
+    if (forgotPasswordLink) {
+        forgotPasswordLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('authEmail').value;
+            if (!email) {
+                alert("Bạn cần nhập TRƯỚC Email của mình vào ô 'Email' bên trên, sau đó bấm nút này để gửi đường cung cấp lại mật khẩu!");
+                return;
+            }
+            firebase.auth().sendPasswordResetEmail(email).then(() => {
+                alert("Đã gửi đường dẫn Đặt lại Mật Khẩu! Vui lòng kiểm tra Hộp Thư Đến (hoặc Thư rác) của Email vừa nhập.");
+            }).catch(error => {
+                let msg = error.message;
+                if (error.code === 'auth/user-not-found') msg = "Tài khoản Email này chưa được đăng ký trên hệ thống.";
+                if (error.code === 'auth/invalid-email') msg = "Định dạng Email không hợp lệ!";
+                alert("Lỗi: " + msg);
+            });
+        });
+    }
 
     authForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -808,10 +840,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 const dCount = p.downloadCount || 0;
 
                 let lastLoginStr = "Chưa có";
+                let isActive = false;
                 if (p.lastLogin) {
                     const d = new Date(p.lastLogin);
                     lastLoginStr = d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    // Nếu thời gian login cách hiện tại nhỏ hơn 24 giờ (86400000 ms) 
+                    if (Date.now() - p.lastLogin < 86400000) {
+                        isActive = true;
+                    }
                 }
+                const activeUI = isActive ? '<span style="color: #38a169; font-weight:bold; font-size: 0.8rem;">🟢 Đang H.Động</span>' : '<span style="color: #a0aec0; font-weight:bold; font-size: 0.8rem;">🔴 Ngoại tuyến</span>';
+                lastLoginStr = `<div>${lastLoginStr}</div><div style="margin-top: 4px;">${activeUI}</div>`;
 
                 // Đếm số từ đã học
                 let learnedCount = 0;
