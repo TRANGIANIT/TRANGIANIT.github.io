@@ -548,7 +548,7 @@ header p {
     grid-template-columns: auto 1fr;
     gap: 16px 14px;
     text-align: left;
-    margin-bottom: 5px;
+    margin-bottom: 0px;
     align-items: baseline;
     padding: 24px;
     background: #f8fafc;
@@ -557,13 +557,13 @@ header p {
 }
 
 .export-meaning {
-    font-size: 1.25rem;
+    font-size: 1.4rem;
     font-weight: 500;
     color: #2b6cb0;
 }
 
 .export-meaning-val {
-    font-size: 1.25rem;
+    font-size: 1.4rem;
     font-weight: 600;
     color: #2b6cb0;
     background-color: #ebf8ff;
@@ -581,7 +581,7 @@ header p {
 
 .export-usage,
 .export-usage-val {
-    font-size: 1.2rem;
+    font-size: 1.35rem;
     color: #38a169;
     font-style: italic;
     font-weight: 500;
@@ -595,7 +595,7 @@ header p {
 
 .export-note,
 .export-note-val {
-    font-size: 1.1rem;
+    font-size: 1.25rem;
     color: #dd6b20;
     font-style: italic;
     font-weight: 500;
@@ -609,7 +609,7 @@ header p {
 
 .export-ex-jp,
 .export-ex-jp-val {
-    font-size: 1.15rem;
+    font-size: 1.3rem;
     color: #c05621;
     font-weight: 600;
     line-height: 1.4;
@@ -617,13 +617,13 @@ header p {
 
 .export-ex-furi,
 .export-ex-furi-val {
-    font-size: 0.9rem;
+    font-size: 1.05rem;
     color: #718096;
 }
 
 .export-ex-vi,
 .export-ex-vi-val {
-    font-size: 1.1rem;
+    font-size: 1.25rem;
     color: #4a5568;
     line-height: 1.35;
 }

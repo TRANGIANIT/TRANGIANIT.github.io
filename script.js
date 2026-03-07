@@ -134,9 +134,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 filterCards(true);
             });
-
+        } else {
             // User is signed out (Guest Mode)
             authHeaderBtn.textContent = "Đăng Nhập";
+            if (userInfoContainer) userInfoContainer.style.display = 'none';
             guestWarning.style.display = 'block';
             adminNavTab.style.display = 'none';
             exportImageBtn.style.display = 'inline-block'; // Guest cho phép tải ảnh bài 1
