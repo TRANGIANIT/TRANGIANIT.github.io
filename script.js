@@ -289,6 +289,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data.examples && data.examples.length > 0) {
             const exportExJp = document.getElementById('exportExJp');
             if (exportExJp) exportExJp.textContent = data.examples[0].jp;
+            const exportExFuri = document.getElementById('exportExFuri');
+            if (exportExFuri) exportExFuri.textContent = data.examples[0].furi || '';
             const exportExVi = document.getElementById('exportExVi');
             if (exportExVi) exportExVi.textContent = data.examples[0].vi;
         }
