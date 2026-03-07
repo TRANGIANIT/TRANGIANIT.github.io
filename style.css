@@ -465,8 +465,16 @@ header p {
     background: linear-gradient(135deg, #c53030 0%, #9b2c2c 100%);
 }
 
-.btn-export {
+.btn-export-image {
     color: white;
+    box-shadow: var(--shadow);
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-export {
+    color: rgb(30, 163, 127);
     box-shadow: var(--shadow);
     padding: 0.8rem 1.5rem;
     border-radius: 50px;
@@ -476,6 +484,22 @@ header p {
 .btn-export:hover:not(:disabled) {
     transform: translateY(-2px);
     background: linear-gradient(135deg, #dd6b20 0%, #c05621 100%) !important;
+}
+
+.btn-quiz-next {
+    color: white;
+    background: linear-gradient(135deg, #2f855a 0%, #22543d 100%);
+    box-shadow: var(--shadow);
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: none;
+    font-weight: bold;
+}
+
+.btn-quiz-next:hover:not(:disabled) {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #276749 0%, #1c4532 100%);
 }
 
 /* --- Export Template (Hidden from view but holds layout for html2canvas) --- */
