@@ -31,10 +31,18 @@
                     style="color: #e53e3e; font-size: 0.8rem; font-weight: 500; display: none; margin-top: 5px;">🔒 Bạn
                     đang học thử (Chỉ Bài 1). Hãy đăng ký để học toàn bộ!</p>
             </div>
-            <!-- Nút Đăng nhập/Tài khoản -->
-            <button id="authHeaderBtn" class="btn"
-                style="font-size: 0.8rem; background: #ebf8ff; color: #3182ce; padding: 0.5rem 1rem; border-radius: 20px; white-space: nowrap; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">Đăng
-                Nhập</button>
+            <!-- Profile Tóm tắt & Nút Đăng nhập/Tài khoản -->
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <div id="userInfoContainer"
+                    style="display: none; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 500; color: var(--text-main);">
+                    <img id="userAvatar" src="" alt="Avatar"
+                        style="width: 28px; height: 28px; border-radius: 50%; display: none; object-fit: cover;">
+                    <span id="userNameText"></span>
+                </div>
+                <button id="authHeaderBtn" class="btn"
+                    style="font-size: 0.8rem; background: #ebf8ff; color: #3182ce; padding: 0.5rem 1rem; border-radius: 20px; white-space: nowrap; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">Đăng
+                    Nhập</button>
+            </div>
         </header>
 
         <!-- AUTH MODAL -->
@@ -209,7 +217,8 @@
                 </div>
                 <div class="quiz-feedback" id="quizFeedback"></div>
                 <button class="btn btn-export" id="nextQuizBtn"
-                    style="width: 100%; margin-top: 1rem; display: none;">Câu tiếp theo ❯</button>
+                    style="width: 100%; margin-top: 1rem; display: none;">Câu
+                    tiếp theo ❯</button>
             </div>
         </div> <!-- End Quiz View -->
 

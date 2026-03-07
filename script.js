@@ -42,6 +42,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const requestDownloadBtn = document.getElementById('requestDownloadBtn');
     const exportImageBtn = document.getElementById('exportImageBtn');
 
+    const userInfoContainer = document.getElementById('userInfoContainer');
+    const userAvatar = document.getElementById('userAvatar');
+    const userNameText = document.getElementById('userNameText');
+
     // Mặc định load filter ngày 1 (Cho Guest Mode)
     if (!isFirebaseLoaded) {
         initDayFilters();
@@ -65,6 +69,18 @@ document.addEventListener('DOMContentLoaded', () => {
             // Check role and load progress
             database.ref('users/' + user.uid + '/profile').once('value').then(snapshot => {
                 const profile = snapshot.val() || {};
+
+                if (userInfoContainer && userNameText) {
+                    userInfoContainer.style.display = 'flex';
+                    userNameText.textContent = "Xin chào, " + (profile.displayName || (user.email ? user.email.split('@')[0] : 'bạn'));
+                    if (profile.photoURL && userAvatar) {
+                        userAvatar.src = profile.photoURL;
+                        userAvatar.style.display = 'block';
+                    } else if (userAvatar) {
+                        userAvatar.style.display = 'none';
+                    }
+                }
+
                 currentRole = profile.role || 'user';
                 const downloadStatus = profile.downloadStatus || 'none';
 
@@ -193,15 +209,67 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Flip card logic
-    // Add event listener to elements inside the flashcard instead, so clicking buttons outside doesn't flip it
-    flashcard.addEventListener('click', () => {
+    // Swipe & Flip logic
+    let touchStartX = 0;
+    let touchEndX = 0;
+    let isSwiping = false;
+
+    flashcard.addEventListener('click', (e) => {
+        if (isSwiping) {
+            isSwiping = false;
+            return;
+        }
         isFlipped = !isFlipped;
         if (isFlipped) {
             flashcard.classList.add('flipped');
         } else {
             flashcard.classList.remove('flipped');
         }
+    });
+
+    function handleSwipe() {
+        const threshold = 50;
+        const deltaX = touchEndX - touchStartX;
+
+        if (Math.abs(deltaX) > threshold) {
+            isSwiping = true;
+            toggleLearnedBtn.click(); // Toggle status
+
+            // Visual feedback
+            flashcard.style.transition = 'all 0.2s ease';
+            flashcard.style.transform = `translateX(${deltaX > 0 ? 30 : -30}px) rotate(${deltaX > 0 ? 5 : -5}deg) ${isFlipped ? 'rotateY(180deg)' : ''}`;
+
+            setTimeout(() => {
+                flashcard.style.transform = '';
+            }, 200);
+
+            // Clean up flag after potential click
+            setTimeout(() => {
+                isSwiping = false;
+            }, 100);
+        } else {
+            isSwiping = false;
+        }
+    }
+
+    flashcard.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+        isSwiping = false;
+    }, { passive: true });
+
+    flashcard.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, { passive: true });
+
+    flashcard.addEventListener('mousedown', e => {
+        touchStartX = e.screenX;
+        isSwiping = false;
+    });
+
+    flashcard.addEventListener('mouseup', e => {
+        touchEndX = e.screenX;
+        handleSwipe();
     });
 
     // Navigation logic
@@ -780,7 +848,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Helper for auth updates
-    function updateLoginStats(uid, isNew = false, email = '') {
+    function updateLoginStats(uid, isNew = false, email = '', displayName = '', photoURL = '') {
         const profileRef = database.ref('users/' + uid + '/profile');
         return profileRef.once('value').then(snap => {
             let profile = snap.val() || {};
@@ -793,6 +861,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 profile.downloadCount = 0;
             }
             if (email) profile.email = profile.email || email;
+            if (displayName) profile.displayName = profile.displayName || displayName;
+            else if (email && !profile.displayName) profile.displayName = email.split('@')[0];
+            if (photoURL) profile.photoURL = profile.photoURL || photoURL;
             return profileRef.set(profile);
         });
     }
@@ -802,7 +873,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const provider = new firebase.auth.GoogleAuthProvider();
         firebase.auth().signInWithPopup(provider).then((res) => {
             const isNew = res.additionalUserInfo ? res.additionalUserInfo.isNewUser : false;
-            updateLoginStats(res.user.uid, isNew, res.user.email || 'Google User').then(() => {
+            updateLoginStats(res.user.uid, isNew, res.user.email || 'Google User', res.user.displayName, res.user.photoURL).then(() => {
                 authModal.style.display = 'none'; authForm.reset();
             }).catch(e => console.error("DB Write Error:", e));
         }).catch(err => {
@@ -818,7 +889,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const provider = new firebase.auth.FacebookAuthProvider();
         firebase.auth().signInWithPopup(provider).then((res) => {
             const isNew = res.additionalUserInfo ? res.additionalUserInfo.isNewUser : false;
-            updateLoginStats(res.user.uid, isNew, res.user.email || 'Facebook User').then(() => {
+            updateLoginStats(res.user.uid, isNew, res.user.email || 'Facebook User', res.user.displayName, res.user.photoURL).then(() => {
                 authModal.style.display = 'none'; authForm.reset();
             }).catch(e => console.error("DB Write Error:", e));
         }).catch(err => {
@@ -848,7 +919,10 @@ document.addEventListener('DOMContentLoaded', () => {
             Object.keys(allUsers).forEach(uid => {
                 const uData = allUsers[uid];
                 const p = uData.profile || {};
-                const email = p.email || uid;
+                const userEmail = p.email || uid;
+                const dName = p.displayName || "";
+                const avatar = p.photoURL ? `<img src="${p.photoURL}" style="width:24px; height:24px; border-radius:50%; object-fit:cover; margin-right:8px;">` : '';
+                const emailTitle = dName ? `<div style="display:flex; align-items:center; font-weight:bold;">${avatar}${dName}</div><div style="font-size:0.75rem; color:var(--text-light); margin-top:2px;">${userEmail}</div>` : `<div>${userEmail}</div>`;
                 const role = p.role || 'user';
                 const dStatus = p.downloadStatus || 'none';
                 const loginCount = p.loginCount || 0;
@@ -900,7 +974,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 adminTbody.innerHTML += `
                     <tr style="border-bottom: 1px solid #e2e8f0;">
-                        <td style="padding: 10px; font-weight: 500;"><div>${email}</div><div style="margin-top:4px;">${roleBage}</div></td>
+                        <td style="padding: 10px; font-weight: 500;">${emailTitle}<div style="margin-top:4px;">${roleBage}</div></td>
                         <td style="padding: 10px; text-align: center;">${dStatusUI}</td>
                         <td style="padding: 10px; text-align: left;">${statsUI}</td>
                         <td style="padding: 10px; font-size: 0.8rem;">${lastLoginStr}</td>
