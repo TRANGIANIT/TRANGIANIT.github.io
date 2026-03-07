@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const adminNavTab = document.getElementById('adminNavTab');
     const requestDownloadBtn = document.getElementById('requestDownloadBtn');
     const exportImageBtn = document.getElementById('exportImageBtn');
+    const bulkDownloadBtn = document.getElementById('bulkDownloadBtn');
 
     const userInfoContainer = document.getElementById('userInfoContainer');
     const userAvatar = document.getElementById('userAvatar');
@@ -96,8 +97,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     adminNavTab.style.display = 'flex';
                     exportImageBtn.style.display = 'inline-block'; // admin luôn có quyền tải
                     requestDownloadBtn.style.display = 'none';
+                    if (bulkDownloadBtn) bulkDownloadBtn.style.display = 'inline-block';
                 } else {
                     adminNavTab.style.display = 'none';
+                    if (bulkDownloadBtn) bulkDownloadBtn.style.display = 'none';
                     if (downloadStatus === 'approved') {
                         exportImageBtn.style.display = 'inline-block';
                         requestDownloadBtn.style.display = 'none';
@@ -132,13 +135,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 filterCards(true);
             });
 
-        } else {
             // User is signed out (Guest Mode)
             authHeaderBtn.textContent = "Đăng Nhập";
             guestWarning.style.display = 'block';
             adminNavTab.style.display = 'none';
             exportImageBtn.style.display = 'inline-block'; // Guest cho phép tải ảnh bài 1
             requestDownloadBtn.style.display = 'none';
+            if (bulkDownloadBtn) bulkDownloadBtn.style.display = 'none';
             progressRef = null;
 
             initDayFilters(); // Update filters (only day 1 available)
@@ -241,11 +244,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let hasMoved = false;
 
+    const learnedMessages = ["QUÁ ĐỈNH!", "TUYỆT VỜI!", "XUẤT SẮC!", "ĐỈNH CỦA CHÓP!", "THIÊN TÀI!", "RẤT TỐT!", "QUÁ DỮ!", "ĐÃ THUỘC LÒNG!", "KHÔNG AI BẰNG!", "10 ĐIỂM!"];
+    const unlearnedMessages = ["CỐ LÊN!", "THỬ LẠI NHÉ!", "ĐỪNG NẢN!", "CHƯA THUỘC RỒI", "HỌC LẠI NÀO!", "SẮP NHỚ RỒI!", "ĐỌC KỸ LẠI!", "KIÊN NHẪN NHÉ!", "GẦN ĐƯỢC RỒI!", "TẬP TRUNG NÀO!"];
+
     function dragStart(clientX) {
         touchStartX = clientX;
         isDragging = true;
         isSwiping = false;
         hasMoved = false;
+
+        if (swipeStampLeft) swipeStampLeft.textContent = unlearnedMessages[Math.floor(Math.random() * unlearnedMessages.length)];
+        if (swipeStampRight) swipeStampRight.textContent = learnedMessages[Math.floor(Math.random() * learnedMessages.length)];
     }
 
     function dragMove(clientX) {
@@ -706,8 +715,79 @@ document.addEventListener('DOMContentLoaded', () => {
         } finally {
             exportImageBtn.disabled = false;
             exportImageBtn.innerHTML = originalHTML;
+            exportTemplate.style.left = '-9999px';
+            exportTemplate.style.top = '-9999px';
         }
     });
+
+    if (bulkDownloadBtn) {
+        bulkDownloadBtn.addEventListener('click', async () => {
+            if (filteredCards.length === 0) return;
+            if (dayFilter && dayFilter.value === 'all') {
+                alert("Xin vui lòng chọn một Bài cụ thể trong Tuần để Tải Toàn Bộ (không chọn Tất Cả).");
+                return;
+            }
+
+            bulkDownloadBtn.disabled = true;
+            const originalHTML = bulkDownloadBtn.innerHTML;
+            const originalIndex = currentIndex;
+
+            try {
+                // Tạm thời đưa Template về tầm nhìn trình duyệt
+                exportTemplate.style.left = '0';
+                exportTemplate.style.top = '0';
+                exportTemplate.style.zIndex = '-100';
+                exportTemplate.style.opacity = '1';
+
+                for (let i = 0; i < filteredCards.length; i++) {
+                    bulkDownloadBtn.innerHTML = `<span class='btn-icon'>⏳</span> <span class='btn-text'>Đang tải ${i + 1}/${filteredCards.length}...</span>`;
+
+                    // Render DOM cho card thứ i
+                    renderCard(i);
+                    await new Promise(r => setTimeout(r, 600)); // Đợi DOM cập nhật ổn định & tránh Trình duyệt rate-limit Downloads
+
+                    const canvas = await html2canvas(exportTemplate, {
+                        scale: 2,
+                        backgroundColor: null,
+                        useCORS: true
+                    });
+
+                    const dataUrl = canvas.toDataURL("image/png");
+                    const patternNum = parseInt(filteredCards[i].id.split('_')[1], 10) + 1;
+                    const grammarTitle = filteredCards[i].grammar.replace(/[^a-zA-Z0-9\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/g, '').trim() || 'NoName';
+
+                    const link = document.createElement('a');
+                    link.download = `Day${filteredCards[i].day}_${patternNum}_${grammarTitle}.png`;
+                    link.href = dataUrl;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }
+
+                alert(`Tuyệt vời! Đã tải thành công file ảnh của \${filteredCards.length} từ vựng!`);
+
+                // Tăng số lượng tải
+                if (currentUser) {
+                    const countRef = database.ref('users/' + currentUser.uid + '/profile/downloadCount');
+                    countRef.once('value').then(snap => {
+                        let dCount = snap.val() || 0;
+                        countRef.set(dCount + filteredCards.length);
+                    });
+                }
+
+            } catch (e) {
+                console.error("Bulk export failed:", e);
+                alert("Có lỗi xảy ra trong tiến trình tải tập ảnh. Vui lòng thử lại!");
+            } finally {
+                currentIndex = originalIndex;
+                renderCard(currentIndex);
+                exportTemplate.style.left = '-9999px';
+                exportTemplate.style.top = '-9999px';
+                bulkDownloadBtn.disabled = false;
+                bulkDownloadBtn.innerHTML = originalHTML;
+            }
+        });
+    }
 
     // --- Quiz Logic ---
 
