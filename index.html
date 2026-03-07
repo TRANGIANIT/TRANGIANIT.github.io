@@ -253,8 +253,33 @@
                 <h2>Bảng Điều Khiển Admin 🛡️</h2>
             </div>
             <div class="quiz-container" style="padding: 1rem;">
-                <p style="margin-bottom: 1rem; color: var(--text-main); font-weight: 500;">Chi tiết Người dùng Mạng lưới
-                </p>
+                <div
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 10px;">
+                    <p style="color: var(--text-main); font-weight: 500; margin: 0;">Chi tiết Người dùng Mạng lưới</p>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <div style="display: flex; flex-direction: column;">
+                            <label for="adminStatusFilter"
+                                style="font-size: 0.8rem; font-weight: bold; color: #4a5568;">Trạng thái xin
+                                Tải:</label>
+                            <select id="adminStatusFilter" class="filter-select"
+                                style="min-width: 150px; padding: 5px;">
+                                <option value="all">Tất cả</option>
+                                <option value="pending">Đang chờ duyệt</option>
+                                <option value="approved">Đã duyệt (Có quyền tải)</option>
+                            </select>
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
+                            <label for="adminSortFilter"
+                                style="font-size: 0.8rem; font-weight: bold; color: #4a5568;">Sắp xếp theo:</label>
+                            <select id="adminSortFilter" class="filter-select" style="min-width: 150px; padding: 5px;">
+                                <option value="latest">Mới nhất (Mặc định)</option>
+                                <option value="logins">Đăng nhập nhiều nhất</option>
+                                <option value="downloads">Tải ảnh nhiều nhất</option>
+                                <option value="learned">Học nhiều từ nhất</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
                 <div class="admin-table-container" style="overflow-x: auto;">
                     <table class="admin-table">
                         <thead>

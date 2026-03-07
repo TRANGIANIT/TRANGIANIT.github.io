@@ -1092,90 +1092,144 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- ADMIN PANEL UI LOGIC ---
+    let adminUsersData = [];
+
+    const adminStatusFilter = document.getElementById('adminStatusFilter');
+    const adminSortFilter = document.getElementById('adminSortFilter');
+
+    if (adminStatusFilter) adminStatusFilter.addEventListener('change', renderAdminTable);
+    if (adminSortFilter) adminSortFilter.addEventListener('change', renderAdminTable);
+
     adminNavTab.addEventListener('click', () => {
         if (currentRole !== 'admin') return;
         const adminTbody = document.getElementById('adminUsersTableBody');
-        adminTbody.innerHTML = '<tr><td colspan="3" style="text-align: center; padding: 1rem;">Đang tải...</td></tr>';
+        adminTbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 1rem;">Đang tải...</td></tr>';
 
         database.ref('users').once('value').then(snapshot => {
             const allUsers = snapshot.val();
-            adminTbody.innerHTML = '';
 
             if (!allUsers) {
-                adminTbody.innerHTML = '<tr><td colspan="3" style="text-align: center;">Chưa có người dùng nào.</td></tr>';
+                adminUsersData = [];
+                adminTbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Chưa có người dùng nào.</td></tr>';
                 return;
             }
 
-            Object.keys(allUsers).forEach(uid => {
+            // Transform nested object into Array for easy sorting and filtering
+            adminUsersData = Object.keys(allUsers).map(uid => {
                 const uData = allUsers[uid];
                 const p = uData.profile || {};
-                const userEmail = p.email || uid;
-                const dName = p.displayName || "";
-                const avatar = p.photoURL ? `<img src="${p.photoURL}" style="width:24px; height:24px; border-radius:50%; object-fit:cover; margin-right:8px;">` : '';
-                const emailTitle = dName ? `<div style="display:flex; align-items:center; font-weight:bold;">${avatar}${dName}</div><div style="font-size:0.75rem; color:var(--text-light); margin-top:2px;">${userEmail}</div>` : `<div>${userEmail}</div>`;
-                const role = p.role || 'user';
-                const dStatus = p.downloadStatus || 'none';
-                const loginCount = p.loginCount || 0;
-                const dCount = p.downloadCount || 0;
 
-                let lastLoginStr = "Chưa có";
-                let isActive = false;
-                if (p.lastLogin) {
-                    const d = new Date(p.lastLogin);
-                    lastLoginStr = d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                    // Nếu thời gian login cách hiện tại nhỏ hơn 24 giờ (86400000 ms) 
-                    if (Date.now() - p.lastLogin < 86400000) {
-                        isActive = true;
-                    }
-                }
-                const activeUI = isActive ? '<span style="color: #38a169; font-weight:bold; font-size: 0.8rem;">🟢 Đang H.Động</span>' : '<span style="color: #a0aec0; font-weight:bold; font-size: 0.8rem;">🔴 Ngoại tuyến</span>';
-                lastLoginStr = `<div>${lastLoginStr}</div><div style="margin-top: 4px;">${activeUI}</div>`;
-
-                // Đếm số từ đã học
                 let learnedCount = 0;
                 if (uData.my_progress) {
                     learnedCount = Object.values(uData.my_progress).filter(val => val === true).length;
                 }
 
-                let dStatusUI = "<span style='color: #718096;'>Chưa xin</span>";
-                let actionsUI = "";
-
-                if (dStatus === 'pending') {
-                    dStatusUI = "<span style='color: #dd6b20; font-weight:bold;'>Chờ duyệt</span>";
-                    actionsUI += `<button class='btn-admin-action btn-approve' onclick="window.adminSetDownload('${uid}', 'approved')">Duyệt</button>`;
-                } else if (dStatus === 'approved') {
-                    dStatusUI = "<span style='color: #38a169; font-weight:bold;'>Đã Duyệt</span>";
-                    if (role !== 'admin') actionsUI += `<button class='btn-admin-action btn-revoke' onclick="window.adminSetDownload('${uid}', 'none')">Tước Quyền</button>`;
-                }
-
-                if (role !== 'admin') {
-                    actionsUI += `<div style='margin-top: 5px;'><button class='btn-admin-action btn-delete' onclick="window.adminDeleteUser('${uid}')">Xóa DL Người Dùng</button></div>`;
-                }
-
-                const roleBage = role === 'admin'
-                    ? '<span class="status-badge learned" style="position:static; font-size: 0.7rem; padding: 2px 6px;">Admin</span>'
-                    : '<span class="status-badge" style="position:static; font-size: 0.7rem; padding: 2px 6px;">User</span>';
-
-                const statsUI = `<div style="font-size: 0.8rem; line-height: 1.4;">
-                    <div>Đã học: <b>${learnedCount}</b> từ</div>
-                    <div>Sign-in: <b>${loginCount}</b> lần</div>
-                    <div>Tải ảnh: <b>${dCount}</b> ảnh</div>
-                </div>`;
-
-                adminTbody.innerHTML += `
-                    <tr style="border-bottom: 1px solid #e2e8f0;">
-                        <td style="padding: 10px; font-weight: 500;">${emailTitle}<div style="margin-top:4px;">${roleBage}</div></td>
-                        <td style="padding: 10px; text-align: center;">${dStatusUI}</td>
-                        <td style="padding: 10px; text-align: left;">${statsUI}</td>
-                        <td style="padding: 10px; font-size: 0.8rem;">${lastLoginStr}</td>
-                        <td style="padding: 10px; text-align: right;">${actionsUI}</td>
-                    </tr>
-                `;
+                return {
+                    uid: uid,
+                    email: p.email || uid,
+                    displayName: p.displayName || "",
+                    photoURL: p.photoURL || "",
+                    role: p.role || 'user',
+                    downloadStatus: p.downloadStatus || 'none',
+                    loginCount: p.loginCount || 0,
+                    downloadCount: p.downloadCount || 0,
+                    lastLogin: p.lastLogin || 0,
+                    learnedCount: learnedCount,
+                    isActive: p.lastLogin ? (Date.now() - p.lastLogin < 86400000) : false
+                };
             });
+
+            renderAdminTable();
         }).catch(err => {
-            adminTbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: red;">Lỗi tải dữ liệu: ${err.message}</td></tr>`;
+            const adminTbody = document.getElementById('adminUsersTableBody');
+            if (adminTbody) adminTbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: red;">Lỗi tải dữ liệu: ${err.message}</td></tr>`;
         });
     });
+
+    function renderAdminTable() {
+        const adminTbody = document.getElementById('adminUsersTableBody');
+        if (!adminTbody) return;
+
+        let filteredList = [...adminUsersData];
+
+        // Apply Status Filter
+        if (adminStatusFilter) {
+            const stVal = adminStatusFilter.value;
+            if (stVal !== 'all') {
+                filteredList = filteredList.filter(u => u.downloadStatus === stVal);
+            }
+        }
+
+        // Apply Sort
+        if (adminSortFilter) {
+            const sortVal = adminSortFilter.value;
+            if (sortVal === 'logins') {
+                filteredList.sort((a, b) => b.loginCount - a.loginCount);
+            } else if (sortVal === 'downloads') {
+                filteredList.sort((a, b) => b.downloadCount - a.downloadCount);
+            } else if (sortVal === 'learned') {
+                filteredList.sort((a, b) => b.learnedCount - a.learnedCount);
+            } else {
+                // 'latest' default descending by lastLogin
+                filteredList.sort((a, b) => b.lastLogin - a.lastLogin);
+            }
+        }
+
+        adminTbody.innerHTML = '';
+
+        if (filteredList.length === 0) {
+            adminTbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Không tìm thấy người dùng phù hợp.</td></tr>';
+            return;
+        }
+
+        filteredList.forEach(u => {
+            const avatar = u.photoURL ? `<img src="${u.photoURL}" style="width:24px; height:24px; border-radius:50%; object-fit:cover; margin-right:8px;">` : '';
+            const emailTitle = u.displayName ? `<div style="display:flex; align-items:center; font-weight:bold;">${avatar}${u.displayName}</div><div style="font-size:0.75rem; color:var(--text-light); margin-top:2px;">${u.email}</div>` : `<div>${u.email}</div>`;
+
+            let lastLoginStr = "Chưa có";
+            if (u.lastLogin) {
+                const d = new Date(u.lastLogin);
+                lastLoginStr = d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            }
+            const activeUI = u.isActive ? '<span style="color: #38a169; font-weight:bold; font-size: 0.8rem;">🟢 Đang H.Động</span>' : '<span style="color: #a0aec0; font-weight:bold; font-size: 0.8rem;">🔴 Ngoại tuyến</span>';
+            lastLoginStr = `<div>${lastLoginStr}</div><div style="margin-top: 4px;">${activeUI}</div>`;
+
+            let dStatusUI = "<span style='color: #718096;'>Chưa xin</span>";
+            let actionsUI = "";
+
+            if (u.downloadStatus === 'pending') {
+                dStatusUI = "<span style='color: #dd6b20; font-weight:bold;'>Chờ duyệt</span>";
+                actionsUI += `<button class='btn-admin-action btn-approve' onclick="window.adminSetDownload('${u.uid}', 'approved')">Duyệt</button>`;
+            } else if (u.downloadStatus === 'approved') {
+                dStatusUI = "<span style='color: #38a169; font-weight:bold;'>Đã Duyệt</span>";
+                if (u.role !== 'admin') actionsUI += `<button class='btn-admin-action btn-revoke' onclick="window.adminSetDownload('${u.uid}', 'none')">Tước Quyền</button>`;
+            }
+
+            if (u.role !== 'admin') {
+                actionsUI += `<div style='margin-top: 5px;'><button class='btn-admin-action btn-delete' onclick="window.adminDeleteUser('${u.uid}')">Xóa DL Người Dùng</button></div>`;
+            }
+
+            const roleBage = u.role === 'admin'
+                ? '<span class="status-badge learned" style="position:static; font-size: 0.7rem; padding: 2px 6px;">Admin</span>'
+                : '<span class="status-badge" style="position:static; font-size: 0.7rem; padding: 2px 6px;">User</span>';
+
+            const statsUI = `<div style="font-size: 0.8rem; line-height: 1.4;">
+                <div>Đã học: <b>${u.learnedCount}</b> từ</div>
+                <div>Sign-in: <b>${u.loginCount}</b> lần</div>
+                <div>Tải ảnh: <b>${u.downloadCount}</b> ảnh</div>
+            </div>`;
+
+            adminTbody.innerHTML += `
+                <tr style="border-bottom: 1px solid #e2e8f0;">
+                    <td style="padding: 10px; font-weight: 500;">${emailTitle}<div style="margin-top:4px;">${roleBage}</div></td>
+                    <td style="padding: 10px; text-align: center;">${dStatusUI}</td>
+                    <td style="padding: 10px; text-align: left;">${statsUI}</td>
+                    <td style="padding: 10px; font-size: 0.8rem;">${lastLoginStr}</td>
+                    <td style="padding: 10px; text-align: right;">${actionsUI}</td>
+                </tr>
+            `;
+        });
+    }
 
     // --- ADMIN GLOBAL ACTIONS ---
     window.adminSetDownload = function (uid, status) {
