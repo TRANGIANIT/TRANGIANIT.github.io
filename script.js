@@ -280,7 +280,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Sync to Export Template
         const exportMeta = document.getElementById('exportMeta');
-        if (exportMeta) exportMeta.textContent = `JLPT N2 | Day ${data.day} | Mẫu ${index + 1}`;
+        if (exportMeta) {
+            const patternNum = parseInt(data.id.split('_')[1], 10) + 1;
+            exportMeta.textContent = `JLPT N2 | Day ${data.day} | Mẫu ${patternNum}`;
+        }
 
         const exportGrammar = document.getElementById('exportGrammar');
         if (exportGrammar) exportGrammar.textContent = data.grammar;
