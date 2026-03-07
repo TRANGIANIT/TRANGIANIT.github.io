@@ -112,8 +112,8 @@ document.addEventListener('DOMContentLoaded', () => {
             authHeaderBtn.textContent = "Đăng Nhập";
             guestWarning.style.display = 'block';
             adminNavTab.style.display = 'none';
-            exportImageBtn.style.display = 'none';
-            requestDownloadBtn.style.display = 'none'; // Guest cannot even request
+            exportImageBtn.style.display = 'inline-block'; // Guest cho phép tải ảnh bài 1
+            requestDownloadBtn.style.display = 'none';
             progressRef = null;
 
             initDayFilters(); // Update filters (only day 1 available)
