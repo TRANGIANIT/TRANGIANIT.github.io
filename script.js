@@ -721,12 +721,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             firebase.auth().sendPasswordResetEmail(email).then(() => {
-                alert("Đã gửi đường dẫn Đặt lại Mật Khẩu! Vui lòng kiểm tra Hộp Thư Đến (hoặc Thư rác) của Email vừa nhập.");
+                alert("✅ Đã gửi đường dẫn Đặt lại Mật Khẩu thành công!\n\nLƯU Ý QUAN TRỌNG: Vui lòng kiểm tra kỹ HỘP THƯ RÁC (Spam) hoặc mục Quảng Cáo của Email vừa nhập vì thư của Firebase thường bị lọc nhầm vào đó.");
             }).catch(error => {
                 let msg = error.message;
                 if (error.code === 'auth/user-not-found') msg = "Tài khoản Email này chưa được đăng ký trên hệ thống.";
                 if (error.code === 'auth/invalid-email') msg = "Định dạng Email không hợp lệ!";
-                alert("Lỗi: " + msg);
+                alert("Lỗi Gửi Email: " + msg);
             });
         });
     }
@@ -804,10 +804,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const isNew = res.additionalUserInfo ? res.additionalUserInfo.isNewUser : false;
             updateLoginStats(res.user.uid, isNew, res.user.email || 'Google User').then(() => {
                 authModal.style.display = 'none'; authForm.reset();
-            });
+            }).catch(e => console.error("DB Write Error:", e));
         }).catch(err => {
-            if (err.code !== 'auth/popup-closed-by-user') {
-                alert("Lỗi đăng nhập Google: " + err.message + " (Đảm bảo bạn đã thêm tên miền Github vào mục Authorized Domains trong Firebase Console)");
+            if (err.code === 'auth/account-exists-with-different-credential') {
+                alert("Lỗi: Email của tài khoản Google này đã được dùng để Đăng ký bằng Mật khẩu (hoặc Facebook) trước đó. Hãy Đăng nhập bằng Mật khẩu nhé!");
+            } else if (err.code !== 'auth/popup-closed-by-user') {
+                alert("Lỗi đăng nhập Google: " + err.message + "\n(Đảm bảo bạn đã bật Google Sign-in trong Firebase Console)");
             }
         });
     });
@@ -818,10 +820,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const isNew = res.additionalUserInfo ? res.additionalUserInfo.isNewUser : false;
             updateLoginStats(res.user.uid, isNew, res.user.email || 'Facebook User').then(() => {
                 authModal.style.display = 'none'; authForm.reset();
-            });
+            }).catch(e => console.error("DB Write Error:", e));
         }).catch(err => {
-            if (err.code !== 'auth/popup-closed-by-user') {
-                alert("Lỗi đăng nhập Facebook: " + err.message + " (Đảm bảo bạn đã thêm tên miền Github vào mục Authorized Domains trong Firebase Console)");
+            if (err.code === 'auth/account-exists-with-different-credential') {
+                alert("Lỗi: Email của tài khoản Facebook này đã được dùng để Đăng ký bằng Mật khẩu (hoặc Google) trước đó. Hãy Đăng nhập bằng bằng Mật khẩu nhé!");
+            } else if (err.code !== 'auth/popup-closed-by-user') {
+                alert("Lỗi đăng nhập Facebook: " + err.message + "\n(Đảm bảo bạn đã thiết lập Authorized Domains và Facebook App ID/Secret trên Firebase)");
             }
         });
     });
