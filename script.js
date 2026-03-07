@@ -30,32 +30,76 @@ document.addEventListener('DOMContentLoaded', () => {
     let filteredCards = [...flashcardsData];
     let currentIndex = 0;
 
-    // Firebase Syncing Reference
-    const progressRef = database.ref('users/my_progress');
-
+    // --- Auth & Firebase States ---
+    let progressRef = null;
     let isFirebaseLoaded = false;
+    let currentUser = null;
+    let currentRole = 'user'; // 'admin' or 'user'
 
-    // Load saved preferences from Firebase
-    progressRef.on('value', (snapshot) => {
-        const savedData = snapshot.val();
-        if (savedData) {
-            // Merge learned status to memory
-            flashcardsData.forEach(card => {
-                card.learned = savedData[card.id] || false;
+    const authHeaderBtn = document.getElementById('authHeaderBtn');
+    const guestWarning = document.getElementById('guestWarning');
+    const adminNavTab = document.getElementById('adminNavTab');
+    const exportImageBtn = document.getElementById('exportImageBtn');
+
+    // Mặc định load filter ngày 1 (Cho Guest Mode)
+    if (!isFirebaseLoaded) {
+        initDayFilters();
+        filterCards();
+        if (quizWeekFilter) generateQuiz();
+        isFirebaseLoaded = true;
+    }
+
+    firebase.auth().onAuthStateChanged((user) => {
+        currentUser = user;
+
+        // Reset learned status
+        flashcardsData.forEach(card => card.learned = false);
+
+        if (user) {
+            // User is signed in
+            authHeaderBtn.textContent = "Đăng Xuất";
+            guestWarning.style.display = 'none';
+
+            // Check role and load progress
+            database.ref('users/' + user.uid + '/profile/role').once('value').then(snapshot => {
+                currentRole = snapshot.val() || 'user';
+                if (currentRole === 'admin') {
+                    adminNavTab.style.display = 'flex';
+                    exportImageBtn.style.display = 'block'; // admin mới dùng được
+                } else {
+                    adminNavTab.style.display = 'none';
+                    exportImageBtn.style.display = 'none';
+                }
+
+                initDayFilters(); // Update filters (all days available)
+                filterCards();
+                if (quizWeekFilter) generateQuiz();
             });
-        }
 
-        if (!isFirebaseLoaded) {
-            // Initialize UI Filters & Tabs if not done already
-            if (dayFilter.options.length <= 1) {
-                initDayFilters();
-            }
+            progressRef = database.ref('users/' + user.uid + '/my_progress');
+            progressRef.on('value', (snapshot) => {
+                const savedData = snapshot.val();
+                if (savedData) {
+                    flashcardsData.forEach(card => {
+                        card.learned = savedData[card.id] || false;
+                    });
+                } else {
+                    flashcardsData.forEach(card => card.learned = false);
+                }
+                filterCards(true);
+            });
+
+        } else {
+            // User is signed out (Guest Mode)
+            authHeaderBtn.textContent = "Đăng Nhập";
+            guestWarning.style.display = 'block';
+            adminNavTab.style.display = 'none';
+            exportImageBtn.style.display = 'none';
+            progressRef = null;
+
+            initDayFilters(); // Update filters (only day 1 available)
             filterCards();
             if (quizWeekFilter) generateQuiz();
-            isFirebaseLoaded = true;
-        } else {
-            // Update visually smoothly if data syncing from cloud
-            filterCards(true);
         }
     });
 
@@ -66,13 +110,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const sakura = document.createElement('div');
         sakura.className = 'sakura';
-        
+
         // Random properties
         const size = Math.random() * 12 + 8; // 8px to 20px
         const left = Math.random() * 100; // 0vw to 100vw
         const animationDuration = Math.random() * 5 + 4; // 4s to 9s
         const colorVariation = Math.random() > 0.5 ? '#ffd1dc' : '#ffb7c5';
-        
+
         // Optional: random drift direction
         const drift = Math.random() * 150 - 75; // -75px to +75px
 
@@ -95,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(createSakura, 300);
 
     // Initial burst
-    for(let i = 0; i < 15; i++) {
+    for (let i = 0; i < 15; i++) {
         setTimeout(createSakura, Math.random() * 2000);
     }
 
@@ -186,6 +230,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const uniqueDays = [...new Set(flashcardsData.map(item => item.day))].sort((a, b) => a - b);
 
         uniqueDays.forEach(day => {
+            // Auth Check: Guest chỉ thấy Day 1
+            if (!currentUser && day !== 1) return;
+
             const weekOfThisDay = Math.ceil(day / 7);
             if (wFilter === 'all' || parseInt(wFilter) === weekOfThisDay) {
                 const opt = document.createElement('option');
@@ -224,6 +271,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentCardId = filteredCards[currentIndex]?.id;
 
         filteredCards = flashcardsData.filter(c => {
+            // Auth check: Guest chỉ được xem bài của Day 1
+            if (!currentUser && c.day !== 1) return false;
+
             let statusMatch = true;
             if (statusVal === 'not_learned') statusMatch = !c.learned;
             else if (statusVal === 'learned') statusMatch = c.learned;
@@ -267,14 +317,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const newState = !flashcardsData[originalIndex].learned;
             flashcardsData[originalIndex].learned = newState;
 
-            // Save state to Firebase Cloud (just boolean key-value mapping to save data space)
-            const payload = {};
-            flashcardsData.forEach(c => {
-                if (c.learned) {
-                    payload[c.id] = true;
-                }
-            });
-            progressRef.set(payload);
+            // Save state to Firebase Cloud if logged in
+            if (progressRef) {
+                const payload = {};
+                flashcardsData.forEach(c => {
+                    if (c.learned) {
+                        payload[c.id] = true;
+                    }
+                });
+                progressRef.set(payload);
+            }
 
             // Only update badge and button to maintain normal UX
             currentRef.learned = newState;
@@ -384,7 +436,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Export Logic
-    const exportImageBtn = document.getElementById('exportImageBtn');
     const exportTemplate = document.getElementById('exportTemplate');
 
     exportImageBtn.addEventListener('click', async () => {
@@ -457,6 +508,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const qDayVal = quizDayFilter.value;
 
         let pool = flashcardsData.filter(c => {
+            // Auth check cho pool question
+            if (!currentUser && c.day !== 1) return false;
+
             let wMatch = true;
             if (qWeekVal !== 'all') {
                 wMatch = Math.ceil(c.day / 7) === parseInt(qWeekVal);
@@ -558,4 +612,146 @@ document.addEventListener('DOMContentLoaded', () => {
 
         nextQuizBtn.style.display = 'block';
     }
+
+    // --- AUTH UI & LOGIC ---
+    const authModal = document.getElementById('authModal');
+    const closeAuthModal = document.getElementById('closeAuthModal');
+    const authForm = document.getElementById('authForm');
+    const confirmPasswordGroup = document.getElementById('confirmPasswordGroup');
+    const authModalTitle = document.getElementById('authModalTitle');
+    const submitAuthBtn = document.getElementById('submitAuthBtn');
+    const authToggleText = document.getElementById('authToggleText');
+    const authToggleLink = document.getElementById('authToggleLink');
+
+    let isRegisterMode = false;
+
+    authHeaderBtn.addEventListener('click', () => {
+        if (currentUser) {
+            firebase.auth().signOut().then(() => {
+                alert("Đăng xuất thành công!");
+            });
+        } else {
+            authModal.style.display = 'flex';
+        }
+    });
+
+    closeAuthModal.addEventListener('click', () => {
+        authModal.style.display = 'none';
+        authForm.reset();
+    });
+
+    authToggleLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        isRegisterMode = !isRegisterMode;
+        if (isRegisterMode) {
+            authModalTitle.textContent = "Đăng Ký";
+            submitAuthBtn.textContent = "Đăng Ký Khóa Học";
+            confirmPasswordGroup.style.display = 'block';
+            document.getElementById('authConfirmPassword').setAttribute('required', 'true');
+            authToggleText.textContent = "Đã có tài khoản?";
+            authToggleLink.textContent = "Đăng Nhập";
+        } else {
+            authModalTitle.textContent = "Đăng Nhập";
+            submitAuthBtn.textContent = "Đăng Nhập";
+            confirmPasswordGroup.style.display = 'none';
+            document.getElementById('authConfirmPassword').removeAttribute('required');
+            authToggleText.textContent = "Chưa có tài khoản?";
+            authToggleLink.textContent = "Đăng Ký Ngay";
+        }
+    });
+
+    authForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('authEmail').value;
+        const password = document.getElementById('authPassword').value;
+
+        submitAuthBtn.disabled = true;
+
+        if (isRegisterMode) {
+            const confirm = document.getElementById('authConfirmPassword').value;
+            if (password !== confirm) {
+                alert("Mật khẩu xác nhận không khớp!");
+                submitAuthBtn.disabled = false;
+                return;
+            }
+
+            firebase.auth().createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    // Create base user profile database record
+                    const uid = userCredential.user.uid;
+                    database.ref('users/' + uid + '/profile').set({
+                        email: email,
+                        role: 'user', // mặc định là học viên thường
+                        registeredAt: Date.now()
+                    }).then(() => {
+                        alert("Đăng ký thành công! Bạn đã có quyền học toàn bộ nội dung.");
+                        authModal.style.display = 'none';
+                        authForm.reset();
+                    });
+                })
+                .catch((error) => {
+                    alert("Lỗi đăng ký: " + error.message);
+                })
+                .finally(() => submitAuthBtn.disabled = false);
+
+        } else {
+            firebase.auth().signInWithEmailAndPassword(email, password)
+                .then(() => {
+                    alert("Đăng nhập thành công!");
+                    authModal.style.display = 'none';
+                    authForm.reset();
+                })
+                .catch((error) => {
+                    // Cải thiện thông báo lỗi Tiếng Việt cho Login
+                    let msg = "Email hoặc Mật khẩu không đúng.";
+                    if (error.code === 'auth/user-not-found') msg = "Tài khoản không tồn tại.";
+                    if (error.code === 'auth/too-many-requests') msg = "Thử sai quá nhiều lần. Vui lòng thử lại sau.";
+                    alert("Lỗi: " + msg);
+                })
+                .finally(() => submitAuthBtn.disabled = false);
+        }
+    });
+
+    // --- ADMIN PANEL UI LOGIC ---
+    adminNavTab.addEventListener('click', () => {
+        if (currentRole !== 'admin') return;
+        const adminTbody = document.getElementById('adminUsersTableBody');
+        adminTbody.innerHTML = '<tr><td colspan="3" style="text-align: center; padding: 1rem;">Đang tải...</td></tr>';
+
+        database.ref('users').once('value').then(snapshot => {
+            const allUsers = snapshot.val();
+            adminTbody.innerHTML = '';
+
+            if (!allUsers) {
+                adminTbody.innerHTML = '<tr><td colspan="3" style="text-align: center;">Chưa có người dùng nào.</td></tr>';
+                return;
+            }
+
+            Object.keys(allUsers).forEach(uid => {
+                const uData = allUsers[uid];
+                const email = (uData.profile && uData.profile.email) ? uData.profile.email : uid;
+                const role = (uData.profile && uData.profile.role) ? uData.profile.role : 'user';
+
+                // Đếm số từ đã học
+                let learnedCount = 0;
+                if (uData.my_progress) {
+                    learnedCount = Object.values(uData.my_progress).filter(val => val === true).length;
+                }
+
+                const roleBage = role === 'admin'
+                    ? '<span class="status-badge learned" style="position:static; font-size: 0.7rem;">Admin</span>'
+                    : '<span class="status-badge" style="position:static; font-size: 0.7rem;">User</span>';
+
+                adminTbody.innerHTML += `
+                    <tr style="border-bottom: 1px solid #e2e8f0;">
+                        <td style="padding: 10px; font-weight: 500;">${email}</td>
+                        <td style="padding: 10px;">${roleBage}</td>
+                        <td style="padding: 10px; font-weight: bold; color: var(--primary);">${learnedCount}</td>
+                    </tr>
+                `;
+            });
+        }).catch(err => {
+            adminTbody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: red;">Lỗi tải dữ liệu: ${err.message}</td></tr>`;
+        });
+    });
 });
