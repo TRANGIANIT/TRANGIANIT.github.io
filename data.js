@@ -154,7 +154,7 @@ const flashcardsData = [
         "day": 1,
         "grammar": "〜次第（しだい）",
         "meaning": "Tùy thuộc vào…, phụ thuộc vào… /Ngay sau khi…, vừa… là… (văn trang trọng)",
-        "usage": "",
+        "usage": "N + 次第だ / 次第で : ② Vます bỏ ます + 次第",
         "note": "👉 Kết quả phụ thuộc vào yếu tố nào đó /Ngay sau khi hoàn thành hành động",
         "ex_it": "",
         "ex_daily": "",
@@ -162,14 +162,14 @@ const flashcardsData = [
         "examples": [
             {
                 "type": "Ví dụ (IT)",
-                "jp": "プロジェクトの成功はチームの努力次第だ。",
-                "furi": "ぷろじぇくとのせいこうはちーむのどりょくしだいだ。",
+                "jp": "サーバーの準備ができ次第、デプロイを開始します。",
+                "furi": "さーばーのじゅんびができしだい、でぷろいをかいしします。",
                 "vi": "Dịch: Ngay khi server chuẩn bị xong, chúng tôi sẽ bắt đầu deploy."
             },
             {
                 "type": "Ví dụ (Hằng ngày)",
-                "jp": "結果はあなたの努力次第です。",
-                "furi": "けっかはあなたのどりょくしだいです。",
+                "jp": "準備ができ次第、出発しましょう。",
+                "furi": "じゅんびができしだい、しゅっぱつしましょう。",
                 "vi": "Dịch: Khi chuẩn bị xong thì chúng ta xuất phát。"
             }
         ]
