@@ -320,6 +320,18 @@ header p {
     margin-bottom: 15px;
 }
 
+.export-meta {
+    font-size: 0.85rem;
+    color: #4a5568;
+    background: #edf2f7;
+    padding: 6px 14px;
+    border-radius: 20px;
+    display: inline-block;
+    margin: 5px auto 10px auto;
+    font-weight: 600;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
 .export-grammar {
     font-size: 1.8rem;
     font-weight: 700;
@@ -367,20 +379,20 @@ header p {
 
 .export-ex-jp,
 .export-ex-jp-val {
-    font-size: 1.15rem;
+    font-size: 1rem;
     color: #c05621;
     font-weight: 600;
 }
 
 .export-ex-furi,
 .export-ex-furi-val {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: #718096;
 }
 
 .export-ex-vi,
 .export-ex-vi-val {
-    font-size: 1.05rem;
+    font-size: 0.95rem;
     color: #4a5568;
 }
 

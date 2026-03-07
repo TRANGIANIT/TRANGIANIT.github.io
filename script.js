@@ -279,26 +279,42 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('exDayVi').textContent = data.examples[1].vi;
 
         // Sync to Export Template
+        const exportMeta = document.getElementById('exportMeta');
+        if (exportMeta) exportMeta.textContent = `JLPT N2 | Day ${data.day} | Mẫu ${index + 1}`;
+
         const exportGrammar = document.getElementById('exportGrammar');
         if (exportGrammar) exportGrammar.textContent = data.grammar;
+
         const exportMeaningVal = document.getElementById('exportMeaningVal');
         if (exportMeaningVal) exportMeaningVal.textContent = data.meaning;
         const exportUsageVal = document.getElementById('exportUsageVal');
         if (exportUsageVal) exportUsageVal.textContent = data.usage;
 
-        if (data.examples && data.examples.length > 0) {
-            const exportExJpVal = document.getElementById('exportExJpVal');
-            if (exportExJpVal) exportExJpVal.textContent = data.examples[0].jp;
+        [1, 2].forEach(num => {
+            const exIndex = num - 1;
+            const exGroup = [
+                document.getElementById(`exportExJp${num}`),
+                document.getElementById(`exportExJpVal${num}`),
+                document.getElementById(`exportExFuri${num}`),
+                document.getElementById(`exportExFuriVal${num}`),
+                document.getElementById(`exportExVi${num}`),
+                document.getElementById(`exportExViVal${num}`)
+            ];
 
-            const exportExFuriVal = document.getElementById('exportExFuriVal');
-            if (exportExFuriVal) exportExFuriVal.textContent = data.examples[0].furi || '';
+            if (data.examples && data.examples[exIndex]) {
+                const ex = data.examples[exIndex];
+                exGroup.forEach(el => { if (el) el.style.display = 'block'; });
 
-            const exportExViVal = document.getElementById('exportExViVal');
-            if (exportExViVal) {
-                let cleanVi = data.examples[0].vi.replace(/^Dịch:\s*/i, '');
-                exportExViVal.textContent = cleanVi;
+                if (exGroup[1]) exGroup[1].textContent = ex.jp;
+                if (exGroup[3]) exGroup[3].textContent = ex.furi || '';
+                if (exGroup[5]) {
+                    let cleanVi = (ex.vi || '').replace(/^Dịch:\s*/i, '');
+                    exGroup[5].textContent = cleanVi;
+                }
+            } else {
+                exGroup.forEach(el => { if (el) el.style.display = 'none'; });
             }
-        }
+        });
 
         // Update Nav State
         if (currentCardSpan) currentCardSpan.textContent = (index + 1).toString();
