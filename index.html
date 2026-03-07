@@ -23,25 +23,32 @@
     <div id="sakuraContainer" class="sakura-container"></div>
 
     <div class="app-container" id="mainAppContainer">
-        <header style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem;">
-            <div style="display: flex; justify-content: center; align-items: flex-start; flex-direction: column;">
-                <h1>Học Tiếng Nhật 🇯🇵 Cùng Roku 76 🇻🇳</h1>
-                <p>Nhấp vào thẻ để xem chi tiết</p>
+        <header
+            style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; width: 100%;">
+            <div
+                style="display: flex; justify-content: center; align-items: flex-start; flex-direction: column; width: 100%;">
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                    <h1 style="margin-bottom: 0;">Học Tiếng Nhật 🇯🇵 Cùng Roku 76 🇻🇳</h1>
+                    <button id="authHeaderBtn" class="btn"
+                        style="font-size: 0.8rem; background: #ebf8ff; color: #3182ce; padding: 0.5rem 1rem; border-radius: 20px; white-space: nowrap; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-left: 10px;">Đăng
+                        Nhập</button>
+                </div>
+
+                <div id="userInfoContainer"
+                    style="display: none; align-items: center; gap: 8px; font-size: 0.95rem; font-weight: 600; color: var(--primary); margin-top: 10px; margin-bottom: 5px;">
+                    <img id="userAvatar" src="" alt="Avatar"
+                        style="width: 32px; height: 32px; border-radius: 50%; display: none; object-fit: cover;">
+                    <span id="userNameText"></span>
+                </div>
+
+                <p style="margin-top: 5px; margin-bottom: 8px;">Nhấp vào thẻ để xem chi tiết</p>
+                <button id="reloadAppBtn" class="btn"
+                    style="font-size: 0.75rem; background: #e2e8f0; color: #4a5568; padding: 0.4rem 0.8rem; border-radius: 12px; margin-bottom: 5px;">🔄
+                    Tải lại dữ liệu (Mới nhất)</button>
+
                 <p id="guestWarning"
                     style="color: #e53e3e; font-size: 0.8rem; font-weight: 500; display: none; margin-top: 5px;">🔒 Bạn
                     đang học thử (Chỉ Bài 1). Hãy đăng ký để học toàn bộ!</p>
-            </div>
-            <!-- Profile Tóm tắt & Nút Đăng nhập/Tài khoản -->
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <div id="userInfoContainer"
-                    style="display: none; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 500; color: var(--text-main);">
-                    <img id="userAvatar" src="" alt="Avatar"
-                        style="width: 28px; height: 28px; border-radius: 50%; display: none; object-fit: cover;">
-                    <span id="userNameText"></span>
-                </div>
-                <button id="authHeaderBtn" class="btn"
-                    style="font-size: 0.8rem; background: #ebf8ff; color: #3182ce; padding: 0.5rem 1rem; border-radius: 20px; white-space: nowrap; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">Đăng
-                    Nhập</button>
             </div>
         </header>
 
@@ -127,6 +134,10 @@
 
             <div class="flashcard-container">
                 <div class="flashcard" id="flashcard">
+                    <!-- Stamps khi vuốt thẻ -->
+                    <div id="swipeStampLeft" class="swipe-stamp red">CHƯA THUỘC</div>
+                    <div id="swipeStampRight" class="swipe-stamp green">ĐÃ THUỘC</div>
+
                     <!-- Mặt trước thẻ -->
                     <div class="front">
                         <span class="status-badge" id="cardBadge">🔴 Chưa thuộc</span>

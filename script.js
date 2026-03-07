@@ -45,6 +45,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const userInfoContainer = document.getElementById('userInfoContainer');
     const userAvatar = document.getElementById('userAvatar');
     const userNameText = document.getElementById('userNameText');
+    const reloadAppBtn = document.getElementById('reloadAppBtn');
+
+    if (reloadAppBtn) {
+        reloadAppBtn.addEventListener('click', () => {
+            reloadAppBtn.textContent = 'Đang tải...';
+            window.location.reload(true);
+        });
+    }
 
     // Mặc định load filter ngày 1 (Cho Guest Mode)
     if (!isFirebaseLoaded) {
@@ -211,8 +219,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Swipe & Flip logic
     let touchStartX = 0;
-    let touchEndX = 0;
+    let currentDragX = 0;
+    let isDragging = false;
     let isSwiping = false;
+
+    const swipeStampLeft = document.getElementById('swipeStampLeft');
+    const swipeStampRight = document.getElementById('swipeStampRight');
 
     flashcard.addEventListener('click', (e) => {
         if (isSwiping) {
@@ -227,89 +239,115 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    function handleSwipe() {
-        const threshold = 50;
-        const deltaX = touchEndX - touchStartX;
+    function dragStart(clientX) {
+        touchStartX = clientX;
+        isDragging = true;
+        isSwiping = false;
+        flashcard.style.transition = 'none'; // Follow finger instantly
+    }
 
-        if (Math.abs(deltaX) > threshold) {
-            isSwiping = true;
+    function dragMove(clientX) {
+        if (!isDragging) return;
+        currentDragX = clientX - touchStartX;
 
-            if (deltaX > 0 && currentIndex > 0) {
-                // Swipe Right -> Previous Card
-                flashcard.style.transition = 'all 0.3s ease';
-                flashcard.style.transform = `translateX(120%) rotate(10deg) ${isFlipped ? 'rotateY(180deg)' : ''}`;
-                flashcard.style.opacity = '0';
+        if (Math.abs(currentDragX) > 10) isSwiping = true;
 
-                setTimeout(() => {
-                    currentIndex--;
-                    resetFlip();
-                    renderCard(currentIndex);
-                    flashcard.style.transition = 'none';
-                    flashcard.style.transform = `translateX(-120%) rotate(-10deg)`;
+        flashcard.style.transform = `translateX(${currentDragX}px) rotate(${currentDragX * 0.05}deg) ${isFlipped ? 'rotateY(180deg)' : ''}`;
 
-                    void flashcard.offsetWidth; // Force Reflow
-
-                    flashcard.style.transition = 'all 0.3s cubic-bezier(0.4, 0.2, 0.2, 1)';
-                    flashcard.style.transform = '';
-                    flashcard.style.opacity = '1';
-
-                    setTimeout(() => isSwiping = false, 300);
-                }, 300);
-
-            } else if (deltaX < 0 && currentIndex < filteredCards.length - 1) {
-                // Swipe Left -> Next Card
-                flashcard.style.transition = 'all 0.3s ease';
-                flashcard.style.transform = `translateX(-120%) rotate(-10deg) ${isFlipped ? 'rotateY(180deg)' : ''}`;
-                flashcard.style.opacity = '0';
-
-                setTimeout(() => {
-                    currentIndex++;
-                    resetFlip();
-                    renderCard(currentIndex);
-                    flashcard.style.transition = 'none';
-                    flashcard.style.transform = `translateX(120%) rotate(10deg)`;
-
-                    void flashcard.offsetWidth; // Force Reflow
-
-                    flashcard.style.transition = 'all 0.3s cubic-bezier(0.4, 0.2, 0.2, 1)';
-                    flashcard.style.transform = '';
-                    flashcard.style.opacity = '1';
-
-                    setTimeout(() => isSwiping = false, 300);
-                }, 300);
-            } else {
-                // Boundary Bounce
-                flashcard.style.transition = 'all 0.2s ease';
-                flashcard.style.transform = `translateX(${deltaX > 0 ? 30 : -30}px) ${isFlipped ? 'rotateY(180deg)' : ''}`;
-                setTimeout(() => {
-                    flashcard.style.transform = `${isFlipped ? 'rotateY(180deg)' : ''}`;
-                    setTimeout(() => isSwiping = false, 200);
-                }, 200);
-            }
+        // Show stamps based on direction
+        if (currentDragX > 15) {
+            if (swipeStampRight) swipeStampRight.style.opacity = Math.min(currentDragX / 80, 1);
+            if (swipeStampLeft) swipeStampLeft.style.opacity = 0;
+        } else if (currentDragX < -15) {
+            if (swipeStampLeft) swipeStampLeft.style.opacity = Math.min(Math.abs(currentDragX) / 80, 1);
+            if (swipeStampRight) swipeStampRight.style.opacity = 0;
         } else {
-            isSwiping = false;
+            if (swipeStampLeft) swipeStampLeft.style.opacity = 0;
+            if (swipeStampRight) swipeStampRight.style.opacity = 0;
         }
     }
 
-    flashcard.addEventListener('touchstart', e => {
-        touchStartX = e.changedTouches[0].screenX;
-        isSwiping = false;
-    }, { passive: true });
+    function dragEnd() {
+        if (!isDragging) return;
+        isDragging = false;
+        const threshold = 80;
 
-    flashcard.addEventListener('touchend', e => {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-    }, { passive: true });
+        if (Math.abs(currentDragX) > threshold) {
+            const isRightSwipe = currentDragX > 0;
 
-    flashcard.addEventListener('mousedown', e => {
-        touchStartX = e.screenX;
-        isSwiping = false;
-    });
+            // Slide out
+            flashcard.style.transition = 'all 0.3s ease-out';
+            flashcard.style.transform = `translateX(${isRightSwipe ? 150 : -150}%) rotate(${isRightSwipe ? 20 : -20}deg) ${isFlipped ? 'rotateY(180deg)' : ''}`;
+            flashcard.style.opacity = '0';
 
-    flashcard.addEventListener('mouseup', e => {
-        touchEndX = e.screenX;
-        handleSwipe();
-    });
+            setTimeout(() => {
+                // Update DB logic
+                if (filteredCards.length > 0) {
+                    const cardRef = filteredCards[currentIndex];
+                    const originalIndex = flashcardsData.findIndex(c => c.id === cardRef.id);
+                    if (originalIndex !== -1) {
+                        flashcardsData[originalIndex].learned = isRightSwipe;
+                        cardRef.learned = isRightSwipe;
+
+                        if (progressRef) {
+                            const payload = {};
+                            flashcardsData.forEach(c => {
+                                if (c.learned) payload[c.id] = true;
+                            });
+                            progressRef.set(payload);
+                        }
+                    }
+                }
+
+                // Advance to next available card smoothly
+                if (currentIndex < filteredCards.length - 1) {
+                    currentIndex++;
+                } else {
+                    currentIndex = 0; // Wrap around if logic dictates
+                }
+
+                resetFlip();
+                renderCard(currentIndex);
+
+                // Prepare drop-in
+                flashcard.style.transition = 'none';
+                flashcard.style.transform = `scale(0.8) translateY(50px) ${isFlipped ? 'rotateY(180deg)' : ''}`;
+                if (swipeStampLeft) swipeStampLeft.style.opacity = 0;
+                if (swipeStampRight) swipeStampRight.style.opacity = 0;
+
+                void flashcard.offsetWidth; // Reflow
+
+                // Animate drop-in
+                flashcard.style.transition = 'all 0.4s cubic-bezier(0.4, 0.2, 0.2, 1)';
+                flashcard.style.transform = `${isFlipped ? 'rotateY(180deg)' : ''}`;
+                flashcard.style.opacity = '1';
+                setTimeout(() => isSwiping = false, 450); // Clear click state
+            }, 300);
+
+        } else {
+            // Revert bounce if threshold not met
+            flashcard.style.transition = 'all 0.3s cubic-bezier(0.4, 0.2, 0.2, 1)';
+            flashcard.style.transform = `${isFlipped ? 'rotateY(180deg)' : ''}`;
+            if (swipeStampLeft) swipeStampLeft.style.opacity = 0;
+            if (swipeStampRight) swipeStampRight.style.opacity = 0;
+            setTimeout(() => {
+                if (!isDragging) {
+                    flashcard.style.transition = 'transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1)';
+                    isSwiping = false;
+                }
+            }, 300);
+        }
+
+        currentDragX = 0;
+    }
+
+    flashcard.addEventListener('touchstart', e => dragStart(e.changedTouches[0].screenX), { passive: true });
+    flashcard.addEventListener('touchmove', e => dragMove(e.changedTouches[0].screenX), { passive: false });
+    flashcard.addEventListener('touchend', e => dragEnd(), { passive: true });
+
+    flashcard.addEventListener('mousedown', e => dragStart(e.screenX));
+    window.addEventListener('mousemove', e => dragMove(e.screenX));
+    window.addEventListener('mouseup', e => dragEnd());
 
     // Navigation logic
     prevBtn.addEventListener('click', () => {
