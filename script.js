@@ -285,9 +285,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const exportGrammar = document.getElementById('exportGrammar');
         if (exportGrammar) exportGrammar.textContent = data.grammar;
         const exportMeaning = document.getElementById('exportMeaning');
-        if (exportMeaning) exportMeaning.textContent = data.meaning;
+        if (exportMeaning) exportMeaning.innerHTML = `<strong>Ý nghĩa:</strong> ${data.meaning}`;
         const exportUsage = document.getElementById('exportUsage');
-        if (exportUsage) exportUsage.textContent = data.usage;
+        if (exportUsage) exportUsage.innerHTML = `<strong>Cách dùng:</strong> ${data.usage}`;
 
         if (data.examples && data.examples.length > 0) {
             const exportExJp = document.getElementById('exportExJp');
