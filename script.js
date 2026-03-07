@@ -282,9 +282,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const exportGrammar = document.getElementById('exportGrammar');
         if (exportGrammar) exportGrammar.textContent = data.grammar;
         const exportMeaning = document.getElementById('exportMeaning');
-        if (exportMeaning) exportMeaning.innerHTML = `<strong>Ý nghĩa:</strong> ${data.meaning}`;
+        if (exportMeaning) exportMeaning.innerHTML = `<strong>📖 Ý nghĩa:</strong> ${data.meaning}`;
         const exportUsage = document.getElementById('exportUsage');
-        if (exportUsage) exportUsage.innerHTML = `<strong>Cách dùng:</strong> ${data.usage}`;
+        if (exportUsage) exportUsage.innerHTML = `<strong>🛠 Cách dùng:</strong> ${data.usage}`;
 
         if (data.examples && data.examples.length > 0) {
             const exportExJp = document.getElementById('exportExJp');
@@ -292,7 +292,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const exportExFuri = document.getElementById('exportExFuri');
             if (exportExFuri) exportExFuri.textContent = data.examples[0].furi || '';
             const exportExVi = document.getElementById('exportExVi');
-            if (exportExVi) exportExVi.textContent = data.examples[0].vi;
+            if (exportExVi) {
+                let cleanVi = data.examples[0].vi.replace(/^Dịch:\s*/i, '');
+                exportExVi.innerHTML = `<strong>💬 Dịch:</strong> ${cleanVi}`;
+            }
         }
 
         // Update Nav State

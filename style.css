@@ -313,6 +313,9 @@ header p {
     color: #4a5568;
     font-size: 1.2rem;
     letter-spacing: 1px;
+    border-bottom: 3px double #cbd5e0;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
 }
 
 .export-grammar {
@@ -323,14 +326,16 @@ header p {
 }
 
 .export-meaning {
-    font-size: 1.35rem;
+    font-size: 1.15rem;
     font-weight: 500;
+    font-style: italic;
     color: #2b6cb0;
     margin-bottom: 5px;
 }
 
 .export-meaning strong {
     font-weight: 700;
+    font-style: normal;
 }
 
 .export-usage {
