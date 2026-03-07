@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const currentDaySelection = dFilter.value;
-        dFilter.innerHTML = '<option value="all">Tất cả các ngày</option>';
+        dFilter.innerHTML = '<option value="all">Tất cả</option>';
 
         const uniqueDays = [...new Set(flashcardsData.map(item => item.day))].sort((a, b) => a - b);
 

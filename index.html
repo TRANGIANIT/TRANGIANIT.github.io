@@ -30,26 +30,32 @@
         <!-- LỖI CẤU TRÚC VIEW -->
         <div id="flashcard-view" class="view-section active">
             <div class="filter-controls">
-                <label for="weekFilter">Tuần:</label>
-                <select id="weekFilter" class="filter-select">
-                    <option value="all">Tất cả các tuần</option>
-                    <option value="1">Tuần 1 (Ngày 1-7)</option>
-                    <option value="2">Tuần 2 (Ngày 8-14)</option>
-                    <option value="3">Tuần 3 (Ngày 15-21)</option>
-                </select>
+                <div class="filter-group">
+                    <label for="weekFilter">Tuần:</label>
+                    <select id="weekFilter" class="filter-select">
+                        <option value="all">Tất cả</option>
+                        <option value="1">Tuần 1 (1-7)</option>
+                        <option value="2">Tuần 2 (8-14)</option>
+                        <option value="3">Tuần 3 (15-21)</option>
+                    </select>
+                </div>
 
-                <label for="dayFilter">Bài học:</label>
-                <select id="dayFilter" class="filter-select">
-                    <option value="all">Tất cả các ngày</option>
-                    <!-- Sẽ gen bằng JS -->
-                </select>
+                <div class="filter-group">
+                    <label for="dayFilter">Bài học:</label>
+                    <select id="dayFilter" class="filter-select">
+                        <option value="all">Tất cả</option>
+                        <!-- Sẽ gen bằng JS -->
+                    </select>
+                </div>
 
-                <label for="statusFilter">Trạng thái:</label>
-                <select id="statusFilter" class="filter-select">
-                    <option value="all">Tất cả</option>
-                    <option value="not_learned">🔴 Chưa thuộc</option>
-                    <option value="learned">✅ Đã thuộc</option>
-                </select>
+                <div class="filter-group">
+                    <label for="statusFilter">Trạng thái:</label>
+                    <select id="statusFilter" class="filter-select">
+                        <option value="all">Tất cả</option>
+                        <option value="not_learned">🔴 Chưa</option>
+                        <option value="learned">✅ Đã thuộc</option>
+                    </select>
+                </div>
             </div>
 
             <div class="flashcard-container">
@@ -114,15 +120,23 @@
         <div id="quiz-view" class="view-section" style="display: none;">
             <div class="quiz-header">
                 <h2>Trắc Nghiệm 🎯</h2>
-                <select id="quizWeekFilter" class="filter-select" style="margin-bottom: 5px;">
-                    <option value="all">Tất cả các tuần</option>
-                    <option value="1">Tuần 1 (Ngày 1-7)</option>
-                    <option value="2">Tuần 2 (Ngày 8-14)</option>
-                    <option value="3">Tuần 3 (Ngày 15-21)</option>
-                </select>
-                <select id="quizDayFilter" class="filter-select">
-                    <option value="all">Tất cả các ngày</option>
-                </select>
+                <div class="filter-controls">
+                    <div class="filter-group">
+                        <label for="quizWeekFilter">Tuần:</label>
+                        <select id="quizWeekFilter" class="filter-select">
+                            <option value="all">Tất cả</option>
+                            <option value="1">Tuần 1 (1-7)</option>
+                            <option value="2">Tuần 2 (8-14)</option>
+                            <option value="3">Tuần 3 (15-21)</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="quizDayFilter">Bài học:</label>
+                        <select id="quizDayFilter" class="filter-select">
+                            <option value="all">Tất cả</option>
+                        </select>
+                    </div>
+                </div>
             </div>
             <div class="quiz-container" id="quizContainer">
                 <div class="quiz-question" id="quizQuestion">Đang tải câu hỏi...</div>
