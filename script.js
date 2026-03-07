@@ -253,8 +253,13 @@ document.addEventListener('DOMContentLoaded', () => {
         isSwiping = false;
         hasMoved = false;
 
-        if (swipeStampLeft) swipeStampLeft.textContent = unlearnedMessages[Math.floor(Math.random() * unlearnedMessages.length)];
-        if (swipeStampRight) swipeStampRight.textContent = learnedMessages[Math.floor(Math.random() * learnedMessages.length)];
+        const currGrammar = filteredCards[currentIndex] ? filteredCards[currentIndex].grammar : '';
+        if (swipeStampLeft) {
+            swipeStampLeft.innerHTML = `<div style="font-size: 1.2rem; margin-bottom: 5px; text-transform: none; opacity: 0.9;">${currGrammar}</div>${unlearnedMessages[Math.floor(Math.random() * unlearnedMessages.length)]}`;
+        }
+        if (swipeStampRight) {
+            swipeStampRight.innerHTML = `<div style="font-size: 1.2rem; margin-bottom: 5px; text-transform: none; opacity: 0.9;">${currGrammar}</div>${learnedMessages[Math.floor(Math.random() * learnedMessages.length)]}`;
+        }
     }
 
     function dragMove(clientX) {

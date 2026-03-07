@@ -224,14 +224,26 @@ header p {
     right: 30px;
     color: #e53e3e;
     border-color: #e53e3e;
-    transform: rotate(15deg);
+    transform: rotate(15deg) translateZ(2px);
 }
 
 .swipe-stamp.green {
     left: 30px;
     color: #38a169;
     border-color: #38a169;
-    transform: rotate(-15deg);
+    transform: rotate(-15deg) translateZ(2px);
+}
+
+.flashcard.flipped .swipe-stamp.red {
+    transform: rotateY(180deg) rotate(-15deg) translateZ(2px);
+    right: auto;
+    left: 30px;
+}
+
+.flashcard.flipped .swipe-stamp.green {
+    transform: rotateY(180deg) rotate(15deg) translateZ(2px);
+    left: auto;
+    right: 30px;
 }
 
 .front,
@@ -519,20 +531,29 @@ header p {
 }
 
 .export-grammar {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: #e53e3e;
-    margin: 5px 0 15px 0;
+    font-size: 2.3rem;
+    font-weight: 800;
+    color: white;
+    background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+    padding: 12px 35px;
+    border-radius: 12px;
+    display: inline-block;
+    margin: 5px auto 25px auto;
+    box-shadow: 0 4px 10px rgba(229, 62, 62, 0.3);
+    border: 3px solid #fff;
 }
 
 .export-table {
     display: grid;
     grid-template-columns: auto 1fr;
-    gap: 12px 10px;
+    gap: 15px 12px;
     text-align: left;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     align-items: baseline;
-    padding: 0 10px;
+    padding: 20px;
+    background: #f8fafc;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
 }
 
 .export-meaning {
