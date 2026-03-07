@@ -23,17 +23,18 @@
     <div id="sakuraContainer" class="sakura-container"></div>
 
     <div class="app-container">
-        <header style="position: relative;">
-            <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+        <header style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem;">
+            <div style="display: flex; justify-content: center; align-items: flex-start; flex-direction: column;">
                 <h1>Học Tiếng Nhật 🇯🇵 Cùng Roku 76 🇻🇳</h1>
-                <!-- Nút Đăng nhập/Tài khoản góc phải trên -->
-                <button id="authHeaderBtn" class="btn"
-                    style="position: absolute; right: 0; top: 0; font-size: 0.8rem; background: #ebf8ff; color: #3182ce; padding: 0.3rem 0.8rem;">Đăng
-                    Nhập</button>
                 <p>Nhấp vào thẻ để xem chi tiết</p>
-                <p id="guestWarning" style="color: #e53e3e; font-size: 0.8rem; font-weight: 500; display: none;">🔒 Bạn
+                <p id="guestWarning"
+                    style="color: #e53e3e; font-size: 0.8rem; font-weight: 500; display: none; margin-top: 5px;">🔒 Bạn
                     đang học thử (Chỉ Bài 1). Hãy đăng ký để học toàn bộ!</p>
             </div>
+            <!-- Nút Đăng nhập/Tài khoản -->
+            <button id="authHeaderBtn" class="btn"
+                style="font-size: 0.8rem; background: #ebf8ff; color: #3182ce; padding: 0.5rem 1rem; border-radius: 20px; white-space: nowrap; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">Đăng
+                Nhập</button>
         </header>
 
         <!-- AUTH MODAL -->
@@ -59,6 +60,19 @@
                     <button type="submit" class="btn btn-status" style="width: 100%; margin-top: 1rem;"
                         id="submitAuthBtn">Đăng Nhập</button>
                 </form>
+
+                <div class="auth-divider">
+                    <span>HOẶC ĐĂNG NHẬP VỚI</span>
+                </div>
+
+                <div class="social-login-group">
+                    <button id="googleLoginBtn" class="btn-social btn-google">
+                        <span class="social-icon">G</span> Google
+                    </button>
+                    <button id="facebookLoginBtn" class="btn-social btn-facebook">
+                        <span class="social-icon">f</span> Facebook
+                    </button>
+                </div>
 
                 <p style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem;">
                     <span id="authToggleText">Chưa có tài khoản?</span>
@@ -132,7 +146,7 @@
                         <div class="content-section">
                             <h3>💬 Ví dụ (Hằng ngày)</h3>
                             <p class="jp-text" id="exDayJp">あの人が嘘をつくっこない。</p>
-                            <p class="jp-furi" id="exDayFuri">あのひとがうそをつくっこない。</p>
+                            <p class="jp-furi" id="exDayFuri">あのひとがうそをつくっこない.</p>
                             <p class="vi-trans" id="exDayVi">Dịch: Người đó tuyệt đối không nói dối đâu.</p>
                         </div>
                     </div>
@@ -142,6 +156,10 @@
             <div class="controls status-control">
                 <button class="btn btn-status" id="toggleLearnedBtn"><span class="btn-text">Đánh dấu Đã thuộc</span>
                     <span class="btn-icon">✅</span></button>
+                <button class="btn btn-export" id="requestDownloadBtn"
+                    style="margin-left: 10px; background: linear-gradient(135deg, #a0aec0 0%, #718096 100%); display: none; color: white;">
+                    <span class="btn-icon">🖐️</span> <span class="btn-text">Xin Tải Ảnh</span>
+                </button>
                 <button class="btn btn-export" id="exportImageBtn"
                     style="margin-left: 10px; background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%); display: none;">
                     <span class="btn-icon">📸</span> <span class="btn-text">Tải ảnh Thẻ</span>
@@ -204,24 +222,27 @@
         <!-- ADMIN VIEW -->
         <div id="admin-view" class="view-section" style="display: none;">
             <div class="quiz-header">
-                <h2>Quản Quản Trị Viên 🛡️</h2>
+                <h2>Bảng Điều Khiển Admin 🛡️</h2>
             </div>
             <div class="quiz-container" style="padding: 1rem;">
-                <p style="margin-bottom: 1rem; color: var(--text-main); font-weight: 500;">Danh sách Người dùng</p>
+                <p style="margin-bottom: 1rem; color: var(--text-main); font-weight: 500;">Chi tiết Người dùng Mạng lưới
+                </p>
                 <div style="overflow-x: auto;">
                     <table
-                        style="width: 100%; border-collapse: collapse; min-width: 400px; text-align: left; font-size: 0.9rem;">
+                        style="width: 100%; border-collapse: collapse; min-width: 800px; text-align: left; font-size: 0.85rem;">
                         <thead>
                             <tr style="background: var(--bg-color); border-bottom: 2px solid #e2e8f0;">
-                                <th style="padding: 8px;">Email</th>
-                                <th style="padding: 8px;">Quyền</th>
-                                <th style="padding: 8px;">Từ đã học</th>
+                                <th style="padding: 8px;">Thông tin (Email/UID)</th>
+                                <th style="padding: 8px; text-align: center;">Quyền Tải Ảnh</th>
+                                <th style="padding: 8px; text-align: center;">Thống Kê</th>
+                                <th style="padding: 8px;">Hoạt động Cuối</th>
+                                <th style="padding: 8px; text-align: right;">Hành Động</th>
                             </tr>
                         </thead>
                         <tbody id="adminUsersTableBody">
                             <!-- JS load users here -->
                             <tr>
-                                <td colspan="3" style="text-align: center; padding: 1rem;">Đang tải...</td>
+                                <td colspan="5" style="text-align: center; padding: 1rem;">Đang tải...</td>
                             </tr>
                         </tbody>
                     </table>

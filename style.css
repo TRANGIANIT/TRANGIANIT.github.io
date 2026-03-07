@@ -795,3 +795,107 @@ body {
 .form-group input:focus {
     border-color: var(--primary);
 }
+
+.auth-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 1.5rem 0 1rem 0;
+    color: #a0aec0;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.auth-divider span {
+    padding: 0 10px;
+}
+
+.social-login-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.btn-social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    color: white;
+}
+
+.btn-social:active {
+    transform: scale(0.98);
+}
+
+.social-icon {
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-right: 10px;
+}
+
+.btn-google {
+    background-color: #db4437;
+}
+
+.btn-google:hover {
+    background-color: #c53929;
+}
+
+.btn-facebook {
+    background-color: #4267B2;
+}
+
+.btn-facebook:hover {
+    background-color: #365899;
+}
+
+/* Admin Table Action Buttons */
+.btn-admin-action {
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    border: none;
+    color: white;
+    font-weight: 500;
+    margin-left: 5px;
+}
+
+.btn-approve {
+    background-color: #38a169;
+}
+
+.btn-approve:hover {
+    background-color: #2f855a;
+}
+
+.btn-revoke {
+    background-color: #dd6b20;
+}
+
+.btn-revoke:hover {
+    background-color: #c05621;
+}
+
+.btn-delete {
+    background-color: #e53e3e;
+}
+
+.btn-delete:hover {
+    background-color: #c53030;
+}

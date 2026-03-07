@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const authHeaderBtn = document.getElementById('authHeaderBtn');
     const guestWarning = document.getElementById('guestWarning');
     const adminNavTab = document.getElementById('adminNavTab');
+    const requestDownloadBtn = document.getElementById('requestDownloadBtn');
     const exportImageBtn = document.getElementById('exportImageBtn');
 
     // Mặc định load filter ngày 1 (Cho Guest Mode)
@@ -61,14 +62,31 @@ document.addEventListener('DOMContentLoaded', () => {
             guestWarning.style.display = 'none';
 
             // Check role and load progress
-            database.ref('users/' + user.uid + '/profile/role').once('value').then(snapshot => {
-                currentRole = snapshot.val() || 'user';
+            database.ref('users/' + user.uid + '/profile').once('value').then(snapshot => {
+                const profile = snapshot.val() || {};
+                currentRole = profile.role || 'user';
+                const downloadStatus = profile.downloadStatus || 'none';
+
                 if (currentRole === 'admin') {
                     adminNavTab.style.display = 'flex';
-                    exportImageBtn.style.display = 'block'; // admin mới dùng được
+                    exportImageBtn.style.display = 'inline-block'; // admin luôn có quyền tải
+                    requestDownloadBtn.style.display = 'none';
                 } else {
                     adminNavTab.style.display = 'none';
-                    exportImageBtn.style.display = 'none';
+                    if (downloadStatus === 'approved') {
+                        exportImageBtn.style.display = 'inline-block';
+                        requestDownloadBtn.style.display = 'none';
+                    } else {
+                        exportImageBtn.style.display = 'none';
+                        requestDownloadBtn.style.display = 'inline-block';
+                        if (downloadStatus === 'pending') {
+                            requestDownloadBtn.innerHTML = "<span class='btn-icon'>⏳</span> <span class='btn-text'>Đang chờ duyệt tải...</span>";
+                            requestDownloadBtn.disabled = true;
+                        } else {
+                            requestDownloadBtn.innerHTML = "<span class='btn-icon'>🖐️</span> <span class='btn-text'>Xin Tải Ảnh</span>";
+                            requestDownloadBtn.disabled = false;
+                        }
+                    }
                 }
 
                 initDayFilters(); // Update filters (all days available)
@@ -95,6 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
             guestWarning.style.display = 'block';
             adminNavTab.style.display = 'none';
             exportImageBtn.style.display = 'none';
+            requestDownloadBtn.style.display = 'none'; // Guest cannot even request
             progressRef = null;
 
             initDayFilters(); // Update filters (only day 1 available)
@@ -436,6 +455,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Export Logic
+    requestDownloadBtn.addEventListener('click', () => {
+        if (!currentUser) return;
+        requestDownloadBtn.disabled = true;
+        requestDownloadBtn.innerHTML = "<span class='btn-icon'>⏳</span> <span class='btn-text'>Đang gửi yêu cầu...</span>";
+        database.ref('users/' + currentUser.uid + '/profile/downloadStatus').set('pending').then(() => {
+            alert("Đã gửi yêu cầu cấp quyền tải ảnh cho Admin!");
+            requestDownloadBtn.innerHTML = "<span class='btn-icon'>⏳</span> <span class='btn-text'>Đang chờ duyệt tải...</span>";
+        });
+    });
+
     const exportTemplate = document.getElementById('exportTemplate');
 
     exportImageBtn.addEventListener('click', async () => {
@@ -478,6 +507,15 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+
+            // Tăng biến đếm số lượng tải về
+            if (currentUser) {
+                const countRef = database.ref('users/' + currentUser.uid + '/profile/downloadCount');
+                countRef.once('value').then(snap => {
+                    let dCount = snap.val() || 0;
+                    countRef.set(dCount + 1);
+                });
+            }
 
         } catch (e) {
             console.error("Export failed:", e);
@@ -677,13 +715,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             firebase.auth().createUserWithEmailAndPassword(email, password)
                 .then((userCredential) => {
-                    // Create base user profile database record
                     const uid = userCredential.user.uid;
-                    database.ref('users/' + uid + '/profile').set({
-                        email: email,
-                        role: 'user', // mặc định là học viên thường
-                        registeredAt: Date.now()
-                    }).then(() => {
+                    updateLoginStats(uid, true, email).then(() => {
                         alert("Đăng ký thành công! Bạn đã có quyền học toàn bộ nội dung.");
                         authModal.style.display = 'none';
                         authForm.reset();
@@ -696,13 +729,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } else {
             firebase.auth().signInWithEmailAndPassword(email, password)
-                .then(() => {
-                    alert("Đăng nhập thành công!");
-                    authModal.style.display = 'none';
-                    authForm.reset();
+                .then((res) => {
+                    updateLoginStats(res.user.uid, false, email).then(() => {
+                        alert("Đăng nhập thành công!");
+                        authModal.style.display = 'none';
+                        authForm.reset();
+                    });
                 })
                 .catch((error) => {
-                    // Cải thiện thông báo lỗi Tiếng Việt cho Login
                     let msg = "Email hoặc Mật khẩu không đúng.";
                     if (error.code === 'auth/user-not-found') msg = "Tài khoản không tồn tại.";
                     if (error.code === 'auth/too-many-requests') msg = "Thử sai quá nhiều lần. Vui lòng thử lại sau.";
@@ -710,6 +744,43 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
                 .finally(() => submitAuthBtn.disabled = false);
         }
+    });
+
+    // Helper for auth updates
+    function updateLoginStats(uid, isNew = false, email = '') {
+        const profileRef = database.ref('users/' + uid + '/profile');
+        return profileRef.once('value').then(snap => {
+            let profile = snap.val() || {};
+            profile.lastLogin = Date.now();
+            profile.loginCount = (profile.loginCount || 0) + 1;
+            if (isNew) {
+                profile.role = 'user';
+                profile.downloadStatus = 'none';
+                profile.registeredAt = Date.now();
+                profile.downloadCount = 0;
+            }
+            if (email) profile.email = profile.email || email;
+            return profileRef.set(profile);
+        });
+    }
+
+    // Social Auth Listeners
+    document.getElementById('googleLoginBtn').addEventListener('click', () => {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        firebase.auth().signInWithPopup(provider).then((res) => {
+            updateLoginStats(res.user.uid, res.additionalUserInfo.isNewUser, res.user.email || 'Google User').then(() => {
+                authModal.style.display = 'none'; authForm.reset();
+            });
+        }).catch(err => alert("Lỗi đăng nhập Google: " + err.message));
+    });
+
+    document.getElementById('facebookLoginBtn').addEventListener('click', () => {
+        const provider = new firebase.auth.FacebookAuthProvider();
+        firebase.auth().signInWithPopup(provider).then((res) => {
+            updateLoginStats(res.user.uid, res.additionalUserInfo.isNewUser, res.user.email || 'Facebook User').then(() => {
+                authModal.style.display = 'none'; authForm.reset();
+            });
+        }).catch(err => alert("Lỗi đăng nhập Facebook: " + err.message));
     });
 
     // --- ADMIN PANEL UI LOGIC ---
@@ -729,8 +800,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
             Object.keys(allUsers).forEach(uid => {
                 const uData = allUsers[uid];
-                const email = (uData.profile && uData.profile.email) ? uData.profile.email : uid;
-                const role = (uData.profile && uData.profile.role) ? uData.profile.role : 'user';
+                const p = uData.profile || {};
+                const email = p.email || uid;
+                const role = p.role || 'user';
+                const dStatus = p.downloadStatus || 'none';
+                const loginCount = p.loginCount || 0;
+                const dCount = p.downloadCount || 0;
+
+                let lastLoginStr = "Chưa có";
+                if (p.lastLogin) {
+                    const d = new Date(p.lastLogin);
+                    lastLoginStr = d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                }
 
                 // Đếm số từ đã học
                 let learnedCount = 0;
@@ -738,20 +819,62 @@ document.addEventListener('DOMContentLoaded', () => {
                     learnedCount = Object.values(uData.my_progress).filter(val => val === true).length;
                 }
 
+                let dStatusUI = "<span style='color: #718096;'>Chưa xin</span>";
+                let actionsUI = "";
+
+                if (dStatus === 'pending') {
+                    dStatusUI = "<span style='color: #dd6b20; font-weight:bold;'>Chờ duyệt</span>";
+                    actionsUI += `<button class='btn-admin-action btn-approve' onclick="window.adminSetDownload('${uid}', 'approved')">Duyệt</button>`;
+                } else if (dStatus === 'approved') {
+                    dStatusUI = "<span style='color: #38a169; font-weight:bold;'>Đã Duyệt</span>";
+                    if (role !== 'admin') actionsUI += `<button class='btn-admin-action btn-revoke' onclick="window.adminSetDownload('${uid}', 'none')">Tước Quyền</button>`;
+                }
+
+                if (role !== 'admin') {
+                    actionsUI += `<div style='margin-top: 5px;'><button class='btn-admin-action btn-delete' onclick="window.adminDeleteUser('${uid}')">Xóa DL Người Dùng</button></div>`;
+                }
+
                 const roleBage = role === 'admin'
-                    ? '<span class="status-badge learned" style="position:static; font-size: 0.7rem;">Admin</span>'
-                    : '<span class="status-badge" style="position:static; font-size: 0.7rem;">User</span>';
+                    ? '<span class="status-badge learned" style="position:static; font-size: 0.7rem; padding: 2px 6px;">Admin</span>'
+                    : '<span class="status-badge" style="position:static; font-size: 0.7rem; padding: 2px 6px;">User</span>';
+
+                const statsUI = `<div style="font-size: 0.8rem; line-height: 1.4;">
+                    <div>Đã học: <b>${learnedCount}</b> từ</div>
+                    <div>Sign-in: <b>${loginCount}</b> lần</div>
+                    <div>Tải ảnh: <b>${dCount}</b> ảnh</div>
+                </div>`;
 
                 adminTbody.innerHTML += `
                     <tr style="border-bottom: 1px solid #e2e8f0;">
-                        <td style="padding: 10px; font-weight: 500;">${email}</td>
-                        <td style="padding: 10px;">${roleBage}</td>
-                        <td style="padding: 10px; font-weight: bold; color: var(--primary);">${learnedCount}</td>
+                        <td style="padding: 10px; font-weight: 500;"><div>${email}</div><div style="margin-top:4px;">${roleBage}</div></td>
+                        <td style="padding: 10px; text-align: center;">${dStatusUI}</td>
+                        <td style="padding: 10px; text-align: left;">${statsUI}</td>
+                        <td style="padding: 10px; font-size: 0.8rem;">${lastLoginStr}</td>
+                        <td style="padding: 10px; text-align: right;">${actionsUI}</td>
                     </tr>
                 `;
             });
         }).catch(err => {
-            adminTbody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: red;">Lỗi tải dữ liệu: ${err.message}</td></tr>`;
+            adminTbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: red;">Lỗi tải dữ liệu: ${err.message}</td></tr>`;
         });
     });
+
+    // --- ADMIN GLOBAL ACTIONS ---
+    window.adminSetDownload = function (uid, status) {
+        if (confirm(`Xác nhận cập nhật quyền tải ảnh: ${status}?`)) {
+            database.ref('users/' + uid + '/profile/downloadStatus').set(status).then(() => {
+                alert("Đã cập nhật!");
+                document.getElementById('adminNavTab').click(); // refresh
+            });
+        }
+    };
+
+    window.adminDeleteUser = function (uid) {
+        if (confirm(`Nguy hiểm: Bạn có chắc xóa TOÀN BỘ tiến trình và dữ liệu của người dùng này khỏi Database?`)) {
+            database.ref('users/' + uid).remove().then(() => {
+                alert("Đã xóa dữ liệu thành công!");
+                document.getElementById('adminNavTab').click(); // refresh
+            });
+        }
+    };
 });
