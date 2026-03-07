@@ -316,7 +316,7 @@ header p {
 }
 
 .export-grammar {
-    font-size: 3.5rem;
+    font-size: 2.8rem;
     font-weight: 700;
     color: #e53e3e;
     margin: 10px 0;
@@ -368,17 +368,17 @@ header p {
 
 .social-links {
     display: flex;
-    gap: 30px;
+    gap: 15px;
     align-items: center;
 }
 
 .social-link {
-    font-size: 1.1rem;
+    font-size: 0.9rem;
     color: #4a5568;
     background: white;
-    padding: 8px 15px;
-    border-radius: 25px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    padding: 6px 12px;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     display: flex;
     align-items: center;
     gap: 5px;

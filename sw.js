@@ -1,10 +1,10 @@
-const CACHE_NAME = 'jp-flashcards-v15';
+const CACHE_NAME = 'jp-flashcards-v16';
 const urlsToCache = [
     '/',
     '/index.html',
     '/style.css',
-    '/script.js?v=8',
-    '/data.js?v=8',
+    '/script.js?v=9',
+    '/data.js?v=9',
     '/manifest.json',
     '/icons/icon-192.png',
     '/icons/icon-512.png',
