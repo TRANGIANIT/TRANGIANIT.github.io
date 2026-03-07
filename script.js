@@ -693,7 +693,7 @@ document.addEventListener('DOMContentLoaded', () => {
         isRegisterMode = !isRegisterMode;
         if (isRegisterMode) {
             authModalTitle.textContent = "Đăng Ký";
-            submitAuthBtn.textContent = "Đăng Ký Khóa Học";
+            submitAuthBtn.textContent = "Đăng Ký Tài Khoản";
             confirmPasswordGroup.style.display = 'block';
             document.getElementById('authConfirmPassword').setAttribute('required', 'true');
             if (document.getElementById('forgotPasswordContainer')) document.getElementById('forgotPasswordContainer').style.display = 'none';
