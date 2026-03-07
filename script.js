@@ -319,7 +319,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Animate drop-in
                 flashcard.style.transition = 'all 0.4s cubic-bezier(0.4, 0.2, 0.2, 1)';
-                flashcard.style.transform = `${isFlipped ? 'rotateY(180deg)' : ''}`;
+                flashcard.style.transform = '';
                 flashcard.style.opacity = '1';
                 setTimeout(() => isSwiping = false, 450); // Clear click state
             }, 300);
@@ -327,7 +327,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             // Revert bounce if threshold not met
             flashcard.style.transition = 'all 0.3s cubic-bezier(0.4, 0.2, 0.2, 1)';
-            flashcard.style.transform = `${isFlipped ? 'rotateY(180deg)' : ''}`;
+            flashcard.style.transform = '';
             if (swipeStampLeft) swipeStampLeft.style.opacity = 0;
             if (swipeStampRight) swipeStampRight.style.opacity = 0;
             setTimeout(() => {
