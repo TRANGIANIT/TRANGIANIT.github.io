@@ -60,6 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // User is signed in
             authHeaderBtn.textContent = "Đăng Xuất";
             guestWarning.style.display = 'none';
+            authModal.style.display = 'none'; // Force close modal here
 
             // Check role and load progress
             database.ref('users/' + user.uid + '/profile').once('value').then(snapshot => {
@@ -800,19 +801,29 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('googleLoginBtn').addEventListener('click', () => {
         const provider = new firebase.auth.GoogleAuthProvider();
         firebase.auth().signInWithPopup(provider).then((res) => {
-            updateLoginStats(res.user.uid, res.additionalUserInfo.isNewUser, res.user.email || 'Google User').then(() => {
+            const isNew = res.additionalUserInfo ? res.additionalUserInfo.isNewUser : false;
+            updateLoginStats(res.user.uid, isNew, res.user.email || 'Google User').then(() => {
                 authModal.style.display = 'none'; authForm.reset();
             });
-        }).catch(err => alert("Lỗi đăng nhập Google: " + err.message));
+        }).catch(err => {
+            if (err.code !== 'auth/popup-closed-by-user') {
+                alert("Lỗi đăng nhập Google: " + err.message + " (Đảm bảo bạn đã thêm tên miền Github vào mục Authorized Domains trong Firebase Console)");
+            }
+        });
     });
 
     document.getElementById('facebookLoginBtn').addEventListener('click', () => {
         const provider = new firebase.auth.FacebookAuthProvider();
         firebase.auth().signInWithPopup(provider).then((res) => {
-            updateLoginStats(res.user.uid, res.additionalUserInfo.isNewUser, res.user.email || 'Facebook User').then(() => {
+            const isNew = res.additionalUserInfo ? res.additionalUserInfo.isNewUser : false;
+            updateLoginStats(res.user.uid, isNew, res.user.email || 'Facebook User').then(() => {
                 authModal.style.display = 'none'; authForm.reset();
             });
-        }).catch(err => alert("Lỗi đăng nhập Facebook: " + err.message));
+        }).catch(err => {
+            if (err.code !== 'auth/popup-closed-by-user') {
+                alert("Lỗi đăng nhập Facebook: " + err.message + " (Đảm bảo bạn đã thêm tên miền Github vào mục Authorized Domains trong Firebase Console)");
+            }
+        });
     });
 
     // --- ADMIN PANEL UI LOGIC ---
