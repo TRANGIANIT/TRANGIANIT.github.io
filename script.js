@@ -20,6 +20,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const quizFeedback = document.getElementById('quizFeedback');
     const nextQuizBtn = document.getElementById('nextQuizBtn');
 
+    // Summary Quiz DOM Elements
+    const quizContainer = document.getElementById('quizContainer');
+    const quizSummaryContainer = document.getElementById('quizSummaryContainer');
+    const quizScoreContainer = document.getElementById('quizScoreContainer');
+    const quizHighScore = document.getElementById('quizHighScore');
+    const quizFinalScoreDisplay = document.getElementById('quizFinalScoreDisplay');
+    const quizFinalMessage = document.getElementById('quizFinalMessage');
+    const reviewWrongBtn = document.getElementById('reviewWrongBtn');
+    const restartQuizBtn = document.getElementById('restartQuizBtn');
+
 
 
     const navTabs = document.querySelectorAll('.nav-tab');
@@ -59,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!isFirebaseLoaded) {
         initDayFilters();
         filterCards();
-        if (quizWeekFilter) generateQuiz();
+        if (quizWeekFilter) startQuizSession();
         isFirebaseLoaded = true;
     }
 
@@ -146,8 +156,11 @@ document.addEventListener('DOMContentLoaded', () => {
             progressRef = null;
 
             initDayFilters(); // Update filters (only day 1 available)
+            // The instruction had a malformed line here, assuming it meant to add updateAuthUI()
+            // and keep the comment for initDayFilters()
+            // updateAuthUI(); // Assuming this was intended to be added here
             filterCards();
-            if (quizWeekFilter) generateQuiz();
+            if (quizWeekFilter) startQuizSession();
         }
     });
 
@@ -397,7 +410,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Quiz Logic ---
     quizWeekFilter.addEventListener('change', () => {
         // This filter should trigger a new quiz generation, not filter flashcards
-        generateQuiz();
+        // NOTE: Also handled in Quiz Logic section
     });
 
     // Filtering logic
@@ -802,45 +815,109 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Quiz Logic ---
 
+    let quizPool = [];
+    let currentQuizIndex = 0;
+    let quizScoreCorrect = 0;
+    let wrongCards = [];
+    let isReviewSession = false;
+    let currentQuizDayFilter = 'all';
+
     quizWeekFilter.addEventListener('change', () => {
         updateDayOptions('quiz');
-        generateQuiz();
+        startQuizSession(false);
     });
-    quizDayFilter.addEventListener('change', generateQuiz);
-    nextQuizBtn.addEventListener('click', generateQuiz);
+    quizDayFilter.addEventListener('change', () => startQuizSession(false));
 
-    function generateQuiz() {
-        // Reset UI
+    // Khởi tạo các event listeners cho Quiz
+    nextQuizBtn.addEventListener('click', () => {
+        currentQuizIndex++;
+        if (currentQuizIndex < quizPool.length) {
+            renderQuizQuestion(quizPool[currentQuizIndex]);
+        } else {
+            showQuizSummary();
+        }
+    });
+
+    reviewWrongBtn.addEventListener('click', () => {
+        startQuizSession(true);
+    });
+
+    restartQuizBtn.addEventListener('click', () => {
+        startQuizSession(false);
+    });
+
+    function startQuizSession(isReview = false) {
+        // Hide summary, show quiz
+        if (quizSummaryContainer) quizSummaryContainer.style.display = 'none';
+        if (quizContainer) quizContainer.style.display = 'block';
+
+        // Reset Stats
+        currentQuizIndex = 0;
+        quizScoreCorrect = 0;
+        isReviewSession = isReview;
+        currentQuizDayFilter = quizDayFilter.value;
+
+        if (isReview) {
+            quizPool = [...wrongCards];
+        } else {
+            const qWeekVal = quizWeekFilter.value;
+            const qDayVal = quizDayFilter.value;
+
+            quizPool = flashcardsData.filter(c => {
+                // Auth check cho pool question
+                if (!currentUser && c.day !== 1) return false;
+
+                let wMatch = true;
+                if (qWeekVal !== 'all') {
+                    wMatch = Math.ceil(c.day / 7) === parseInt(qWeekVal);
+                }
+                let dMatch = true;
+                if (qDayVal !== 'all') {
+                    dMatch = c.day === parseInt(qDayVal);
+                }
+                return wMatch && dMatch;
+            });
+            // Shuffle pool
+            quizPool.sort(() => Math.random() - 0.5);
+        }
+
+        wrongCards = []; // Reset wrong cards array for this session
+
+        if (quizPool.length < 4 && !isReview) {
+            quizQuestion.textContent = "Không đủ dữ liệu bộ từ vựng để tạo bài Trắc nghiệm. Hãy chọn Ngày khác hoặc Tất cả.";
+            const progressText = document.getElementById('quizProgressText');
+            if (progressText) progressText.textContent = "Câu hỏi: 0 / 0";
+            quizOptions.innerHTML = '';
+            quizFeedback.style.display = 'none';
+            nextQuizBtn.style.display = 'none';
+            return;
+        }
+
+        if (quizPool.length === 0 && isReview) {
+            return;
+        }
+
+        // Display High Score when starting
+        if (!isReviewSession && currentQuizDayFilter !== 'all') {
+            loadHighScoreForDay(currentQuizDayFilter);
+        } else {
+            if (quizScoreContainer) quizScoreContainer.style.display = 'none';
+        }
+
+        renderQuizQuestion(quizPool[currentQuizIndex]);
+    }
+
+    function renderQuizQuestion(correctCard) {
+        // Reset UI for the question
         quizFeedback.className = 'quiz-feedback';
         quizFeedback.style.display = 'none';
         nextQuizBtn.style.display = 'none';
         quizOptions.innerHTML = '';
 
-        const qWeekVal = quizWeekFilter.value;
-        const qDayVal = quizDayFilter.value;
-
-        let pool = flashcardsData.filter(c => {
-            // Auth check cho pool question
-            if (!currentUser && c.day !== 1) return false;
-
-            let wMatch = true;
-            if (qWeekVal !== 'all') {
-                wMatch = Math.ceil(c.day / 7) === parseInt(qWeekVal);
-            }
-            let dMatch = true;
-            if (qDayVal !== 'all') {
-                dMatch = c.day === parseInt(qDayVal);
-            }
-            return wMatch && dMatch;
-        });
-
-        if (pool.length < 4) {
-            quizQuestion.textContent = "Không đủ dữ liệu bộ từ vựng để tạo bài Trắc nghiệm. Hãy chọn Ngày khác hoặc Tất cả.";
-            return;
+        const progressText = document.getElementById('quizProgressText');
+        if (progressText) {
+            progressText.textContent = `Câu hỏi: ${currentQuizIndex + 1} / ${quizPool.length}`;
         }
-
-        // Pick 1 random correct grammar
-        const correctCard = pool[Math.floor(Math.random() * pool.length)];
 
         // Random question type: 0 = meaning, 1 = usage, 2 = example
         const qType = Math.floor(Math.random() * 3);
@@ -858,7 +935,6 @@ document.addEventListener('DOMContentLoaded', () => {
             correctOptionText = correctCard.usage;
             currentQuizAnswer = correctOptionText;
         } else {
-            // Safe fallback if card has no examples
             if (correctCard.examples && correctCard.examples.length > 0) {
                 questionText = `Cấu trúc nào phù hợp với câu sau: "<br><i>${correctCard.examples[0].jp}</i>" ?`;
                 explanationText = `<strong>${correctCard.grammar}</strong><br>Dịch nghĩa câu ví dụ: ${correctCard.examples[0].vi}`;
@@ -889,32 +965,33 @@ document.addEventListener('DOMContentLoaded', () => {
         // Shuffle
         options.sort(() => Math.random() - 0.5);
 
-        // Render options
         options.forEach(opt => {
             const btn = document.createElement('button');
             btn.className = 'quiz-option';
             btn.textContent = opt;
-            btn.addEventListener('click', () => handleQuizAnswer(btn, opt, correctOptionText, explanationText));
+            btn.addEventListener('click', () => handleQuizAnswer(btn, opt, correctOptionText, explanationText, correctCard));
             quizOptions.appendChild(btn);
         });
     }
 
-    function handleQuizAnswer(clickedBtn, selectedText, correctText, explanation) {
-        // Prevent multiple clicks
+    function handleQuizAnswer(clickedBtn, selectedText, correctText, explanation, correctCard) {
         if (nextQuizBtn.style.display === 'block') return;
 
         const allButtons = quizOptions.querySelectorAll('.quiz-option');
 
         if (selectedText === correctText) {
+            quizScoreCorrect++;
             clickedBtn.classList.add('correct');
             quizFeedback.innerHTML = `✅ <strong>Chính xác!</strong><br><br>${explanation}`;
             quizFeedback.className = 'quiz-feedback success';
         } else {
+            if (!wrongCards.some(card => card.id === correctCard.id)) {
+                wrongCards.push(correctCard);
+            }
             clickedBtn.classList.add('wrong');
             quizFeedback.innerHTML = `❌ <strong>Sai rồi!</strong><br><br>${explanation}`;
             quizFeedback.className = 'quiz-feedback error';
 
-            // Highlight the correct one
             allButtons.forEach(b => {
                 if (b.textContent === correctText) {
                     b.classList.add('correct');
@@ -923,6 +1000,89 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         nextQuizBtn.style.display = 'block';
+    }
+
+    function showQuizSummary() {
+        if (quizContainer) quizContainer.style.display = 'none';
+        if (quizSummaryContainer) quizSummaryContainer.style.display = 'block';
+
+        if (quizFinalScoreDisplay) {
+            quizFinalScoreDisplay.innerHTML = `${quizScoreCorrect}<span style="font-size: 2rem; color: #a0aec0;">/${quizPool.length}</span>`;
+        }
+
+        const ratio = quizScoreCorrect / quizPool.length;
+        if (quizFinalMessage) {
+            if (ratio === 1) {
+                quizFinalMessage.textContent = "Hoàn hảo! Bạn đã nắm vững các cấu trúc trong phần này.";
+            } else if (ratio >= 0.7) {
+                quizFinalMessage.textContent = "Làm tốt lắm! Nhưng vẫn còn vài chỗ bạn có thể cải thiện.";
+            } else {
+                quizFinalMessage.textContent = "Cố gắng hơn nữa nhé! Ôn tập lại sẽ giúp bạn nhớ lâu hơn.";
+            }
+        }
+
+        if (reviewWrongBtn) {
+            if (wrongCards.length > 0) {
+                reviewWrongBtn.style.display = 'block';
+                reviewWrongBtn.textContent = `Học lại ${wrongCards.length} câu sai ↻`;
+            } else {
+                reviewWrongBtn.style.display = 'none';
+            }
+        }
+
+        if (!isReviewSession && currentQuizDayFilter !== 'all') {
+            saveHighScoreForDay(currentQuizDayFilter, quizScoreCorrect);
+        }
+    }
+
+    function loadHighScoreForDay(day) {
+        if (quizScoreContainer) quizScoreContainer.style.display = 'none';
+
+        if (currentUser) {
+            firebase.database().ref(`users/${currentUser.uid}/quiz_scores/day_${day}`).once('value')
+                .then(snapshot => {
+                    if (snapshot.exists() && quizHighScore && quizScoreContainer) {
+                        quizHighScore.textContent = `${snapshot.val()} điểm`;
+                        quizScoreContainer.style.display = 'block';
+                    }
+                })
+                .catch(err => console.error("Error loading high score", err));
+        } else {
+            const scores = JSON.parse(localStorage.getItem('guest_quiz_scores') || "{}");
+            if (scores[`day_${day}`] && quizHighScore && quizScoreContainer) {
+                quizHighScore.textContent = `${scores[`day_${day}`]} điểm`;
+                quizScoreContainer.style.display = 'block';
+            }
+        }
+    }
+
+    function saveHighScoreForDay(day, score) {
+        const key = `day_${day}`;
+
+        if (currentUser) {
+            firebase.database().ref(`users/${currentUser.uid}/quiz_scores/${key}`).once('value')
+                .then(snapshot => {
+                    const currentHighScore = snapshot.exists() ? snapshot.val() : 0;
+                    if (score > currentHighScore) {
+                        firebase.database().ref(`users/${currentUser.uid}/quiz_scores/${key}`).set(score);
+                        if (quizHighScore && quizScoreContainer) {
+                            quizHighScore.textContent = `${score} điểm`;
+                            quizScoreContainer.style.display = 'block';
+                        }
+                    }
+                });
+        } else {
+            const scores = JSON.parse(localStorage.getItem('guest_quiz_scores') || "{}");
+            const currentHighScore = scores[key] || 0;
+            if (score > currentHighScore) {
+                scores[key] = score;
+                localStorage.setItem('guest_quiz_scores', JSON.stringify(scores));
+                if (quizHighScore && quizScoreContainer) {
+                    quizHighScore.textContent = `${score} điểm`;
+                    quizScoreContainer.style.display = 'block';
+                }
+            }
+        }
     }
 
     // --- AUTH UI & LOGIC ---

@@ -257,6 +257,11 @@
                 </div>
             </div>
             <div class="quiz-container" id="quizContainer">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem;"
+                    id="quizProgressContainer">
+                    <span id="quizProgressText" style="font-weight: 600; color: #4a5568; font-size: 0.9rem;">Câu hỏi: 0
+                        / 0</span>
+                </div>
                 <div class="quiz-question" id="quizQuestion">Đang tải câu hỏi...</div>
                 <div class="quiz-options" id="quizOptions">
                     <!-- Nút bấm generate tự động -->
@@ -265,6 +270,31 @@
                 <button class="btn btn-quiz-next" id="nextQuizBtn"
                     style="width: 100%; margin-top: 1rem; display: none;">Câu
                     tiếp theo ❯</button>
+            </div>
+
+            <div class="quiz-summary-container" id="quizSummaryContainer"
+                style="display: none; text-align: center; background: white; padding: 2rem; border-radius: 15px; box-shadow: var(--shadow);">
+                <h3 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.5rem;">Hoàn thành Ôn Tập! 🎉</h3>
+                <div id="quizScoreContainer" style="margin-bottom: 1.5rem; display: none;">
+                    <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 0.3rem;">Kỷ lục của bạn (Bài
+                        này):</p>
+                    <div
+                        style="display: inline-block; background: #FEFCBF; color: #B7791F; font-weight: bold; padding: 0.5rem 1rem; border-radius: 20px; font-size: 1.1rem; border: 1px solid #F6E05E;">
+                        🏆 Tốt nhất: <span id="quizHighScore">0/0</span>
+                    </div>
+                </div>
+                <div style="font-size: 4rem; font-weight: bold; color: var(--jp-red); margin-bottom: 1rem;"
+                    id="quizFinalScoreDisplay">
+                    0<span style="font-size: 2rem; color: #a0aec0;">/0</span>
+                </div>
+                <p style="color: var(--text-light); margin-bottom: 2rem;" id="quizFinalMessage">Cố gắng hơn nữa nhé!</p>
+
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <button class="btn btn-status btn-unlearned" id="reviewWrongBtn"
+                        style="display: none; padding: 1rem;">Học lại những câu sai ↻</button>
+                    <button class="btn btn-quiz-next" id="restartQuizBtn"
+                        style="padding: 1rem; background: var(--primary);">Khởi động lại bài học ↺</button>
+                </div>
             </div>
         </div> <!-- End Quiz View -->
 
