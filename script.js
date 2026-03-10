@@ -161,7 +161,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const reviewWrongBtn = document.getElementById('reviewWrongBtn');
     const restartQuizBtn = document.getElementById('restartQuizBtn');
 
-
+    // ===== EXAM MODE VARIABLES =====
+    let examQuestions = [];
+    let examCurrentIndex = 0;
+    let examAnswers = {}; // { questionId: optionIndex }
+    let examStartTime = null;
+    let examTimeLimit = 60 * 60; // 60 phút (seconds)
+    let examTimerInterval = null;
+    let examWrongCards = [];
+    // ================================
 
     const navTabs = document.querySelectorAll('.nav-tab');
     const viewSections = document.querySelectorAll('.view-section');
@@ -1604,4 +1612,313 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     };
-});
+
+    // ===== EXAM MODE ENGINE (Thi Thử) =====
+    
+    // Generate 20 random exam questions từ flashcards
+    function generateExamQuestions() {
+        examQuestions = [];
+        examWrongCards = [];
+        
+        // Lấy 20 ngữ pháp random
+        const randomGrammars = flashcardsData
+            .filter(c => !currentUser || c.day === 1 || currentUser) // Guest chỉ Day 1
+            .sort(() => Math.random() - 0.5)
+            .slice(0, 20);
+
+        randomGrammars.forEach((grammar, index) => {
+            const questionType = ['meaning', 'usage', 'example'][Math.floor(Math.random() * 3)];
+            let question = '';
+            let correctOption = '';
+            let wrongOptions = [];
+
+            if (questionType === 'meaning') {
+                question = `Ý nghĩa của cấu trúc "<strong>${grammar.grammar}</strong>" là gì?`;
+                correctOption = grammar.meaning;
+                // Lấy 3 ý nghĩa sai từ các ngữ pháp khác
+                wrongOptions = flashcardsData
+                    .filter(c => c.id !== grammar.id)
+                    .sort(() => Math.random() - 0.5)
+                    .slice(0, 3)
+                    .map(c => c.meaning);
+            } else if (questionType === 'usage') {
+                question = `Cách dùng của cấu trúc "<strong>${grammar.grammar}</strong>" là gì?`;
+                correctOption = grammar.usage;
+                wrongOptions = flashcardsData
+                    .filter(c => c.id !== grammar.id)
+                    .sort(() => Math.random() - 0.5)
+                    .slice(0, 3)
+                    .map(c => c.usage);
+            } else {
+                if (grammar.examples && grammar.examples[0]) {
+                    question = `Câu nào sử dụng ngữ pháp "<strong>${grammar.grammar}</strong>" đúng nhất?<br><i>"${grammar.examples[0].jp}"</i>`;
+                    correctOption = grammar.grammar;
+                    wrongOptions = flashcardsData
+                        .filter(c => c.id !== grammar.id)
+                        .sort(() => Math.random() - 0.5)
+                        .slice(0, 3)
+                        .map(c => c.grammar);
+                } else {
+                    question = `Ngữ pháp nào có ý nghĩa: "<strong>${grammar.meaning}</strong>"?`;
+                    correctOption = grammar.grammar;
+                    wrongOptions = flashcardsData
+                        .filter(c => c.id !== grammar.id)
+                        .sort(() => Math.random() - 0.5)
+                        .slice(0, 3)
+                        .map(c => c.grammar);
+                }
+            }
+
+            // Shuffle options
+            let options = [correctOption, ...wrongOptions].sort(() => Math.random() - 0.5);
+
+            examQuestions.push({
+                id: `exam_q_${index}`,
+                grammarId: grammar.id,
+                grammarName: grammar.grammar,
+                questionType,
+                question,
+                options,
+                correctOptionIndex: options.indexOf(correctOption),
+                hint: grammar.note,
+                meaning: grammar.meaning,
+                usage: grammar.usage,
+                examples: grammar.examples || []
+            });
+        });
+
+        return examQuestions;
+    }
+
+    // Start exam
+    const startExamBtn = document.getElementById('startExamBtn');
+    if (startExamBtn) {
+        startExamBtn.addEventListener('click', () => {
+            generateExamQuestions();
+            examCurrentIndex = 0;
+            examAnswers = {};
+            examStartTime = Date.now();
+            
+            document.getElementById('exam-setup').style.display = 'none';
+            document.getElementById('exam-screen').style.display = 'block';
+            document.getElementById('exam-result').style.display = 'none';
+            document.getElementById('exam-review').style.display = 'none';
+            
+            startExamTimer();
+            renderExamQuestion();
+        });
+    }
+
+    // Timer
+    function startExamTimer() {
+        const timerEl = document.getElementById('examTimer');
+        let remainingSeconds = examTimeLimit;
+
+        examTimerInterval = setInterval(() => {
+            remainingSeconds--;
+            const mins = Math.floor(remainingSeconds / 60);
+            const secs = remainingSeconds % 60;
+            timerEl.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+
+            if (remainingSeconds <= 0) {
+                clearInterval(examTimerInterval);
+                submitExam();
+            }
+        }, 1000);
+    }
+
+    // Render question
+    function renderExamQuestion() {
+        if (examCurrentIndex >= examQuestions.length) return;
+
+        const q = examQuestions[examCurrentIndex];
+        document.getElementById('currentQuestionNum').textContent = examCurrentIndex + 1;
+        document.getElementById('questionText').innerHTML = q.question;
+        document.getElementById('examProgressBar').style.width = ((examCurrentIndex + 1) / 20 * 100) + '%';
+
+        const optionsContainer = document.getElementById('optionsContainer');
+        optionsContainer.innerHTML = '';
+
+        q.options.forEach((opt, idx) => {
+            const isSelected = examAnswers[q.id] === idx;
+            const optBtn = document.createElement('button');
+            optBtn.className = 'quiz-option';
+            if (isSelected) optBtn.classList.add('selected');
+            optBtn.textContent = opt;
+            optBtn.onclick = () => {
+                examAnswers[q.id] = idx;
+                document.querySelectorAll('#optionsContainer .quiz-option').forEach(b => b.classList.remove('selected'));
+                optBtn.classList.add('selected');
+                // Auto save
+                localStorage.setItem('exam_answers', JSON.stringify(examAnswers));
+            };
+            optionsContainer.appendChild(optBtn);
+        });
+
+        // Update navigation
+        document.getElementById('examPrevBtn').disabled = examCurrentIndex === 0;
+        document.getElementById('examPrevBtn').style.opacity = examCurrentIndex === 0 ? '0.5' : '1';
+        document.getElementById('examPrevBtn').style.cursor = examCurrentIndex === 0 ? 'not-allowed' : 'pointer';
+    }
+
+    // Navigation
+    const examPrevBtn = document.getElementById('examPrevBtn');
+    const examNextBtn = document.getElementById('examNextBtn');
+    const submitExamBtn = document.getElementById('submitExamBtn');
+
+    if (examPrevBtn) {
+        examPrevBtn.addEventListener('click', () => {
+            if (examCurrentIndex > 0) {
+                examCurrentIndex--;
+                renderExamQuestion();
+            }
+        });
+    }
+
+    if (examNextBtn) {
+        examNextBtn.addEventListener('click', () => {
+            if (examCurrentIndex < examQuestions.length - 1) {
+                examCurrentIndex++;
+                renderExamQuestion();
+            }
+        });
+    }
+
+    if (submitExamBtn) {
+        submitExamBtn.addEventListener('click', submitExam);
+    }
+
+    // Submit exam
+    function submitExam() {
+        clearInterval(examTimerInterval);
+        
+        // Calculate score
+        let correctCount = 0;
+        let wrongGrammars = {};
+
+        examQuestions.forEach(q => {
+            const userAnswerIndex = examAnswers[q.id];
+            if (userAnswerIndex === q.correctOptionIndex) {
+                correctCount++;
+            } else {
+                examWrongCards.push(q);
+                wrongGrammars[q.grammarName] = (wrongGrammars[q.grammarName] || 0) + 1;
+            }
+        });
+
+        const score = correctCount;
+        const percentage = Math.round((correctCount / 20) * 100);
+
+        // Show result
+        document.getElementById('exam-screen').style.display = 'none';
+        document.getElementById('exam-result').style.display = 'block';
+        document.getElementById('examScore').textContent = score;
+        document.getElementById('examCorrect').textContent = score;
+        document.getElementById('examWrong').textContent = 20 - score;
+        document.getElementById('examPercentage').textContent = percentage + '%';
+
+        // Weak grammars
+        const weakGrammarsDiv = document.getElementById('weakGrammars');
+        weakGrammarsDiv.innerHTML = '';
+        const sortedWeak = Object.entries(wrongGrammars)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 5);
+        
+        if (sortedWeak.length === 0) {
+            weakGrammarsDiv.innerHTML = '<p style="color: #10b981;">✅ Bạn làm rất tốt! Không có điểm yếu đáng kể.</p>';
+        } else {
+            sortedWeak.forEach(([grammar, count]) => {
+                const bar = document.createElement('div');
+                bar.style.cssText = 'background: #fee2e2; padding: 0.75rem; border-radius: 8px; margin-bottom: 0.5rem;';
+                bar.innerHTML = `<div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <strong>${grammar}</strong>
+                    <span style="color: #ef4444;">${count} lỗi</span>
+                </div>
+                <div style="background: #e2e8f0; height: 4px; border-radius: 2px; overflow: hidden;">
+                    <div style="background: #ef4444; height: 100%; width: ${(count / 5) * 100}%;"></div>
+                </div>`;
+                weakGrammarsDiv.appendChild(bar);
+            });
+        }
+
+        // Save to Firebase
+        if (currentUser) {
+            const attemptRef = database.ref(`users/${currentUser.uid}/exam_attempts`).push();
+            attemptRef.set({
+                created_at: Date.now(),
+                score,
+                total: 20,
+                percentage,
+                answers: examAnswers
+            });
+        }
+    }
+
+    // Review wrong answers
+    const reviewWrongExamBtn = document.getElementById('reviewWrongExamBtn');
+    if (reviewWrongExamBtn) {
+        reviewWrongExamBtn.addEventListener('click', () => {
+            document.getElementById('exam-result').style.display = 'none';
+            document.getElementById('exam-review').style.display = 'block';
+
+            const reviewContainer = document.getElementById('reviewContainer');
+            reviewContainer.innerHTML = '';
+
+            examWrongCards.forEach(q => {
+                const userAnswerIndex = examAnswers[q.id];
+                const userAnswer = q.options[userAnswerIndex] || 'Không trả lời';
+                const correctAnswer = q.options[q.correctOptionIndex];
+
+                const card = document.createElement('div');
+                card.style.cssText = 'background: #fff; border: 2px solid #fee2e2; border-radius: 10px; padding: 1.5rem; margin-bottom: 1.5rem;';
+                card.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                        <h4 style="margin: 0; color: var(--text-main);">${q.grammarName}</h4>
+                        <span style="background: #fee2e2; color: #ef4444; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">❌ SAI</span>
+                    </div>
+                    <div style="background: #f3f4f6; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                        <div style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 0.5rem;">Câu Hỏi:</div>
+                        <div style="color: var(--text-main);">${q.question}</div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                        <div style="background: #fee2e2; padding: 1rem; border-radius: 8px;">
+                            <div style="font-size: 0.8rem; color: #dc2626; font-weight: 600; margin-bottom: 0.5rem;">👎 Câu Trả Lời</div>
+                            <div style="color: var(--text-main);">${userAnswer}</div>
+                        </div>
+                        <div style="background: #d1fae5; padding: 1rem; border-radius: 8px;">
+                            <div style="font-size: 0.8rem; color: #10b981; font-weight: 600; margin-bottom: 0.5rem;">👍 Đáp Án Đúng</div>
+                            <div style="color: var(--text-main);">${correctAnswer}</div>
+                        </div>
+                    </div>
+                    <div style="background: #fef3c7; padding: 1rem; border-radius: 8px; border-left: 4px solid #f59e0b;">
+                        <div style="font-size: 0.85rem; font-weight: 600; color: #d97706; margin-bottom: 0.5rem;">💡 Mẹo Ghi Nhớ:</div>
+                        <div style="color: var(--text-main);">${q.hint || 'N/A'}</div>
+                    </div>
+                `;
+                reviewContainer.appendChild(card);
+            });
+
+            const backBtn = document.createElement('button');
+            backBtn.className = 'btn btn-status';
+            backBtn.textContent = '← Quay Lại Kết Quả';
+            backBtn.onclick = () => {
+                document.getElementById('exam-review').style.display = 'none';
+                document.getElementById('exam-result').style.display = 'block';
+            };
+            reviewContainer.appendChild(backBtn);
+        });
+    }
+
+    // Retake exam
+    const retakeExamBtn = document.getElementById('retakeExamBtn');
+    if (retakeExamBtn) {
+        retakeExamBtn.addEventListener('click', () => {
+            document.getElementById('exam-setup').style.display = 'block';
+            document.getElementById('exam-screen').style.display = 'none';
+            document.getElementById('exam-result').style.display = 'none';
+            document.getElementById('exam-review').style.display = 'none';
+        });
+    }
+
+    // ========================================
+
