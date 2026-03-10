@@ -104,32 +104,67 @@ function toggleMusic() {
 
 // Không auto-play trên load (mobile blocks autoplay)
 // Chỉ restore state khi user click nút
-window.addEventListener('load', () => {
-    console.log('Page loaded, waiting for user interaction for music');
-});
 
 // ================================
 
-// ===== AUTO CACHE CLEAR ON DATA UPDATE =====
-window.addEventListener('load', () => {
+// ===== AUTO CACHE CLEAR ON DATA UPDATE (AGGRESSIVE) =====
+// Check version khi page load - xóa toàn bộ cache & localStorage cũ
+function checkAndClearOldData() {
     const lastDataVersion = localStorage.getItem('data_version');
+    
+    console.log('📊 Current Version:', DATA_VERSION);
+    console.log('📊 Stored Version:', lastDataVersion);
+    
     if (lastDataVersion !== DATA_VERSION) {
-        console.log('🔄 Phát hiện data mới, xóa cache cũ...');
-        caches.keys().then(names => {
-            names.forEach(cacheName => {
-                if (cacheName.includes('jp-flashcards')) {
+        console.log('🔄 Phát hiện data mới! Xóa cache + localStorage cũ...');
+        
+        // 1. Xóa Service Worker cache
+        if ('caches' in window) {
+            caches.keys().then(names => {
+                names.forEach(cacheName => {
                     caches.delete(cacheName).then(() => {
                         console.log('✅ Xóa cache:', cacheName);
                     });
-                }
+                });
             });
+        }
+        
+        // 2. Xóa localStorage items (nhưng giữ auth + user settings)
+        const keysToKeep = ['music_playing', 'guest_quiz_scores', 'data_version'];
+        const keysToDelete = [];
+        
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (!keysToKeep.includes(key)) {
+                keysToDelete.push(key);
+            }
+        }
+        
+        keysToDelete.forEach(key => {
+            localStorage.removeItem(key);
+            console.log('🗑️ Xóa localStorage:', key);
         });
+        
+        // 3. Update version
         localStorage.setItem('data_version', DATA_VERSION);
-        // Reload để fetch dữ liệu mới từ server
-        setTimeout(() => location.reload(true), 500);
+        console.log('✅ Cập nhật data_version:', DATA_VERSION);
+        
+        // 4. Hard reload sau 500ms
+        setTimeout(() => {
+            console.log('🔄 Hard reload trang...');
+            location.reload(true);
+        }, 500);
+    } else {
+        console.log('✅ Data đã là version mới nhất');
     }
+}
+
+// Gọi ngay khi page bắt đầu load
+checkAndClearOldData();
+
+window.addEventListener('load', () => {
+    console.log('Page loaded, waiting for user interaction for music');
 });
-// ==========================================
 
 document.addEventListener('DOMContentLoaded', () => {
     const flashcard = document.getElementById('flashcard');
@@ -1864,20 +1899,56 @@ document.addEventListener('DOMContentLoaded', () => {
             const reviewContainer = document.getElementById('reviewContainer');
             reviewContainer.innerHTML = '';
 
-            examWrongCards.forEach(q => {
+            examWrongCards.forEach((q, index) => {
                 const userAnswerIndex = examAnswers[q.id];
                 const userAnswer = q.options[userAnswerIndex] || 'Không trả lời';
                 const correctAnswer = q.options[q.correctOptionIndex];
+                const cardId = `review-card-${index}`;
+                const contentId = `review-content-${index}`;
 
                 const card = document.createElement('div');
-                card.style.cssText = 'background: #fff; border: 2px solid #fee2e2; border-radius: 10px; padding: 1.5rem; margin-bottom: 1.5rem;';
-                card.innerHTML = `
-                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
-                        <h4 style="margin: 0; color: var(--text-main);">${q.grammarName}</h4>
-                        <span style="background: #fee2e2; color: #ef4444; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">❌ SAI</span>
-                    </div>
+                card.id = cardId;
+                card.style.cssText = 'background: #fff; border: 2px solid #fee2e2; border-radius: 10px; margin-bottom: 1rem; overflow: hidden;';
+                
+                // Header (click để expand)
+                const header = document.createElement('div');
+                header.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; cursor: pointer; background: #fef3c7; transition: all 0.3s;';
+                header.onmouseover = () => header.style.background = '#fde047';
+                header.onmouseout = () => header.style.background = '#fef3c7';
+                
+                const titleDiv = document.createElement('div');
+                titleDiv.style.cssText = 'display: flex; justify-content: space-between; align-items: center; width: 100%;';
+                
+                const grammarSpan = document.createElement('span');
+                grammarSpan.style.cssText = 'color: var(--text-main); font-weight: 600; font-size: 1rem;';
+                grammarSpan.textContent = q.grammarName;
+                
+                const statusSpan = document.createElement('span');
+                statusSpan.style.cssText = 'background: #fee2e2; color: #ef4444; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600;';
+                statusSpan.textContent = '❌ SAI';
+                
+                const expandIcon = document.createElement('span');
+                expandIcon.style.cssText = 'font-size: 1.2rem; transition: transform 0.3s; color: #d97706;';
+                expandIcon.textContent = '▼';
+                expandIcon.id = `expand-icon-${index}`;
+                
+                titleDiv.appendChild(grammarSpan);
+                titleDiv.appendChild(statusSpan);
+                titleDiv.appendChild(expandIcon);
+                header.appendChild(titleDiv);
+                
+                card.appendChild(header);
+                
+                // Content (collapse by default)
+                const content = document.createElement('div');
+                content.id = contentId;
+                content.style.cssText = 'max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: #fff;';
+                
+                const innerContent = document.createElement('div');
+                innerContent.style.cssText = 'padding: 1.5rem;';
+                innerContent.innerHTML = `
                     <div style="background: #f3f4f6; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
-                        <div style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 0.5rem;">Câu Hỏi:</div>
+                        <div style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 0.5rem;">📝 Câu Hỏi:</div>
                         <div style="color: var(--text-main);">${q.question}</div>
                     </div>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
@@ -1895,6 +1966,22 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div style="color: var(--text-main);">${q.hint || 'N/A'}</div>
                     </div>
                 `;
+                content.appendChild(innerContent);
+                card.appendChild(content);
+                
+                // Toggle functionality
+                let isExpanded = false;
+                header.addEventListener('click', () => {
+                    isExpanded = !isExpanded;
+                    if (isExpanded) {
+                        content.style.maxHeight = innerContent.scrollHeight + 'px';
+                        expandIcon.style.transform = 'rotate(180deg)';
+                    } else {
+                        content.style.maxHeight = '0';
+                        expandIcon.style.transform = 'rotate(0deg)';
+                    }
+                });
+                
                 reviewContainer.appendChild(card);
             });
 
