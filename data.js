@@ -1,5 +1,5 @@
 // Data version - Cập nhật mỗi khi có thay đổi data
-const DATA_VERSION = '20260310-v8';
+const DATA_VERSION = '20260310-v9';
 
 const flashcardsData = [
     {
