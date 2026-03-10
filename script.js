@@ -1729,6 +1729,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const startExamBtn = document.getElementById('startExamBtn');
     if (startExamBtn) {
         startExamBtn.addEventListener('click', () => {
+            // Check if user is logged in
+            if (!currentUser) {
+                // Guest user - check if they already took 1 exam
+                const guestExamAttempts = localStorage.getItem('guest_exam_attempts') || '0';
+                
+                if (parseInt(guestExamAttempts) >= 1) {
+                    alert('⚠️ Bạn đã dùng hết lượt thử thi! Vui lòng đăng nhập để tiếp tục học.');
+                    return;
+                }
+                
+                // Allow 1st attempt, increment counter
+                localStorage.setItem('guest_exam_attempts', '1');
+            }
+            
             generateExamQuestions();
             examCurrentIndex = 0;
             examAnswers = {};
