@@ -1,5 +1,26 @@
 // flashcardsData is now loaded globally from data.js
 
+// ===== AUTO CACHE CLEAR ON DATA UPDATE =====
+window.addEventListener('load', () => {
+    const lastDataVersion = localStorage.getItem('data_version');
+    if (lastDataVersion !== DATA_VERSION) {
+        console.log('🔄 Phát hiện data mới, xóa cache cũ...');
+        caches.keys().then(names => {
+            names.forEach(cacheName => {
+                if (cacheName.includes('jp-flashcards')) {
+                    caches.delete(cacheName).then(() => {
+                        console.log('✅ Xóa cache:', cacheName);
+                    });
+                }
+            });
+        });
+        localStorage.setItem('data_version', DATA_VERSION);
+        // Reload để fetch dữ liệu mới từ server
+        setTimeout(() => location.reload(true), 500);
+    }
+});
+// ==========================================
+
 document.addEventListener('DOMContentLoaded', () => {
     const flashcard = document.getElementById('flashcard');
     const prevBtn = document.getElementById('prevBtn');
@@ -67,9 +88,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const reloadAppBtn = document.getElementById('reloadAppBtn');
 
     if (reloadAppBtn) {
-        reloadAppBtn.addEventListener('click', () => {
-            reloadAppBtn.textContent = 'Đang tải...';
-            window.location.reload(true);
+        reloadAppBtn.addEventListener('click', async () => {
+            reloadAppBtn.disabled = true;
+            reloadAppBtn.textContent = 'Đang xóa cache...';
+            
+            try {
+                // Xóa toàn bộ cache
+                const cacheNames = await caches.keys();
+                await Promise.all(
+                    cacheNames.map(cacheName => {
+                        if (cacheName.includes('jp-flashcards')) {
+                            return caches.delete(cacheName);
+                        }
+                    })
+                );
+                
+                // Xóa version storage
+                localStorage.removeItem('data_version');
+                
+                console.log('✅ Cache đã xóa sạch, đang reload...');
+                reloadAppBtn.textContent = 'Đang tải dữ liệu mới...';
+                
+                // Hard reload
+                setTimeout(() => location.reload(true), 800);
+            } catch (e) {
+                console.error('Lỗi xóa cache:', e);
+                reloadAppBtn.textContent = '🔄 Tải lại dữ liệu';
+                reloadAppBtn.disabled = false;
+            }
         });
     }
 
