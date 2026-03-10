@@ -35,8 +35,11 @@ self.addEventListener('fetch', event => {
                 return fetch(event.request).catch(() => {
                     // Optional offline fallback logic here
                 });
-            }
-            )
+            })
+            .catch(err => {
+                // Suppress errors từ background scripts/extensions
+                console.log('Fetch error (expected for some requests):', err);
+            })
     );
 });
 

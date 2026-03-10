@@ -15,6 +15,7 @@
     <meta name="theme-color" content="#4299e1">
     <link rel="apple-touch-icon" href="/icons/icon-192.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
     <!-- YouTube IFrame API -->
@@ -492,10 +493,10 @@
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js')
                     .then(registration => {
-                        console.log('SW registered: ', registration.scope);
+                        console.log('✅ Service Worker registered: ', registration.scope);
                     })
                     .catch(err => {
-                        console.log('SW registration failed: ', err);
+                        console.error('SW registration failed: ', err);
                     });
             });
         }
