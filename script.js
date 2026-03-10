@@ -40,6 +40,14 @@ document.addEventListener('DOMContentLoaded', () => {
     let filteredCards = [...flashcardsData];
     let currentIndex = 0;
 
+    // --- Quiz States ---
+    let quizPool = [];
+    let currentQuizIndex = 0;
+    let quizScoreCorrect = 0;
+    let wrongCards = [];
+    let isReviewSession = false;
+    let currentQuizDayFilter = 'all';
+
     // --- Auth & Firebase States ---
     let progressRef = null;
     let isFirebaseLoaded = false;
@@ -814,13 +822,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Quiz Logic ---
-
-    let quizPool = [];
-    let currentQuizIndex = 0;
-    let quizScoreCorrect = 0;
-    let wrongCards = [];
-    let isReviewSession = false;
-    let currentQuizDayFilter = 'all';
 
     quizWeekFilter.addEventListener('change', () => {
         updateDayOptions('quiz');
