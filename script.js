@@ -1785,6 +1785,12 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('questionText').innerHTML = q.question;
         document.getElementById('examProgressBar').style.width = ((examCurrentIndex + 1) / 20 * 100) + '%';
 
+        // Count answered questions
+        const answeredCount = Object.keys(examAnswers).length;
+        const remainingCount = 20 - answeredCount;
+        document.getElementById('answeredCount').textContent = answeredCount;
+        document.getElementById('remainingCount').textContent = remainingCount;
+
         const optionsContainer = document.getElementById('optionsContainer');
         optionsContainer.innerHTML = '';
 
@@ -1800,6 +1806,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 optBtn.classList.add('selected');
                 // Auto save
                 localStorage.setItem('exam_answers', JSON.stringify(examAnswers));
+                // Update counters
+                const newAnsweredCount = Object.keys(examAnswers).length;
+                const newRemainingCount = 20 - newAnsweredCount;
+                document.getElementById('answeredCount').textContent = newAnsweredCount;
+                document.getElementById('remainingCount').textContent = newRemainingCount;
             };
             optionsContainer.appendChild(optBtn);
         });
