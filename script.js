@@ -1794,6 +1794,13 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('examPrevBtn').disabled = examCurrentIndex === 0;
         document.getElementById('examPrevBtn').style.opacity = examCurrentIndex === 0 ? '0.5' : '1';
         document.getElementById('examPrevBtn').style.cursor = examCurrentIndex === 0 ? 'not-allowed' : 'pointer';
+
+        // Disable next button on last question
+        const examNextBtn = document.getElementById('examNextBtn');
+        const isLastQuestion = examCurrentIndex === examQuestions.length - 1;
+        examNextBtn.disabled = isLastQuestion;
+        examNextBtn.style.opacity = isLastQuestion ? '0.5' : '1';
+        examNextBtn.style.cursor = isLastQuestion ? 'not-allowed' : 'pointer';
     }
 
     // Navigation

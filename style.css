@@ -364,12 +364,13 @@ header p {
     border: none;
     color: var(--primary);
     font-weight: 600;
-    font-size: 1rem;
+    font-size: 0.95rem;
     cursor: pointer;
-    padding: 0.5rem 1rem;
+    padding: 0.6rem 0.8rem;
     border-radius: 20px;
     transition: background 0.2s;
     font-family: inherit;
+    flex: 0.8;
 }
 
 .btn:hover:not(:disabled) {
@@ -446,9 +447,11 @@ header p {
     background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
     color: white;
     box-shadow: var(--shadow);
-    padding: 0.8rem 2rem;
+    padding: 0.6rem 1.2rem;
     border-radius: 50px;
+    font-size: 0.9rem;
     transition: transform 0.2s, box-shadow 0.2s;
+    flex: 0.8;
 }
 
 .btn-status:hover:not(:disabled) {
@@ -468,15 +471,19 @@ header p {
 .btn-export-image {
     color: white;
     box-shadow: var(--shadow);
-    padding: 0.8rem 1.5rem;
+    padding: 0.6rem 1.2rem;
     border-radius: 50px;
+    font-size: 0.9rem;
     transition: transform 0.2s, box-shadow 0.2s;
+    flex: 0.8;
 }
 
 .btn-export {
-    color: #2f855a;
-    box-shadow: var(--shadow);
-    padding: 0.8rem 1.5rem;
+    color: #2f86rem 1.2rem;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    flex: 0.8
     border-radius: 50px;
     transition: transform 0.2s, box-shadow 0.2s;
 }
