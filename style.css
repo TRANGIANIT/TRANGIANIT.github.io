@@ -873,6 +873,14 @@ body {
     background: #e2e8f0;
 }
 
+.quiz-option.selected {
+    background: #bee3f8;
+    border-color: var(--primary);
+    border-width: 2px;
+    color: var(--text-main);
+    font-weight: 600;
+}
+
 .quiz-option.correct {
     background: #c6f6d5;
     border-color: #48bb78;
