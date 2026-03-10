@@ -186,10 +186,10 @@ header p {
 /* --- Thẻ Flashcard --- */
 .flashcard-container {
     width: 100%;
-    height: 480px;
+    height: 520px;
     perspective: 1000px;
     /* Cần thiết cho hiệu ứng 3D */
-    margin-bottom: 2rem;
+    margin-bottom: 0.8rem;
 }
 
 .flashcard {
@@ -346,10 +346,10 @@ header p {
     align-items: center;
     width: 100%;
     background: white;
-    padding: 1rem;
+    padding: 0.8rem;
     border-radius: 50px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    margin-bottom: 1rem;
+    margin-bottom: 0.6rem;
 }
 
 .status-control {
@@ -389,7 +389,7 @@ header p {
 
 /* Các trạng thái & Filter */
 .filter-controls {
-    margin: 1rem 0rem 1rem 0rem;
+    margin: 0.5rem 0rem 0.8rem 0rem;
     display: flex;
     justify-content: space-between;
     align-items: center;

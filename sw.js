@@ -1,4 +1,4 @@
-const CACHE_NAME = 'jp-flashcards-v32';
+const CACHE_NAME = 'jp-flashcards-v33';
 const urlsToCache = [
     '/',
     '/index.html',
