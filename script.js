@@ -307,7 +307,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 initDayFilters(); // Update filters (all days available)
                 filterCards();
-                if (quizWeekFilter) generateQuiz();
+                // generateQuiz() removed - use startQuizSession() instead
             });
 
             progressRef = database.ref('users/' + user.uid + '/my_progress');
