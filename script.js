@@ -1,5 +1,76 @@
 // flashcardsData is now loaded globally from data.js
 
+// ===== YOUTUBE MUSIC PLAYER =====
+let youtubePlayer = null;
+let isMusicPlaying = false;
+const YOUTUBE_VIDEO_ID = 'GzoiBgr7zeY'; // Video ID từ https://www.youtube.com/watch?v=GzoiBgr7zeY
+
+// Khởi tạo YouTube Player sau khi API sẵn sàng
+function onYouTubeIframeAPIReady() {
+    youtubePlayer = new YT.Player('youtubePlayer', {
+        height: '1',
+        width: '1',
+        videoId: YOUTUBE_VIDEO_ID,
+        events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+        },
+        playerVars: {
+            'autoplay': 0,
+            'controls': 0,
+            'modestbranding': 1,
+            'rel': 0
+        }
+    });
+}
+
+function onPlayerReady(event) {
+    console.log('✅ YouTube Player ready!');
+}
+
+function onPlayerStateChange(event) {
+    // YT.PlayerState.ENDED = 0
+    if (event.data == YT.PlayerState.ENDED) {
+        console.log('🔁 Video hết, lặp lại...');
+        youtubePlayer.playVideo();
+    }
+}
+
+// Hàm toggle nhạc
+function toggleMusic() {
+    if (!youtubePlayer) return;
+    
+    const musicBtn = document.getElementById('musicToggleBtn');
+    
+    if (isMusicPlaying) {
+        youtubePlayer.pauseVideo();
+        isMusicPlaying = false;
+        musicBtn.textContent = '🎵 Bật Nhạc';
+        musicBtn.style.background = '#fef3c7';
+        musicBtn.style.color = '#d97706';
+        localStorage.setItem('music_playing', 'false');
+    } else {
+        youtubePlayer.playVideo();
+        isMusicPlaying = true;
+        musicBtn.textContent = '⏸️ Tắt Nhạc';
+        musicBtn.style.background = '#fecaca';
+        musicBtn.style.color = '#dc2626';
+        localStorage.setItem('music_playing', 'true');
+    }
+}
+
+// Auto-play music nếu lần trước người dùng bật
+window.addEventListener('load', () => {
+    const wasMusicPlaying = localStorage.getItem('music_playing') === 'true';
+    if (wasMusicPlaying && youtubePlayer && youtubePlayer.playVideo) {
+        setTimeout(() => {
+            isMusicPlaying = false; // Set thành false trước để toggle hoạt động đúng
+            toggleMusic();
+        }, 2000);
+    }
+});
+// ================================
+
 // ===== AUTO CACHE CLEAR ON DATA UPDATE =====
 window.addEventListener('load', () => {
     const lastDataVersion = localStorage.getItem('data_version');
@@ -55,6 +126,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const navTabs = document.querySelectorAll('.nav-tab');
     const viewSections = document.querySelectorAll('.view-section');
+    
+    // Music Toggle Button
+    const musicToggleBtn = document.getElementById('musicToggleBtn');
+    if (musicToggleBtn) {
+        musicToggleBtn.addEventListener('click', toggleMusic);
+    }
 
     var currentQuizAnswer = null;
     let isFlipped = false;
