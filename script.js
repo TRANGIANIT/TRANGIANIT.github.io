@@ -1,9 +1,13 @@
 // flashcardsData is now loaded globally from data.js
 
-// ===== YOUTUBE MUSIC PLAYER =====
+// ===== YOUTUBE MUSIC PLAYER (MOBILE OPTIMIZED) =====
 let youtubePlayer = null;
 let isMusicPlaying = false;
+let playerReady = false;
 const YOUTUBE_VIDEO_ID = 'GzoiBgr7zeY'; // Video ID từ https://www.youtube.com/watch?v=GzoiBgr7zeY
+
+// Detect mobile
+const isMobileDevice = () => /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
 // Khởi tạo YouTube Player sau khi API sẵn sàng
 function onYouTubeIframeAPIReady() {
@@ -13,62 +17,97 @@ function onYouTubeIframeAPIReady() {
         videoId: YOUTUBE_VIDEO_ID,
         events: {
             'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
+            'onStateChange': onPlayerStateChange,
+            'onError': onPlayerError
         },
         playerVars: {
             'autoplay': 0,
             'controls': 0,
             'modestbranding': 1,
-            'rel': 0
+            'rel': 0,
+            'fs': 0,
+            'iv_load_policy': 3
         }
     });
 }
 
 function onPlayerReady(event) {
     console.log('✅ YouTube Player ready!');
+    playerReady = true;
 }
 
 function onPlayerStateChange(event) {
-    // YT.PlayerState.ENDED = 0
+    // YT.PlayerState.PLAYING = 1, PAUSED = 2, ENDED = 0
     if (event.data == YT.PlayerState.ENDED) {
         console.log('🔁 Video hết, lặp lại...');
-        youtubePlayer.playVideo();
+        setTimeout(() => {
+            if (youtubePlayer && playerReady) {
+                youtubePlayer.playVideo();
+            }
+        }, 500);
+    } else if (event.data == YT.PlayerState.PLAYING) {
+        isMusicPlaying = true;
+        updateMusicButton();
+    } else if (event.data == YT.PlayerState.PAUSED) {
+        isMusicPlaying = false;
+        updateMusicButton();
     }
 }
 
-// Hàm toggle nhạc
-function toggleMusic() {
-    if (!youtubePlayer) return;
-    
+function onPlayerError(event) {
+    console.error('❌ YouTube Player Error:', event.data);
+    // Error codes: 2, 5, 100, 101, 150
+}
+
+function updateMusicButton() {
     const musicBtn = document.getElementById('musicToggleBtn');
+    if (!musicBtn) return;
     
     if (isMusicPlaying) {
-        youtubePlayer.pauseVideo();
-        isMusicPlaying = false;
-        musicBtn.textContent = '🎵 Bật Nhạc';
-        musicBtn.style.background = '#fef3c7';
-        musicBtn.style.color = '#d97706';
-        localStorage.setItem('music_playing', 'false');
-    } else {
-        youtubePlayer.playVideo();
-        isMusicPlaying = true;
         musicBtn.textContent = '⏸️ Tắt Nhạc';
         musicBtn.style.background = '#fecaca';
         musicBtn.style.color = '#dc2626';
-        localStorage.setItem('music_playing', 'true');
+    } else {
+        musicBtn.textContent = '🎵 Bật Nhạc';
+        musicBtn.style.background = '#fef3c7';
+        musicBtn.style.color = '#d97706';
     }
 }
 
-// Auto-play music nếu lần trước người dùng bật
-window.addEventListener('load', () => {
-    const wasMusicPlaying = localStorage.getItem('music_playing') === 'true';
-    if (wasMusicPlaying && youtubePlayer && youtubePlayer.playVideo) {
-        setTimeout(() => {
-            isMusicPlaying = false; // Set thành false trước để toggle hoạt động đúng
-            toggleMusic();
-        }, 2000);
+// Hàm toggle nhạc - Optimized cho mobile
+function toggleMusic() {
+    if (!youtubePlayer || !playerReady) {
+        console.warn('⚠️ Player chưa sẵn sàng');
+        return;
     }
+    
+    try {
+        const currentState = youtubePlayer.getPlayerState();
+        
+        if (currentState === YT.PlayerState.PLAYING || isMusicPlaying) {
+            youtubePlayer.pauseVideo();
+            isMusicPlaying = false;
+            localStorage.setItem('music_playing', 'false');
+            console.log('⏸️ Nhạc tắt');
+        } else {
+            // Mobile yêu cầu user gesture, nên cần call playVideo() từ click handler
+            youtubePlayer.playVideo();
+            isMusicPlaying = true;
+            localStorage.setItem('music_playing', 'true');
+            console.log('▶️ Nhạc bật');
+        }
+        updateMusicButton();
+    } catch (e) {
+        console.error('Lỗi khi toggle music:', e);
+    }
+}
+
+// Không auto-play trên load (mobile blocks autoplay)
+// Chỉ restore state khi user click nút
+window.addEventListener('load', () => {
+    console.log('Page loaded, waiting for user interaction for music');
 });
+
 // ================================
 
 // ===== AUTO CACHE CLEAR ON DATA UPDATE =====
