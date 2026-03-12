@@ -1146,22 +1146,24 @@ body {
 /* Spaced Rep Flashcard with 3D flip effect */
 /* Tăng chiều cao thẻ để mặt sau hiển thị đủ nội dung */
 #spacedRepFlashcard {
-    width: 100%;
-    max-width: 420px;
     height: 420px;
-    background: transparent;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border-radius: 16px;
+    padding: 2rem;
+    color: white;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     user-select: none;
-    margin: 0 auto 1.5rem auto;
+    margin-bottom: 1.5rem;
     box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
-    transition: box-shadow 0.3s cubic-bezier(.4,2,.6,1);
+    transition: all 0.3s cubic-bezier(.4,2,.6,1);
     position: relative;
     font-size: 1rem;
-    perspective: 1200px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    perspective: 1000px;
 }
 
 #spacedRepFlashcard .front, #spacedRepFlashcard .back {
@@ -1170,31 +1172,22 @@ body {
     height: 100%;
     top: 0;
     left: 0;
-    border-radius: 16px;
     backface-visibility: hidden;
-    transition: transform 0.6s cubic-bezier(.4,2,.6,1);
+    transition: transform 0.5s cubic-bezier(.4,2,.6,1);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    box-sizing: border-box;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 2rem;
-    text-align: center;
-    overflow-y: auto;
-}
-
-#spacedRepFlashcard .back {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    color: #fff;
-    transform: rotateY(180deg);
-    z-index: 2;
 }
 
 #spacedRepFlashcard .front {
-    z-index: 3;
+    z-index: 2;
     transform: rotateY(0deg);
+}
+
+#spacedRepFlashcard .back {
+    z-index: 1;
+    transform: rotateY(180deg);
 }
 
 #spacedRepFlashcard.flipped .front {
@@ -1215,24 +1208,21 @@ body {
 }
 
 #spacedRepGrammarFront {
-    font-size: 2.2rem;
+    font-size: 2.5rem;
     font-weight: bold;
     margin-bottom: 1rem;
-    word-break: break-word;
 }
 
 #spacedRepMeaning {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     margin-bottom: 0.5rem;
-    word-break: break-word;
 }
 
 #spacedRepUsage,
 #spacedRepExample {
-    font-size: 0.95rem;
-    opacity: 0.97;
+    font-size: 0.9rem;
+    opacity: 0.95;
     line-height: 1.6;
-    word-break: break-word;
 }
 
 #spacedRepGrammarHint {
@@ -1241,8 +1231,6 @@ body {
     position: absolute;
     top: 1rem;
     left: 2rem;
-    right: 2rem;
-    word-break: break-word;
 }
 
 #spacedRepCardNum {
