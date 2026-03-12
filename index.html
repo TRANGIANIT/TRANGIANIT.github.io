@@ -439,26 +439,27 @@
         <div id="admin-view" class="view-section" style="display: none;">
             <div class="quiz-header">
                 <h2>Bảng Điều Khiển Admin 🛡️</h2>
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <button id="adminModeUsers" class="btn btn-status" style="flex: 1; padding: 0.8rem;">👥 Quản Lý Người Dùng</button>
+                    <button id="adminModeSpacedRep" class="btn btn-status" style="flex: 1; padding: 0.8rem; background: #667eea;">🧠 Ôn Tập Ngắt Quãng</button>
+                </div>
             </div>
-            <div class="quiz-container" style="padding: 1rem;">
-                <div
-                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 10px;">
+
+            <!-- Users Management Tab -->
+            <div id="adminUsersTab" class="quiz-container" style="padding: 1rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 10px;">
                     <p style="color: var(--text-main); font-weight: 500; margin: 0;">Chi tiết Người dùng Mạng lưới</p>
                     <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                         <div style="display: flex; flex-direction: column;">
-                            <label for="adminStatusFilter"
-                                style="font-size: 0.8rem; font-weight: bold; color: #4a5568;">Trạng thái xin
-                                Tải:</label>
-                            <select id="adminStatusFilter" class="filter-select"
-                                style="min-width: 150px; padding: 5px;">
+                            <label for="adminStatusFilter" style="font-size: 0.8rem; font-weight: bold; color: #4a5568;">Trạng thái xin Tải:</label>
+                            <select id="adminStatusFilter" class="filter-select" style="min-width: 150px; padding: 5px;">
                                 <option value="all">Tất cả</option>
                                 <option value="pending">Đang chờ duyệt</option>
                                 <option value="approved">Đã duyệt (Có quyền tải)</option>
                             </select>
                         </div>
                         <div style="display: flex; flex-direction: column;">
-                            <label for="adminSortFilter"
-                                style="font-size: 0.8rem; font-weight: bold; color: #4a5568;">Sắp xếp theo:</label>
+                            <label for="adminSortFilter" style="font-size: 0.8rem; font-weight: bold; color: #4a5568;">Sắp xếp theo:</label>
                             <select id="adminSortFilter" class="filter-select" style="min-width: 150px; padding: 5px;">
                                 <option value="latest">Mới nhất (Mặc định)</option>
                                 <option value="logins">Đăng nhập nhiều nhất</option>
@@ -480,12 +481,119 @@
                             </tr>
                         </thead>
                         <tbody id="adminUsersTableBody">
-                            <!-- JS load users here -->
                             <tr>
                                 <td colspan="5" style="text-align: center; padding: 1rem;">Đang tải...</td>
                             </tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+
+            <!-- Spaced Repetition Tab -->
+            <div id="adminSpacedRepTab" class="quiz-container" style="display: none; padding: 1rem;">
+                <!-- Dashboard -->
+                <div id="spacedRepDashboard" style="display: block;">
+                    <div class="quiz-header">
+                        <h3 style="margin-top: 0;">📊 Bảng Điều Khiển Ôn Tập Ngắt Quãng</h3>
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 2rem;">
+                        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 12px; padding: 1.5rem; text-align: center;">
+                            <div style="font-size: 2.5rem; font-weight: bold;" id="spacedRepNew">0</div>
+                            <div style="font-size: 0.9rem; opacity: 0.9;">Thẻ Mới</div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; border-radius: 12px; padding: 1.5rem; text-align: center;">
+                            <div style="font-size: 2.5rem; font-weight: bold;" id="spacedRepDue">0</div>
+                            <div style="font-size: 0.9rem; opacity: 0.9;">Cần Ôn Hôm Nay</div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; border-radius: 12px; padding: 1.5rem; text-align: center;">
+                            <div style="font-size: 2.5rem; font-weight: bold;" id="spacedRepLearning">0</div>
+                            <div style="font-size: 0.9rem; opacity: 0.9;">Đang Học</div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white; border-radius: 12px; padding: 1.5rem; text-align: center;">
+                            <div style="font-size: 2.5rem; font-weight: bold;" id="spacedRepReview">0</div>
+                            <div style="font-size: 0.9rem; opacity: 0.9;">Ôn Tập</div>
+                        </div>
+                    </div>
+
+                    <!-- Filter & Start Button -->
+                    <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+                        <select id="spacedRepDayFilter" class="filter-select" style="flex: 1; min-width: 200px; padding: 0.8rem;">
+                            <option value="all">📅 Tất cả Bài</option>
+                        </select>
+                        <button id="startSpacedRepBtn" class="btn btn-status" style="padding: 0.8rem 2rem; font-size: 1rem;">
+                            ▶️ Bắt Đầu Ôn Tập
+                        </button>
+                    </div>
+
+                    <!-- Study Log -->
+                    <div style="background: #f8fafc; border-radius: 12px; padding: 1rem;">
+                        <h4 style="margin-top: 0; color: var(--primary);">📝 Lịch Ôn Tập Gần Đây</h4>
+                        <div id="spacedRepLog" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <div style="text-align: center; color: var(--text-light);">Chưa có lịch sử ôn tập</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Study Mode -->
+                <div id="spacedRepStudy" style="display: none;">
+                    <div class="quiz-header" style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; margin-bottom: 1rem; border-bottom: 2px solid #e2e8f0;">
+                        <h3 style="margin: 0;">🧠 Ôn Tập Ngắt Quãng</h3>
+                        <div style="text-align: right; font-size: 0.9rem;">
+                            <div style="font-weight: bold; color: var(--primary);" id="spacedRepCardNum">0/0</div>
+                            <div style="color: var(--text-light);">Thẻ cần ôn</div>
+                        </div>
+                    </div>
+
+                    <!-- Flashcard Display -->
+                    <div class="flashcard-container" style="height: 400px; margin-bottom: 1.5rem;">
+                        <div class="flashcard" id="spacedRepFlashcard" style="cursor: pointer;">
+                            <div class="front" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                                <div style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 1rem;" id="spacedRepGrammarHint">Nhấn để xem</div>
+                                <div style="font-size: 2.5rem; font-weight: bold; color: var(--jp-red); text-align: center;" id="spacedRepGrammarFront">Thẻ</div>
+                            </div>
+                            <div class="back" style="display: flex; flex-direction: column; justify-content: center; align-items: center; transform: rotateY(180deg);">
+                                <div style="width: 100%; overflow-y: auto; max-height: 350px;">
+                                    <div style="padding: 1rem;">
+                                        <h4 style="margin-top: 0; color: var(--primary);">📖 Ý Nghĩa</h4>
+                                        <p id="spacedRepMeaning" style="margin: 0.5rem 0;"></p>
+
+                                        <h4 style="margin-top: 1rem; color: var(--primary);">🛠️ Cách Dùng</h4>
+                                        <p id="spacedRepUsage" style="margin: 0.5rem 0;"></p>
+
+                                        <h4 style="margin-top: 1rem; color: var(--primary);">💡 Ví Dụ</h4>
+                                        <p id="spacedRepExample" style="margin: 0.5rem 0; font-style: italic; color: #666;"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quality Response Buttons -->
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.8rem; margin-bottom: 1rem;">
+                        <button class="btn" id="spacedRepAgain" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; padding: 1rem; border-radius: 12px; font-weight: bold;">
+                            <div style="font-size: 1.5rem;">❌</div>
+                            <div style="font-size: 0.85rem;">Again<br><span style="font-size: 0.7rem;">1 ngày</span></div>
+                        </button>
+                        <button class="btn" id="spacedRepHard" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; padding: 1rem; border-radius: 12px; font-weight: bold;">
+                            <div style="font-size: 1.5rem;">😐</div>
+                            <div style="font-size: 0.85rem;">Hard<br><span style="font-size: 0.7rem;">3 ngày</span></div>
+                        </button>
+                        <button class="btn" id="spacedRepGood" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; padding: 1rem; border-radius: 12px; font-weight: bold;">
+                            <div style="font-size: 1.5rem;">😊</div>
+                            <div style="font-size: 0.85rem;">Good<br><span style="font-size: 0.7rem;">7 ngày</span></div>
+                        </button>
+                        <button class="btn" id="spacedRepEasy" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 1rem; border-radius: 12px; font-weight: bold;">
+                            <div style="font-size: 1.5rem;">😃</div>
+                            <div style="font-size: 0.85rem;">Easy<br><span style="font-size: 0.7rem;">21 ngày</span></div>
+                        </button>
+                    </div>
+
+                    <!-- Back Button -->
+                    <button id="exitSpacedRepBtn" class="btn" style="width: 100%; padding: 0.8rem; background: #e2e8f0; color: var(--text-main); border-radius: 12px; font-weight: bold;">
+                        ← Quay Lại Dashboard
+                    </button>
                 </div>
             </div>
         </div> <!-- End Admin View -->

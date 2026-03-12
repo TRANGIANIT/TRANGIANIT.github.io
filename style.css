@@ -1101,3 +1101,227 @@ body {
 .btn-delete:hover {
     background-color: #c53030;
 }
+
+/* ===== SPACED REPETITION STYLES ===== */
+
+.spaced-rep-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.spaced-rep-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.stat-card {
+    background: linear-gradient(135deg, var(--primary) 0%, #667eea 100%);
+    color: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-card h3 {
+    font-size: 0.85rem;
+    margin: 0.5rem 0;
+    opacity: 0.9;
+}
+
+.stat-card .stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0.5rem 0;
+}
+
+/* Spaced Rep Flashcard with 3D flip effect */
+#spacedRepFlashcard {
+    height: 280px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 16px;
+    padding: 2rem;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    user-select: none;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
+    transition: all 0.3s ease;
+    position: relative;
+    font-size: 1rem;
+}
+
+#spacedRepFlashcard:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 48px rgba(102, 126, 234, 0.6);
+}
+
+#spacedRepFlashcard.flipped {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+#spacedRepGrammarFront {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+#spacedRepMeaning {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+#spacedRepUsage,
+#spacedRepExample {
+    font-size: 0.9rem;
+    opacity: 0.95;
+    line-height: 1.6;
+}
+
+#spacedRepGrammarHint {
+    font-size: 0.85rem;
+    opacity: 0.7;
+    position: absolute;
+    top: 1rem;
+    left: 2rem;
+}
+
+#spacedRepCardNum {
+    font-size: 0.85rem;
+    opacity: 0.7;
+    position: absolute;
+    top: 1rem;
+    right: 2rem;
+}
+
+.spaced-rep-controls {
+    display: flex;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.spaced-rep-controls button {
+    flex: 1;
+    min-width: 120px;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    color: white;
+}
+
+#spacedRepAgain {
+    background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+}
+
+#spacedRepAgain:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(245, 101, 101, 0.4);
+}
+
+#spacedRepHard {
+    background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+}
+
+#spacedRepHard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(237, 137, 54, 0.4);
+}
+
+#spacedRepGood {
+    background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+}
+
+#spacedRepGood:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(66, 153, 225, 0.4);
+}
+
+#spacedRepEasy {
+    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+}
+
+#spacedRepEasy:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
+}
+
+.spaced-rep-filter {
+    margin-bottom: 1rem;
+}
+
+.spaced-rep-filter select {
+    width: 100%;
+    padding: 0.8rem;
+    border: 2px solid var(--primary);
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: white;
+    color: #333;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.spaced-rep-filter select:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.spaced-rep-study-log {
+    background: #f7fafc;
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #666;
+    text-align: center;
+    min-height: 2rem;
+}
+
+/* Responsive grid for mobile */
+@media (max-width: 768px) {
+    .spaced-rep-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.8rem;
+    }
+
+    .stat-card {
+        padding: 1rem;
+    }
+
+    .stat-card .stat-number {
+        font-size: 1.5rem;
+    }
+
+    #spacedRepFlashcard {
+        height: 250px;
+        padding: 1.5rem;
+    }
+
+    #spacedRepGrammarFront {
+        font-size: 2rem;
+    }
+
+    .spaced-rep-controls button {
+        min-width: 100px;
+        font-size: 0.85rem;
+        padding: 0.6rem;
+    }
+}
