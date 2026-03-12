@@ -2060,11 +2060,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize Spaced Repetition
     function initSpacedRepetition() {
-        // Setup UI event listeners
-        const adminModeUsers = document.getElementById('adminModeUsers');
-        const adminModeSpacedRep = document.getElementById('adminModeSpacedRep');
-        const adminUsersTab = document.getElementById('adminUsersTab');
-        const adminSpacedRepTab = document.getElementById('adminSpacedRepTab');
+        try {
+            // Setup UI event listeners
+            const adminModeUsers = document.getElementById('adminModeUsers');
+            const adminModeSpacedRep = document.getElementById('adminModeSpacedRep');
+            const adminUsersTab = document.getElementById('adminUsersTab');
+            const adminSpacedRepTab = document.getElementById('adminSpacedRepTab');
 
         if (adminModeUsers) {
             adminModeUsers.addEventListener('click', () => {
@@ -2113,14 +2114,17 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Response buttons
-        document.getElementById('spacedRepAgain')?.addEventListener('click', () => recordResponse('again'));
-        document.getElementById('spacedRepHard')?.addEventListener('click', () => recordResponse('hard'));
-        document.getElementById('spacedRepGood')?.addEventListener('click', () => recordResponse('good'));
-        document.getElementById('spacedRepEasy')?.addEventListener('click', () => recordResponse('easy'));
+            // Response buttons
+            document.getElementById('spacedRepAgain')?.addEventListener('click', () => recordResponse('again'));
+            document.getElementById('spacedRepHard')?.addEventListener('click', () => recordResponse('hard'));
+            document.getElementById('spacedRepGood')?.addEventListener('click', () => recordResponse('good'));
+            document.getElementById('spacedRepEasy')?.addEventListener('click', () => recordResponse('easy'));
 
-        // Load dashboard
-        loadSpacedRepDashboard();
+            // Load dashboard
+            loadSpacedRepDashboard();
+        } catch (error) {
+            console.warn('⚠️ Spaced Repetition init error:', error.message);
+        }
     }
 
     // Load dashboard stats
