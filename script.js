@@ -436,13 +436,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 currentRole = profile.role || 'user';
-                const downloadStatus = profile.downloadStatus || 'none';
 
+                const downloadStatus = profile.downloadStatus || 'none';
                 if (currentRole === 'admin') {
                     adminNavTab.style.display = 'flex';
                     exportImageBtn.style.display = 'inline-block'; // admin luôn có quyền tải
                     requestDownloadBtn.style.display = 'none';
                     if (bulkDownloadBtn) bulkDownloadBtn.style.display = 'inline-block';
+                    // Đảm bảo gán lại event cho các nút admin khi vừa đăng nhập
+                    initSpacedRepetition();
                 } else {
                     adminNavTab.style.display = 'none';
                     if (bulkDownloadBtn) bulkDownloadBtn.style.display = 'none';
