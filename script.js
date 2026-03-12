@@ -11,29 +11,48 @@ const isMobileDevice = () => /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile
 
 // Khởi tạo YouTube Player sau khi API sẵn sàng
 function onYouTubeIframeAPIReady() {
-    youtubePlayer = new YT.Player('youtubePlayer', {
-        height: '1',
-        width: '1',
-        videoId: YOUTUBE_VIDEO_ID,
-        events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange,
-            'onError': onPlayerError
-        },
-        playerVars: {
-            'autoplay': 0,
-            'controls': 0,
-            'modestbranding': 1,
-            'rel': 0,
-            'fs': 0,
-            'iv_load_policy': 3
-        }
-    });
+    try {
+        youtubePlayer = new YT.Player('youtubePlayer', {
+            height: '1',
+            width: '1',
+            videoId: YOUTUBE_VIDEO_ID,
+            events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange,
+                'onError': onPlayerError
+            },
+            playerVars: {
+                'autoplay': 0,
+                'controls': 0,
+                'modestbranding': 1,
+                'rel': 0,
+                'fs': 0,
+                'iv_load_policy': 3
+            }
+        });
+        console.log('📺 YouTube Player initialized');
+    } catch (error) {
+        console.error('❌ Error initializing YouTube Player:', error);
+        // Try again after 2 seconds
+        setTimeout(() => {
+            if (!youtubePlayer) {
+                console.log('🔄 Retrying YouTube Player initialization...');
+                onYouTubeIframeAPIReady();
+            }
+        }, 2000);
+    }
 }
 
 function onPlayerReady(event) {
     console.log('✅ YouTube Player ready!');
     playerReady = true;
+    
+    // Try to restore music state if it was playing
+    const wasPlaying = localStorage.getItem('music_playing') === 'true';
+    if (wasPlaying && isMobileDevice()) {
+        console.log('📱 Mobile device detected - user needs to click button to play');
+        // Don't auto-play on mobile, user must click button
+    }
 }
 
 function onPlayerStateChange(event) {
@@ -56,7 +75,28 @@ function onPlayerStateChange(event) {
 
 function onPlayerError(event) {
     console.error('❌ YouTube Player Error:', event.data);
-    // Error codes: 2, 5, 100, 101, 150
+    
+    // Error codes: 2 (invalid param), 5 (HTML5 player error), 100 (video not found), 101/150 (not allowed to embed)
+    const errorMessages = {
+        2: 'Tham số không hợp lệ',
+        5: 'Lỗi HTML5 player - thử tải lại trang',
+        100: 'Video không tìm thấy',
+        101: 'Video không được phép nhúng',
+        150: 'Lỗi nhúng video'
+    };
+    
+    const errorMsg = errorMessages[event.data] || 'Lỗi không xác định';
+    console.warn(`⚠️ Player Error (${event.data}): ${errorMsg}`);
+    
+    // Try to reinitialize after 3 seconds if player becomes unresponsive
+    if (!playerReady) {
+        console.log('🔄 Attempting to reinitialize player...');
+        setTimeout(() => {
+            if (!playerReady && typeof YT !== 'undefined') {
+                onYouTubeIframeAPIReady();
+            }
+        }, 3000);
+    }
 }
 
 function updateMusicButton() {
@@ -74,10 +114,37 @@ function updateMusicButton() {
     }
 }
 
-// Hàm toggle nhạc - Optimized cho mobile
+// Hàm toggle nhạc - Optimized cho mobile với retry logic
 function toggleMusic() {
-    if (!youtubePlayer || !playerReady) {
-        console.warn('⚠️ Player chưa sẵn sàng');
+    // Check if player exists
+    if (!youtubePlayer) {
+        console.warn('⚠️ Player chưa được khởi tạo - đang cố gắng khởi tạo...');
+        if (typeof YT !== 'undefined' && YT.Player) {
+            onYouTubeIframeAPIReady();
+            setTimeout(() => toggleMusic(), 1000); // Retry after 1 second
+        } else {
+            console.error('❌ YouTube API chưa load. Vui lòng tải lại trang.');
+            alert('❌ Nhạc chưa sẵn sàng. Vui lòng tải lại trang.');
+        }
+        return;
+    }
+    
+    // Check if player is ready
+    if (!playerReady) {
+        console.warn('⚠️ Player chưa sẵn sàng - đang chờ...');
+        // Wait up to 5 seconds for player to be ready
+        let attempts = 0;
+        const waitInterval = setInterval(() => {
+            attempts++;
+            if (playerReady) {
+                clearInterval(waitInterval);
+                toggleMusic(); // Retry toggle
+            } else if (attempts > 5) {
+                clearInterval(waitInterval);
+                console.error('❌ Player timeout - không thể phát nhạc');
+                alert('⚠️ Lỗi: Nhạc chưa sẵn sàng. Vui lòng thử lại sau.');
+            }
+        }, 1000);
         return;
     }
     
@@ -90,7 +157,7 @@ function toggleMusic() {
             localStorage.setItem('music_playing', 'false');
             console.log('⏸️ Nhạc tắt');
         } else {
-            // Mobile yêu cầu user gesture, nên cần call playVideo() từ click handler
+            // For mobile, this must be called from a user gesture (click)
             youtubePlayer.playVideo();
             isMusicPlaying = true;
             localStorage.setItem('music_playing', 'true');
@@ -98,12 +165,67 @@ function toggleMusic() {
         }
         updateMusicButton();
     } catch (e) {
-        console.error('Lỗi khi toggle music:', e);
+        console.error('❌ Lỗi khi toggle nhạc:', e);
+        console.warn('💡 Cách khắc phục:');
+        console.warn('1. Kiểm tra kết nối internet');
+        console.warn('2. Tải lại trang (F5 hoặc Cmd+R)');
+        console.warn('3. Xoá cache browser (Ctrl+Shift+Delete)');
     }
 }
 
 // Không auto-play trên load (mobile blocks autoplay)
 // Chỉ restore state khi user click nút
+
+// ===== PLAYER HEALTH CHECK =====
+function checkPlayerHealth() {
+    if (!youtubePlayer) {
+        return { status: 'not_initialized', message: 'Player chưa được khởi tạo' };
+    }
+    
+    if (!playerReady) {
+        return { status: 'not_ready', message: 'Player chưa sẵn sàng' };
+    }
+    
+    try {
+        const state = youtubePlayer.getPlayerState();
+        return { 
+            status: 'ok', 
+            message: 'Player hoạt động bình thường',
+            state: state 
+        };
+    } catch (error) {
+        return { status: 'error', message: 'Lỗi kiểm tra player: ' + error.message };
+    }
+}
+
+// Hàm khắc phục player
+function fixPlayerIssue() {
+    console.log('🔧 Đang khắc phục lỗi Player...');
+    
+    const health = checkPlayerHealth();
+    console.log('📊 Player status:', health);
+    
+    if (health.status === 'not_initialized') {
+        console.log('🔄 Khởi tạo lại player...');
+        if (typeof YT !== 'undefined') {
+            onYouTubeIframeAPIReady();
+        } else {
+            console.error('YouTube API chưa load!');
+            location.reload();
+        }
+    } else if (health.status === 'not_ready') {
+        console.log('⏳ Chờ player sẵn sàng...');
+        setTimeout(() => {
+            if (!playerReady) {
+                console.log('❌ Player timeout - tải lại trang');
+                location.reload();
+            }
+        }, 5000);
+    } else if (health.status === 'error') {
+        console.log('🔄 Tải lại trang để khắc phục lỗi');
+        setTimeout(() => location.reload(), 1000);
+    }
+}
 
 // ================================
 
