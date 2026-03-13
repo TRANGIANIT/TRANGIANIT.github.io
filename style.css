@@ -763,7 +763,7 @@ header p {
     }
 
     .btn {
-        font-size: 1.1rem;
+        font-size: 0.8em;
         padding: 0.6rem 1rem;
     }
 
@@ -1209,10 +1209,12 @@ body {
 /* Unified button row for spaced repetition answer buttons */
 .spaced-rep-btn-row {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: stretch;
     gap: 0.8rem;
     margin-bottom: 1rem;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
 }
 
 #spacedRepAgain,
@@ -1221,7 +1223,6 @@ body {
 #spacedRepEasy {
     flex: 1 1 0;
     min-width: 100px;
-    padding: 1rem;
     border-radius: 12px;
     font-weight: bold;
     font-size: 0.95rem;
