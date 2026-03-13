@@ -196,31 +196,55 @@ function startSpacedRepStudy() {
 // Render current spaced repetition card
 function renderSpacedRepCard() {
     const card = spacedRepCards[spacedRepCurrentIndex];
-    
-    document.getElementById('spacedRepCardNum').textContent = 
-        `${spacedRepCurrentIndex + 1}/${spacedRepCards.length}`;
-    
-    document.getElementById('spacedRepGrammarHint').textContent = `Ngày ${card.day} - Mẫu ${parseInt(card.id.split('_')[1]) + 1}`;
-    document.getElementById('spacedRepGrammarFront').textContent = card.grammar;
-    document.getElementById('spacedRepMeaning').textContent = card.meaning;
-    document.getElementById('spacedRepUsage').textContent = card.usage;
-    document.getElementById('spacedRepNote').textContent = card.note || '';
-    
-    // Render examples
-    const ex1 = card.examples && card.examples[0];
-    const ex2 = card.examples && card.examples[1];
+    if (!card) return;
 
-    if (document.getElementById('spacedRepExItJp')) document.getElementById('spacedRepExItJp').textContent = ex1 ? ex1.jp : '';
-    if (document.getElementById('spacedRepExItFuri')) document.getElementById('spacedRepExItFuri').textContent = ex1 ? ex1.furi : '';
-    if (document.getElementById('spacedRepExItVi')) document.getElementById('spacedRepExItVi').textContent = ex1 ? (ex1.vi.startsWith('Dịch:') ? ex1.vi : 'Dịch: ' + ex1.vi) : '';
+    console.log(`🎴 Rendering card ${spacedRepCurrentIndex + 1}/${spacedRepCards.length}:`, card.grammar);
+    
+    try {
+        // Front side updates
+        const frontTitle = document.getElementById('spacedRepGrammarFront');
+        const frontHint = document.getElementById('spacedRepGrammarHint');
+        const cardNum = document.getElementById('spacedRepCardNum');
 
-    if (document.getElementById('spacedRepExDayJp')) document.getElementById('spacedRepExDayJp').textContent = ex2 ? ex2.jp : '';
-    if (document.getElementById('spacedRepExDayFuri')) document.getElementById('spacedRepExDayFuri').textContent = ex2 ? ex2.furi : '';
-    if (document.getElementById('spacedRepExDayVi')) document.getElementById('spacedRepExDayVi').textContent = ex2 ? (ex2.vi.startsWith('Dịch:') ? ex2.vi : 'Dịch: ' + ex2.vi) : '';
+        if (frontTitle) frontTitle.textContent = card.grammar;
+        if (frontHint) frontHint.textContent = `Ngày ${card.day} - Mẫu ${parseInt(card.id.split('_')[1]) + 1}`;
+        if (cardNum) cardNum.textContent = `${spacedRepCurrentIndex + 1}/${spacedRepCards.length}`;
+        
+        // Back side updates
+        const meaning = document.getElementById('spacedRepMeaning');
+        const usage = document.getElementById('spacedRepUsage');
+        const note = document.getElementById('spacedRepNote');
 
-    // Reset flip state
-    spacedRepFlipped = false;
-    document.getElementById('spacedRepFlashcard').classList.remove('flipped');
+        if (meaning) meaning.textContent = card.meaning;
+        if (usage) usage.textContent = card.usage;
+        if (note) note.textContent = card.note || '';
+        
+        // Render examples
+        const ex1 = card.examples && card.examples[0];
+        const ex2 = card.examples && card.examples[1];
+
+        const exItJp = document.getElementById('spacedRepExItJp');
+        const exItFuri = document.getElementById('spacedRepExItFuri');
+        const exItVi = document.getElementById('spacedRepExItVi');
+        const exDayJp = document.getElementById('spacedRepExDayJp');
+        const exDayFuri = document.getElementById('spacedRepExDayFuri');
+        const exDayVi = document.getElementById('spacedRepExDayVi');
+
+        if (exItJp) exItJp.textContent = ex1 ? ex1.jp : '';
+        if (exItFuri) exItFuri.textContent = ex1 ? ex1.furi : '';
+        if (exItVi) exItVi.textContent = ex1 ? (ex1.vi.startsWith('Dịch:') ? ex1.vi : 'Dịch: ' + ex1.vi) : '';
+
+        if (exDayJp) exDayJp.textContent = ex2 ? ex2.jp : '';
+        if (exDayFuri) exDayFuri.textContent = ex2 ? ex2.furi : '';
+        if (exDayVi) exDayVi.textContent = ex2 ? (ex2.vi.startsWith('Dịch:') ? ex2.vi : 'Dịch: ' + ex2.vi) : '';
+
+        // Reset flip state
+        spacedRepFlipped = false;
+        const flashcardElem = document.getElementById('spacedRepFlashcard');
+        if (flashcardElem) flashcardElem.classList.remove('flipped');
+    } catch (error) {
+        console.error("❌ Error rendering spaced rep card:", error);
+    }
 }
 
 // Record response and calculate next interval
