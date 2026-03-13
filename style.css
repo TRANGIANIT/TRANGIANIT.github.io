@@ -479,13 +479,12 @@ header p {
 }
 
 .btn-export {
-    color: #2f86rem 1.2rem;
+    color: white;
+    padding: 0.6rem 1.2rem;
     border-radius: 50px;
     font-size: 0.9rem;
     transition: transform 0.2s, box-shadow 0.2s;
-    flex: 0.8
-    border-radius: 50px;
-    transition: transform 0.2s, box-shadow 0.2s;
+    flex: 0.8;
 }
 
 .btn-export:hover:not(:disabled) {
@@ -1144,93 +1143,8 @@ body {
 }
 
 /* Spaced Rep Flashcard with 3D flip effect */
-/* Tăng chiều cao thẻ để mặt sau hiển thị đủ nội dung */
-/* Spaced Rep Flashcard with 3D flip effect */
-#spacedRepFlashcard {
-    height: 420px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 16px;
-    padding: 2rem;
-    color: white;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    user-select: none;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
-    transition: all 0.3s cubic-bezier(.4,2,.6,1);
-    position: relative;
-    font-size: 1rem;
-    perspective: 1000px;
-    overflow: visible;
-}
 
-/* Use the same flip effect and layout as the regular flashcard */
-#spacedRepFlashcard {
-    /* ...existing styles... */
-    position: relative;
-    perspective: 1000px;
-}
-#spacedRepFlashcard .front, #spacedRepFlashcard .back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    backface-visibility: hidden;
-    transition: transform 0.5s cubic-bezier(.4,2,.6,1);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: transparent;
-    padding: 1.5rem 1.2rem 1.2rem 1.2rem;
-    box-sizing: border-box;
-}
-#spacedRepFlashcard .front {
-    z-index: 2;
-    transform: rotateY(0deg);
-}
-#spacedRepFlashcard .back {
-    z-index: 1;
-    transform: rotateY(180deg);
-    background: #fff;
-    color: #222;
-    border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(102, 126, 234, 0.18);
-    padding: 2rem;
-    text-align: left;
-    font-weight: 500;
-}
-#spacedRepFlashcard.flipped .front {
-    transform: rotateY(-180deg);
-}
-#spacedRepFlashcard.flipped .back {
-    transform: rotateY(0deg);
-}
-#spacedRepFlashcard:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 48px rgba(102, 126, 234, 0.6);
-}
-#spacedRepFlashcard .back h3 {
-    color: var(--primary);
-    font-size: 1.1rem;
-    margin: 0.5rem 0 0.2rem 0;
-    font-weight: 700;
-    border-bottom: 1px solid #e2e8f0;
-    padding-bottom: 0.3rem;
-}
-#spacedRepFlashcard .back p {
-    color: #222;
-    font-size: 1rem;
-    margin: 0.2rem 0 0.7rem 0;
-    font-weight: 500;
-    word-break: break-word;
-    text-align: left;
-}
+/* Spaced Rep Button Styles */
 #spacedRepGrammarFront {
     font-size: 2.5rem;
     font-weight: bold;
@@ -1294,7 +1208,11 @@ body {
     gap: 0.8rem;
     margin-bottom: 1rem;
 }
-#spacedRepAgain, #spacedRepHard, #spacedRepGood, #spacedRepEasy {
+
+#spacedRepAgain,
+#spacedRepHard,
+#spacedRepGood,
+#spacedRepEasy {
     flex: 1 1 0;
     min-width: 100px;
     padding: 1rem;
@@ -1309,30 +1227,38 @@ body {
     color: white;
     transition: transform 0.2s, box-shadow 0.2s;
 }
+
 #spacedRepAgain {
     background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
 }
+
 #spacedRepAgain:hover {
     transform: translateY(-4px);
     box-shadow: 0 6px 20px rgba(245, 101, 101, 0.4);
 }
+
 #spacedRepHard {
     background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
 }
+
 #spacedRepHard:hover {
     transform: translateY(-4px);
     box-shadow: 0 6px 20px rgba(237, 137, 54, 0.4);
 }
+
 #spacedRepGood {
     background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
 }
+
 #spacedRepGood:hover {
     transform: translateY(-4px);
     box-shadow: 0 6px 20px rgba(66, 153, 225, 0.4);
 }
+
 #spacedRepEasy {
     background: linear-gradient(135deg, #10b981 0%, #059669 100%);
 }
+
 #spacedRepEasy:hover {
     transform: translateY(-4px);
     box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
@@ -1382,15 +1308,6 @@ body {
 
     .stat-card .stat-number {
         font-size: 1.5rem;
-    }
-
-    #spacedRepFlashcard {
-        height: 250px;
-        padding: 1.5rem;
-    }
-
-    #spacedRepGrammarFront {
-        font-size: 2rem;
     }
 
     .spaced-rep-controls button {
