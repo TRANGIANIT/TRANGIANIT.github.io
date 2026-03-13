@@ -1213,7 +1213,7 @@ body {
     align-items: stretch;
     gap: 0.8rem;
     margin-bottom: 1rem;
-    flex-direction: row-reverse;
+    flex-direction: row;
     flex-wrap: wrap;
 }
 
