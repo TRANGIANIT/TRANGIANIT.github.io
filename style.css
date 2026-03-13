@@ -1323,10 +1323,6 @@ body {
     }
 
     /* Spaced Repetition mobile sizing for answer buttons */
-    .spaced-rep-btn-row {
-        gap: 0.4rem;
-    }
-
     .spaced-rep-btn-row .btn .sr-btn-text,
     .spaced-rep-btn-row .btn br {
         display: none;
@@ -1334,26 +1330,24 @@ body {
 
     .spaced-rep-btn-row .btn {
         min-width: auto;
-        padding: 0.5rem 0.2rem;
-        gap: 0.2rem;
-        border-radius: 8px;
-        flex: 1;
+        padding: 0.2rem 0.15rem;
+        gap: 0.05rem;
+        border-radius: 6px;
     }
 
     .spaced-rep-btn-row .btn>div:first-child {
-        font-size: 1.1rem !important;
-        /* Adjusted icon size */
+        font-size: 0.7rem !important;
+        /* Smaller icon size (reduced 30%) */
     }
 
     .spaced-rep-btn-row .btn>div:last-child {
-        font-size: 0.65rem !important;
-        /* Adjusted base font size */
-        margin-top: 2px;
-        line-height: 1.2;
+        font-size: 0.5rem !important;
+        /* Base font size (reduced 30%) */
+        margin-top: 1px;
     }
 
     .spaced-rep-btn-row .btn>div:last-child span {
-        font-size: 0.65rem !important;
+        font-size: 0.5rem !important;
         /* Consistent days label size */
     }
 }
