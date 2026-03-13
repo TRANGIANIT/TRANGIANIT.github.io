@@ -18,6 +18,7 @@ let spacedRepCards = [];
 let spacedRepCurrentIndex = 0;
 let spacedRepCurrentDay = 'all';
 let spacedRepFlipped = false;
+let spacedRepAllProgress = {}; // Caching Firebase data
 
 // Initialize Spaced Repetition
 function initSpacedRepetition() {
@@ -154,7 +155,7 @@ function startSpacedRepStudy() {
     }
 
     database.ref(`users/${currentUser.uid}/card_progress`).once('value', snap => {
-        const cardProgress = snap.val() || {};
+        spacedRepAllProgress = snap.val() || {};
         const today = new Date().setHours(0, 0, 0, 0);
 
         // Filter cards to review
@@ -163,7 +164,7 @@ function startSpacedRepStudy() {
                 return false;
             }
 
-            const progress = cardProgress[card.id];
+            const progress = spacedRepAllProgress[card.id];
             
             // New cards
             if (!progress) return true;
@@ -227,84 +228,86 @@ function recordResponse(quality) {
     if (!currentUser) return;
 
     const card = spacedRepCards[spacedRepCurrentIndex];
+    if (!card) return;
+
     const userRef = database.ref(`users/${currentUser.uid}`);
+    
+    // Use cached progress or default
+    const progress = spacedRepAllProgress[card.id] || {
+        status: 'new',
+        interval: 0,
+        ease_factor: SPACED_REP_CONFIG.initialEaseFactor,
+        review_count: 0,
+        created_at: Date.now()
+    };
 
-    userRef.child('card_progress').once('value', snap => {
-        const cardProgress = snap.val() || {};
-        const progress = cardProgress[card.id] || {
-            status: 'new',
-            interval: 0,
-            ease_factor: SPACED_REP_CONFIG.initialEaseFactor,
-            review_count: 0,
-            created_at: Date.now()
-        };
+    // Calculate new interval and ease factor
+    const qualityMap = { again: 0, hard: 1, good: 3, easy: 4 };
+    const q = qualityMap[quality];
 
-        // Calculate new interval and ease factor
-        const qualityMap = { again: 0, hard: 1, good: 3, easy: 4 };
-        const q = qualityMap[quality];
+    // New ease factor
+    const newEF = Math.max(
+        SPACED_REP_CONFIG.minEaseFactor,
+        progress.ease_factor + (0.1 - (5 - q) * 0.08)
+    );
 
-        // New ease factor
-        const newEF = Math.max(
-            SPACED_REP_CONFIG.minEaseFactor,
-            progress.ease_factor + (0.1 - (5 - q) * 0.08)
-        );
+    // New interval
+    let newInterval;
+    if (quality === 'again') {
+        newInterval = SPACED_REP_CONFIG.intervals.again;
+        progress.status = 'learning';
+    } else if (quality === 'hard') {
+        newInterval = SPACED_REP_CONFIG.intervals.hard;
+        progress.status = 'learning';
+    } else if (quality === 'good') {
+        newInterval = Math.max(7, Math.round((progress.interval || 1) * newEF));
+        progress.status = 'review';
+    } else { // easy
+        newInterval = Math.max(21, Math.round((progress.interval || 1) * newEF));
+        progress.status = 'review';
+    }
 
-        // New interval
-        let newInterval;
-        if (quality === 'again') {
-            newInterval = SPACED_REP_CONFIG.intervals.again;
-            progress.status = 'learning';
-        } else if (quality === 'hard') {
-            newInterval = SPACED_REP_CONFIG.intervals.hard;
-            progress.status = 'learning';
-        } else if (quality === 'good') {
-            newInterval = Math.max(7, Math.round(progress.interval * newEF));
-            progress.status = 'review';
-        } else { // easy
-            newInterval = Math.max(21, Math.round(progress.interval * newEF));
-            progress.status = 'review';
-        }
+    // Calculate due date (in milliseconds)
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + newInterval);
+    const dueDate = tomorrow.setHours(0, 0, 0, 0);
 
-        // Calculate due date (in milliseconds)
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + newInterval);
-        const dueDate = tomorrow.setHours(0, 0, 0, 0);
+    // Update progress object
+    progress.interval = newInterval;
+    progress.ease_factor = newEF;
+    progress.due_date = dueDate;
+    progress.last_reviewed = Date.now();
+    progress.review_count = (progress.review_count || 0) + 1;
 
-        // Update progress
-        progress.interval = newInterval;
-        progress.ease_factor = newEF;
-        progress.due_date = dueDate;
-        progress.last_reviewed = Date.now();
-        progress.review_count = (progress.review_count || 0) + 1;
+    // Update local cache
+    spacedRepAllProgress[card.id] = progress;
 
-        // Save to Firebase
-        const updates = {};
-        updates[`card_progress/${card.id}`] = progress;
+    // Save to Firebase in background
+    const updates = {};
+    updates[`card_progress/${card.id}`] = progress;
+    userRef.update(updates).catch(err => console.error("Firebase update failed:", err));
 
-        // Log review history
-        const reviewRef = userRef.child('review_history').push();
-        reviewRef.set({
-            card_id: card.id,
-            response: quality,
-            interval: newInterval,
-            ease_factor: newEF,
-            timestamp: Date.now()
-        });
-
-        // Update Firebase (Async in background)
-        userRef.update(updates);
-
-        // Move to next card immediately for reactive UI
-        spacedRepCurrentIndex++;
-        if (spacedRepCurrentIndex < spacedRepCards.length) {
-            spacedRepFlipped = false;
-            document.getElementById('spacedRepFlashcard').classList.remove('flipped');
-            renderSpacedRepCard();
-        } else {
-            // Study complete
-            completeSpacedRepStudy();
-        }
+    // Log review history in background
+    const reviewRef = userRef.child('review_history').push();
+    reviewRef.set({
+        card_id: card.id,
+        response: quality,
+        interval: newInterval,
+        ease_factor: newEF,
+        timestamp: Date.now()
     });
+
+    // IMMEDIATELY MOVE TO NEXT CARD
+    spacedRepCurrentIndex++;
+    if (spacedRepCurrentIndex < spacedRepCards.length) {
+        spacedRepFlipped = false;
+        const flashcardElem = document.getElementById('spacedRepFlashcard');
+        if (flashcardElem) flashcardElem.classList.remove('flipped');
+        renderSpacedRepCard();
+    } else {
+        // Study complete
+        completeSpacedRepStudy();
+    }
 }
 
 // Complete spaced repetition study
