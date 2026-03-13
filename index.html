@@ -550,20 +550,34 @@
                     <div class="flashcard-container" style="height: 400px; margin-bottom: 1.5rem;">
                         <div class="flashcard" id="spacedRepFlashcard" style="cursor: pointer;">
                             <div class="front" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                                <div style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 1rem;" id="spacedRepGrammarHint">Nhấn để xem</div>
-                                <div style="font-size: 2.5rem; font-weight: bold; color: var(--jp-red); text-align: center;" id="spacedRepGrammarFront">Thẻ</div>
+                                <span class="status-badge" id="spacedRepCardBadge">🔴 Chưa thuộc</span>
+                                <span class="grammar-title" id="spacedRepGrammarTitle">〜っこない</span>
+                                <p class="hint">Nhấp để lật ↺</p>
                             </div>
                             <div class="back" style="display: flex; flex-direction: column; justify-content: center; align-items: center; transform: rotateY(180deg);">
                                 <div style="width: 100%; overflow-y: auto; max-height: 350px;">
                                     <div style="padding: 1rem;">
-                                        <h4 style="margin-top: 0; color: var(--primary);">📖 Ý Nghĩa</h4>
-                                        <p id="spacedRepMeaning" style="margin: 0.5rem 0;"></p>
-
-                                        <h4 style="margin-top: 1rem; color: var(--primary);">🛠️ Cách Dùng</h4>
-                                        <p id="spacedRepUsage" style="margin: 0.5rem 0;"></p>
-
-                                        <h4 style="margin-top: 1rem; color: var(--primary);">💡 Ví Dụ</h4>
-                                        <p id="spacedRepExample" style="margin: 0.5rem 0; font-style: italic; color: #666;"></p>
+                                        <div class="content-section">
+                                            <h3>📖 Ý nghĩa</h3>
+                                            <p id="spacedRepMeaning">Tuyệt đối không…, chắc chắn không…</p>
+                                        </div>
+                                        <div class="content-section">
+                                            <h3>🛠 Cách dùng</h3>
+                                            <p id="spacedRepUsage">Vます bỏ ます + っこない</p>
+                                            <p class="note" id="spacedRepNote">👉 Khẳng định mạnh khả năng = 0 (văn nói)</p>
+                                        </div>
+                                        <div class="content-section">
+                                            <h3>💡 Ví dụ (IT)</h3>
+                                            <p class="jp-text" id="spacedRepExItJp">そんな短期間でシステムが完成できっこない。</p>
+                                            <p class="jp-furi" id="spacedRepExItFuri">そんなたんきかんでしすてむがかんせいできっこない。</p>
+                                            <p class="vi-trans" id="spacedRepExItVi">Dịch: Thời gian ngắn vậy thì hệ thống chắc chắn không thể hoàn thành.</p>
+                                        </div>
+                                        <div class="content-section">
+                                            <h3>💬 Ví dụ (Hằng ngày)</h3>
+                                            <p class="jp-text" id="spacedRepExDayJp">あの人が嘘をつくっこない。</p>
+                                            <p class="jp-furi" id="spacedRepExDayFuri">あのひとがうそをつくっこない.</p>
+                                            <p class="vi-trans" id="spacedRepExDayVi">Dịch: Người đó tuyệt đối không nói dối đâu.</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
