@@ -1,4 +1,6 @@
-// flashcardsData is now loaded globally from data.js
+
+// Debug: Kiểm tra biến flashcardsData có tồn tại và có dữ liệu không
+console.log('DEBUG flashcardsData:', typeof flashcardsData, Array.isArray(flashcardsData) ? flashcardsData.length : flashcardsData);
 
 // ===== YOUTUBE MUSIC PLAYER (MOBILE OPTIMIZED) =====
 let youtubePlayer = null;
