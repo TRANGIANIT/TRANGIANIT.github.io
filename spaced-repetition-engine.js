@@ -195,14 +195,18 @@ function renderSpacedRepCard() {
     document.getElementById('spacedRepGrammarFront').textContent = card.grammar;
     document.getElementById('spacedRepMeaning').textContent = card.meaning;
     document.getElementById('spacedRepUsage').textContent = card.usage;
+    document.getElementById('spacedRepNote').textContent = card.note || '';
     
-    let exampleText = '';
-    if (card.examples && card.examples.length > 0) {
-        exampleText = `${card.examples[0].jp}<br/>
-                      (${card.examples[0].furi})<br/>
-                      Dịch: ${card.examples[0].vi}`;
+    // Render examples
+    if (card.examples && card.examples.length >= 2) {
+        document.getElementById('spacedRepExItJp').textContent = card.examples[0].jp;
+        document.getElementById('spacedRepExItFuri').textContent = card.examples[0].furi;
+        document.getElementById('spacedRepExItVi').textContent = card.examples[0].vi;
+
+        document.getElementById('spacedRepExDayJp').textContent = card.examples[1].jp;
+        document.getElementById('spacedRepExDayFuri').textContent = card.examples[1].furi;
+        document.getElementById('spacedRepExDayVi').textContent = card.examples[1].vi;
     }
-    document.getElementById('spacedRepExample').innerHTML = exampleText;
 
     // Reset flip state
     spacedRepFlipped = false;
