@@ -1168,6 +1168,12 @@ body {
     overflow: visible;
 }
 
+/* Use the same flip effect and layout as the regular flashcard */
+#spacedRepFlashcard {
+    /* ...existing styles... */
+    position: relative;
+    perspective: 1000px;
+}
 #spacedRepFlashcard .front, #spacedRepFlashcard .back {
     position: absolute;
     width: 100%;
@@ -1180,59 +1186,39 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background: transparent;
 }
-
 #spacedRepFlashcard .front {
     z-index: 2;
     transform: rotateY(0deg);
 }
-
 #spacedRepFlashcard .back {
     z-index: 1;
     transform: rotateY(180deg);
-}
-
-#spacedRepFlashcard.flipped .front {
-    transform: rotateY(-180deg);
-}
-
-#spacedRepFlashcard.flipped .back {
-    transform: rotateY(0deg);
-}
-
-#spacedRepFlashcard:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 48px rgba(102, 126, 234, 0.6);
-}
-
-#spacedRepFlashcard.flipped {
     background: #fff;
     color: #222;
-    box-shadow: 0 8px 32px rgba(102, 126, 234, 0.18);
-    border: 2px solid #e2e8f0;
-}
-
-#spacedRepFlashcard.flipped .back {
-    background: #fff !important;
-    color: #222 !important;
     border-radius: 16px;
     box-shadow: 0 8px 32px rgba(102, 126, 234, 0.18);
     padding: 2rem;
     text-align: center;
     font-weight: 500;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
-
-#spacedRepFlashcard .back h4 {
+#spacedRepFlashcard.flipped .front {
+    transform: rotateY(-180deg);
+}
+#spacedRepFlashcard.flipped .back {
+    transform: rotateY(0deg);
+}
+#spacedRepFlashcard:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 48px rgba(102, 126, 234, 0.6);
+}
+#spacedRepFlashcard .back h3 {
     color: #2563eb;
     font-size: 1.1rem;
     margin: 0.5rem 0 0.2rem 0;
     font-weight: 700;
 }
-
 #spacedRepFlashcard .back p {
     color: #222;
     font-size: 1rem;
