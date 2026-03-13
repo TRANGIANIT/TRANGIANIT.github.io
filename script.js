@@ -2351,26 +2351,42 @@ document.addEventListener('DOMContentLoaded', () => {
     // Render current spaced repetition card
     function renderSpacedRepCard() {
         const card = spacedRepCards[spacedRepCurrentIndex];
-        
-        document.getElementById('spacedRepCardNum').textContent = 
-            `${spacedRepCurrentIndex + 1}/${spacedRepCards.length}`;
-        
-        document.getElementById('spacedRepGrammarHint').textContent = `Ngày ${card.day} - Mẫu ${parseInt(card.id.split('_')[1]) + 1}`;
-        document.getElementById('spacedRepGrammarFront').textContent = card.grammar;
-        document.getElementById('spacedRepMeaning').textContent = card.meaning;
-        document.getElementById('spacedRepUsage').textContent = card.usage;
-        
-        let exampleText = '';
+        // Defensive: only update if element exists
+        const setText = (id, value) => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = value || '';
+        };
+        setText('spacedRepCardNum', `${spacedRepCurrentIndex + 1}/${spacedRepCards.length}`);
+        setText('spacedRepCardBadge', card.status === 'learned' ? '✅ Đã thuộc' : '🔴 Chưa thuộc');
+        setText('spacedRepGrammarTitle', card.grammar);
+        setText('spacedRepGrammarHint', `Ngày ${card.day} - Mẫu ${parseInt(card.id.split('_')[1]) + 1}`);
+        setText('spacedRepMeaning', card.meaning);
+        setText('spacedRepUsage', card.usage);
+        setText('spacedRepNote', card.note);
+        // IT Example
         if (card.examples && card.examples.length > 0) {
-            exampleText = `${card.examples[0].jp}<br/>
-                          (${card.examples[0].furi})<br/>
-                          Dịch: ${card.examples[0].vi}`;
+            setText('spacedRepExItJp', card.examples[0].jp);
+            setText('spacedRepExItFuri', card.examples[0].furi);
+            setText('spacedRepExItVi', card.examples[0].vi);
+        } else {
+            setText('spacedRepExItJp', '');
+            setText('spacedRepExItFuri', '');
+            setText('spacedRepExItVi', '');
         }
-        document.getElementById('spacedRepExample').innerHTML = exampleText;
-
+        // Daily Example
+        if (card.examples && card.examples.length > 1) {
+            setText('spacedRepExDayJp', card.examples[1].jp);
+            setText('spacedRepExDayFuri', card.examples[1].furi);
+            setText('spacedRepExDayVi', card.examples[1].vi);
+        } else {
+            setText('spacedRepExDayJp', '');
+            setText('spacedRepExDayFuri', '');
+            setText('spacedRepExDayVi', '');
+        }
         // Reset flip state
         spacedRepFlipped = false;
-        document.getElementById('spacedRepFlashcard').classList.remove('flipped');
+        const flashcardEl = document.getElementById('spacedRepFlashcard');
+        if (flashcardEl) flashcardEl.classList.remove('flipped');
     }
 
     // Record response and calculate next interval
