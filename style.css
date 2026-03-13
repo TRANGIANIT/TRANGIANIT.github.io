@@ -205,6 +205,10 @@ header p {
     transform: rotateY(180deg);
 }
 
+#flashcard #flashcardCopy {
+    display: none;
+}
+
 .swipe-stamp {
     position: absolute;
     top: 30px;
