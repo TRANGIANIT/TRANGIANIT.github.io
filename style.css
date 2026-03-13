@@ -1144,6 +1144,13 @@ body {
 
 /* Spaced Rep Flashcard with 3D flip effect */
 
+/* Spaced Rep Flashcard Container */
+#spacedRepStudy .flashcard-container {
+    height: 600px;
+    max-height: 65vh;
+    margin-bottom: 1rem;
+}
+
 /* Spaced Rep Button Styles */
 #spacedRepGrammarFront {
     font-size: 2.5rem;
