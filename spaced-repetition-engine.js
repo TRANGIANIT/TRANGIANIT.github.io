@@ -83,10 +83,18 @@ function initSpacedRepetition() {
     }
 
     // Response buttons
-    document.getElementById('spacedRepAgain')?.addEventListener('click', () => recordResponse('again'));
-    document.getElementById('spacedRepHard')?.addEventListener('click', () => recordResponse('hard'));
-    document.getElementById('spacedRepGood')?.addEventListener('click', () => recordResponse('good'));
-    document.getElementById('spacedRepEasy')?.addEventListener('click', () => recordResponse('easy'));
+    const handleResponse = (quality) => {
+        if (!spacedRepFlipped) {
+            alert("💡 Hãy lật thẻ để xem đáp án trước khi đánh giá!");
+            return;
+        }
+        recordResponse(quality);
+    };
+
+    document.getElementById('spacedRepAgain')?.addEventListener('click', () => handleResponse('again'));
+    document.getElementById('spacedRepHard')?.addEventListener('click', () => handleResponse('hard'));
+    document.getElementById('spacedRepGood')?.addEventListener('click', () => handleResponse('good'));
+    document.getElementById('spacedRepEasy')?.addEventListener('click', () => handleResponse('easy'));
 }
 
 // Load dashboard stats
@@ -198,15 +206,16 @@ function renderSpacedRepCard() {
     document.getElementById('spacedRepNote').textContent = card.note || '';
     
     // Render examples
-    if (card.examples && card.examples.length >= 2) {
-        document.getElementById('spacedRepExItJp').textContent = card.examples[0].jp;
-        document.getElementById('spacedRepExItFuri').textContent = card.examples[0].furi;
-        document.getElementById('spacedRepExItVi').textContent = card.examples[0].vi;
+    const ex1 = card.examples && card.examples[0];
+    const ex2 = card.examples && card.examples[1];
 
-        document.getElementById('spacedRepExDayJp').textContent = card.examples[1].jp;
-        document.getElementById('spacedRepExDayFuri').textContent = card.examples[1].furi;
-        document.getElementById('spacedRepExDayVi').textContent = card.examples[1].vi;
-    }
+    if (document.getElementById('spacedRepExItJp')) document.getElementById('spacedRepExItJp').textContent = ex1 ? ex1.jp : '';
+    if (document.getElementById('spacedRepExItFuri')) document.getElementById('spacedRepExItFuri').textContent = ex1 ? ex1.furi : '';
+    if (document.getElementById('spacedRepExItVi')) document.getElementById('spacedRepExItVi').textContent = ex1 ? (ex1.vi.startsWith('Dịch:') ? ex1.vi : 'Dịch: ' + ex1.vi) : '';
+
+    if (document.getElementById('spacedRepExDayJp')) document.getElementById('spacedRepExDayJp').textContent = ex2 ? ex2.jp : '';
+    if (document.getElementById('spacedRepExDayFuri')) document.getElementById('spacedRepExDayFuri').textContent = ex2 ? ex2.furi : '';
+    if (document.getElementById('spacedRepExDayVi')) document.getElementById('spacedRepExDayVi').textContent = ex2 ? (ex2.vi.startsWith('Dịch:') ? ex2.vi : 'Dịch: ' + ex2.vi) : '';
 
     // Reset flip state
     spacedRepFlipped = false;
@@ -282,18 +291,19 @@ function recordResponse(quality) {
             timestamp: Date.now()
         });
 
-        userRef.update(updates).then(() => {
-            // Move to next card
-            spacedRepCurrentIndex++;
-            if (spacedRepCurrentIndex < spacedRepCards.length) {
-                spacedRepFlipped = false;
-                document.getElementById('spacedRepFlashcard').classList.remove('flipped');
-                renderSpacedRepCard();
-            } else {
-                // Study complete
-                completeSpacedRepStudy();
-            }
-        });
+        // Update Firebase (Async in background)
+        userRef.update(updates);
+
+        // Move to next card immediately for reactive UI
+        spacedRepCurrentIndex++;
+        if (spacedRepCurrentIndex < spacedRepCards.length) {
+            spacedRepFlipped = false;
+            document.getElementById('spacedRepFlashcard').classList.remove('flipped');
+            renderSpacedRepCard();
+        } else {
+            // Study complete
+            completeSpacedRepStudy();
+        }
     });
 }
 
