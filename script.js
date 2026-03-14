@@ -2166,7 +2166,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ===== SPACED REPETITION ENGINE (Kiểu Anki) =====
-    // Configuration
+    // Spaced Repetition Config
     const SPACED_REP_CONFIG = {
         intervals: {
             again: 1,      // 1 ngày
@@ -2183,15 +2183,15 @@ document.addEventListener('DOMContentLoaded', () => {
     let spacedRepCurrentIndex = 0;
     let spacedRepCurrentDay = 'all';
     let spacedRepFlipped = false;
+    let spacedRepAllProgress = {}; // Caching Firebase data
 
     // Initialize Spaced Repetition
     function initSpacedRepetition() {
-        try {
-            // Setup UI event listeners
-            const adminModeUsers = document.getElementById('adminModeUsers');
-            const adminModeSpacedRep = document.getElementById('adminModeSpacedRep');
-            const adminUsersTab = document.getElementById('adminUsersTab');
-            const adminSpacedRepTab = document.getElementById('adminSpacedRepTab');
+        // Setup UI event listeners
+        const adminModeUsers = document.getElementById('adminModeUsers');
+        const adminModeSpacedRep = document.getElementById('adminModeSpacedRep');
+        const adminUsersTab = document.getElementById('adminUsersTab');
+        const adminSpacedRepTab = document.getElementById('adminSpacedRepTab');
 
         if (adminModeUsers) {
             adminModeUsers.addEventListener('click', () => {
@@ -2216,18 +2216,12 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Event listeners for study mode
         const startSpacedRepBtn = document.getElementById('startSpacedRepBtn');
-        if (startSpacedRepBtn) {
-            startSpacedRepBtn.addEventListener('click', startSpacedRepStudy);
-        }
+        if (startSpacedRepBtn) startSpacedRepBtn.addEventListener('click', startSpacedRepStudy);
 
         const exitSpacedRepBtn = document.getElementById('exitSpacedRepBtn');
-        if (exitSpacedRepBtn) {
-            exitSpacedRepBtn.addEventListener('click', exitSpacedRepStudy);
-        }
+        if (exitSpacedRepBtn) exitSpacedRepBtn.addEventListener('click', exitSpacedRepStudy);
 
-        // Flashcard flip
         const spacedRepFlashcard = document.getElementById('spacedRepFlashcard');
         if (spacedRepFlashcard) {
             spacedRepFlashcard.addEventListener('click', () => {
@@ -2240,29 +2234,26 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-            // Response buttons
-            document.getElementById('spacedRepAgain')?.addEventListener('click', () => recordResponse('again'));
-            document.getElementById('spacedRepHard')?.addEventListener('click', () => recordResponse('hard'));
-            document.getElementById('spacedRepGood')?.addEventListener('click', () => recordResponse('good'));
-            document.getElementById('spacedRepEasy')?.addEventListener('click', () => recordResponse('easy'));
+        const handleResponse = (quality) => {
+            if (!spacedRepFlipped) {
+                alert("💡 Hãy lật thẻ để xem đáp án trước khi đánh giá!");
+                return;
+            }
+            recordResponse(quality);
+        };
 
-            // Load dashboard
-            loadSpacedRepDashboard();
-        } catch (error) {
-            console.warn('⚠️ Spaced Repetition init error:', error.message);
-        }
+        document.getElementById('spacedRepAgain')?.addEventListener('click', () => handleResponse('again'));
+        document.getElementById('spacedRepHard')?.addEventListener('click', () => handleResponse('hard'));
+        document.getElementById('spacedRepGood')?.addEventListener('click', () => handleResponse('good'));
+        document.getElementById('spacedRepEasy')?.addEventListener('click', () => handleResponse('easy'));
     }
 
-    // Load dashboard stats
     function loadSpacedRepDashboard() {
         if (!currentUser) return;
-
         database.ref(`users/${currentUser.uid}/card_progress`).once('value', snap => {
             const cardProgress = snap.val() || {};
-            
             let newCount = 0, dueCount = 0, learningCount = 0, reviewCount = 0;
             const today = new Date().setHours(0, 0, 0, 0);
-
             Object.values(cardProgress).forEach(progress => {
                 if (progress.status === 'new') newCount++;
                 else if (progress.status === 'learning') learningCount++;
@@ -2271,206 +2262,152 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (progress.due_date <= today) dueCount++;
                 }
             });
-
             document.getElementById('spacedRepNew').textContent = newCount;
             document.getElementById('spacedRepDue').textContent = dueCount;
             document.getElementById('spacedRepLearning').textContent = learningCount;
             document.getElementById('spacedRepReview').textContent = reviewCount;
-
-            // Load day filter
             loadSpacedRepDayFilter();
         });
     }
 
-    // Load day filter for spaced repetition
     function loadSpacedRepDayFilter() {
         const filter = document.getElementById('spacedRepDayFilter');
         if (!filter) return;
-
         const uniqueDays = [...new Set(flashcardsData.map(item => item.day))].sort((a, b) => a - b);
         filter.innerHTML = '<option value="all">📅 Tất cả Bài</option>';
-
         uniqueDays.forEach(day => {
             const opt = document.createElement('option');
             opt.value = day;
             opt.textContent = `Ngày ${day}`;
             filter.appendChild(opt);
         });
-
-        filter.addEventListener('change', e => {
-            spacedRepCurrentDay = e.target.value;
-        });
+        filter.addEventListener('change', e => { spacedRepCurrentDay = e.target.value; });
     }
 
-    // Start spaced repetition study
     function startSpacedRepStudy() {
-        if (!currentUser) {
-            alert('⚠️ Vui lòng đăng nhập để sử dụng Ôn Tập Ngắt Quãng');
-            return;
-        }
-
+        if (!currentUser) return alert('⚠️ Vui lòng đăng nhập để sử dụng Ôn Tập Ngắt Quãng');
         database.ref(`users/${currentUser.uid}/card_progress`).once('value', snap => {
-            const cardProgress = snap.val() || {};
+            spacedRepAllProgress = snap.val() || {};
             const today = new Date().setHours(0, 0, 0, 0);
-
-            // Filter cards to review
             spacedRepCards = flashcardsData.filter(card => {
-                if (spacedRepCurrentDay !== 'all' && card.day !== parseInt(spacedRepCurrentDay)) {
-                    return false;
-                }
-
-                const progress = cardProgress[card.id];
-                
-                // New cards
+                if (spacedRepCurrentDay !== 'all' && card.day !== parseInt(spacedRepCurrentDay)) return false;
+                const progress = spacedRepAllProgress[card.id];
                 if (!progress) return true;
-
-                // Cards that need review today
-                if (progress.status === 'learning' || 
-                    (progress.status === 'review' && progress.due_date <= today)) {
-                    return true;
-                }
-
-                return false;
+                return progress.status === 'learning' || (progress.status === 'review' && progress.due_date <= today);
             });
-
-            if (spacedRepCards.length === 0) {
-                alert('✨ Tuyệt vời! Không có thẻ nào cần ôn hôm nay.');
-                return;
-            }
-
+            if (spacedRepCards.length === 0) return alert('✨ Tuyệt vời! Không có thẻ nào cần ôn hôm nay.');
             spacedRepCurrentIndex = 0;
             spacedRepFlipped = false;
-
             document.getElementById('spacedRepDashboard').style.display = 'none';
             document.getElementById('spacedRepStudy').style.display = 'block';
-
             renderSpacedRepCard();
         });
     }
 
-    // Render current spaced repetition card
     function renderSpacedRepCard() {
         const card = spacedRepCards[spacedRepCurrentIndex];
-        // Defensive: only update if element exists
-        const setText = (id, value) => {
-            const el = document.getElementById(id);
-            if (el) el.textContent = value || '';
-        };
-        setText('spacedRepCardNum', `${spacedRepCurrentIndex + 1}/${spacedRepCards.length}`);
-        setText('spacedRepCardBadge', card.status === 'learned' ? '✅ Đã thuộc' : '🔴 Chưa thuộc');
-        setText('spacedRepGrammarTitle', card.grammar);
-        setText('spacedRepGrammarHint', `Ngày ${card.day} - Mẫu ${parseInt(card.id.split('_')[1]) + 1}`);
-        setText('spacedRepMeaning', card.meaning);
-        setText('spacedRepUsage', card.usage);
-        setText('spacedRepNote', card.note);
-        // IT Example
-        if (card.examples && card.examples.length > 0) {
-            setText('spacedRepExItJp', card.examples[0].jp);
-            setText('spacedRepExItFuri', card.examples[0].furi);
-            setText('spacedRepExItVi', card.examples[0].vi);
-        } else {
-            setText('spacedRepExItJp', '');
-            setText('spacedRepExItFuri', '');
-            setText('spacedRepExItVi', '');
-        }
-        // Daily Example
-        if (card.examples && card.examples.length > 1) {
-            setText('spacedRepExDayJp', card.examples[1].jp);
-            setText('spacedRepExDayFuri', card.examples[1].furi);
-            setText('spacedRepExDayVi', card.examples[1].vi);
-        } else {
-            setText('spacedRepExDayJp', '');
-            setText('spacedRepExDayFuri', '');
-            setText('spacedRepExDayVi', '');
-        }
-        // Reset flip state
-        spacedRepFlipped = false;
-        const flashcardEl = document.getElementById('spacedRepFlashcard');
-        if (flashcardEl) flashcardEl.classList.remove('flipped');
-    }
-
-    // Record response and calculate next interval
-    function recordResponse(quality) {
-        if (!currentUser) return;
-
-        const card = spacedRepCards[spacedRepCurrentIndex];
-        const userRef = database.ref(`users/${currentUser.uid}`);
-
-        userRef.child('card_progress').once('value', snap => {
-            const cardProgress = snap.val() || {};
-            const progress = cardProgress[card.id] || {
-                status: 'new',
-                interval: 0,
-                ease_factor: SPACED_REP_CONFIG.initialEaseFactor,
-                review_count: 0,
-                created_at: Date.now()
+        if (!card) return;
+        console.log(`🎴 Rendering SR card ${spacedRepCurrentIndex + 1}/${spacedRepCards.length}:`, card.grammar);
+        try {
+            const setText = (id, val) => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = val || '';
             };
+            setText('spacedRepCardNum', `${spacedRepCurrentIndex + 1}/${spacedRepCards.length}`);
+            setText('spacedRepGrammarHint', `Ngày ${card.day} - Mẫu ${parseInt(card.id.split('_')[1]) + 1}`);
+            setText('spacedRepGrammarFront', card.grammar);
+            setText('spacedRepMeaning', card.meaning);
+            setText('spacedRepUsage', card.usage);
+            setText('spacedRepNote', card.note || '');
 
-            // Calculate new interval and ease factor
-            const qualityMap = { again: 0, hard: 1, good: 3, easy: 4 };
-            const q = qualityMap[quality];
-
-            // New ease factor (SM-2 algorithm)
-            const newEF = Math.max(
-                SPACED_REP_CONFIG.minEaseFactor,
-                progress.ease_factor + (0.1 - (5 - q) * 0.08)
-            );
-
-            // New interval
-            let newInterval;
-            if (quality === 'again') {
-                newInterval = SPACED_REP_CONFIG.intervals.again;
-                progress.status = 'learning';
-            } else if (quality === 'hard') {
-                newInterval = SPACED_REP_CONFIG.intervals.hard;
-                progress.status = 'learning';
-            } else if (quality === 'good') {
-                newInterval = Math.max(7, Math.round(progress.interval * newEF));
-                progress.status = 'review';
-            } else { // easy
-                newInterval = Math.max(21, Math.round(progress.interval * newEF));
-                progress.status = 'review';
+            const ex1 = card.examples && card.examples[0];
+            const ex2 = card.examples && card.examples[1];
+            setText('spacedRepExItJp', ex1 ? ex1.jp : '');
+            setText('spacedRepExItFuri', ex1 ? ex1.furi : '');
+            if (document.getElementById('spacedRepExItVi')) {
+                document.getElementById('spacedRepExItVi').textContent = ex1 ? (ex1.vi.startsWith('Dịch:') ? ex1.vi : 'Dịch: ' + ex1.vi) : '';
+            }
+            setText('spacedRepExDayJp', ex2 ? ex2.jp : '');
+            setText('spacedRepExDayFuri', ex2 ? ex2.furi : '');
+            if (document.getElementById('spacedRepExDayVi')) {
+                document.getElementById('spacedRepExDayVi').textContent = ex2 ? (ex2.vi.startsWith('Dịch:') ? ex2.vi : 'Dịch: ' + ex2.vi) : '';
             }
 
-            // Calculate due date (in milliseconds)
-            const tomorrow = new Date();
-            tomorrow.setDate(tomorrow.getDate() + newInterval);
-            const dueDate = tomorrow.setHours(0, 0, 0, 0);
+            spacedRepFlipped = false;
+            document.getElementById('spacedRepFlashcard')?.classList.remove('flipped');
+        } catch (error) { console.error("❌ Error rendering SR card:", error); }
+    }
 
-            // Update progress
-            progress.interval = newInterval;
-            progress.ease_factor = newEF;
-            progress.due_date = dueDate;
-            progress.last_reviewed = Date.now();
-            progress.review_count = (progress.review_count || 0) + 1;
+    function recordResponse(quality) {
+        if (!currentUser || !spacedRepCards[spacedRepCurrentIndex]) return;
+        const card = spacedRepCards[spacedRepCurrentIndex];
+        const userRef = database.ref(`users/${currentUser.uid}`);
+        
+        // Use cached progress or default
+        const progress = spacedRepAllProgress[card.id] || {
+            status: 'new',
+            interval: 0,
+            ease_factor: SPACED_REP_CONFIG.initialEaseFactor,
+            review_count: 0,
+            created_at: Date.now()
+        };
 
-            // Save to Firebase
-            const updates = {};
-            updates[`card_progress/${card.id}`] = progress;
+        const qualityMap = { again: 0, hard: 1, good: 3, easy: 4 };
+        const q = qualityMap[quality];
 
-            // Log review history
-            const reviewRef = userRef.child('review_history').push();
-            reviewRef.set({
-                card_id: card.id,
-                response: quality,
-                interval: newInterval,
-                ease_factor: newEF,
-                timestamp: Date.now()
-            });
+        // New ease factor
+        const newEF = Math.max(
+            SPACED_REP_CONFIG.minEaseFactor,
+            progress.ease_factor + (0.1 - (5 - q) * 0.08)
+        );
 
-            userRef.update(updates).then(() => {
-                // Move to next card
-                spacedRepCurrentIndex++;
-                if (spacedRepCurrentIndex < spacedRepCards.length) {
-                    spacedRepFlipped = false;
-                    document.getElementById('spacedRepFlashcard').classList.remove('flipped');
-                    renderSpacedRepCard();
-                } else {
-                    // Study complete
-                    completeSpacedRepStudy();
-                }
-            });
+        // New interval
+        let newInterval;
+        if (quality === 'again') {
+            newInterval = 1;
+            progress.status = 'learning';
+        } else if (quality === 'hard') {
+            newInterval = 3;
+            progress.status = 'learning';
+        } else if (quality === 'good') {
+            newInterval = Math.max(7, Math.round((progress.interval || 1) * newEF));
+            progress.status = 'review';
+        } else { // easy
+            newInterval = Math.max(21, Math.round((progress.interval || 1) * newEF));
+            progress.status = 'review';
+        }
+
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + newInterval);
+        
+        progress.interval = newInterval;
+        progress.ease_factor = newEF;
+        progress.due_date = tomorrow.setHours(0, 0, 0, 0);
+        progress.last_reviewed = Date.now();
+        progress.review_count = (progress.review_count || 0) + 1;
+
+        // Update local cache
+        spacedRepAllProgress[card.id] = progress;
+
+        // Save to Firebase
+        userRef.child(`card_progress/${card.id}`).set(progress);
+        
+        // Log review history
+        userRef.child('review_history').push({
+            card_id: card.id,
+            response: quality,
+            interval: newInterval,
+            timestamp: Date.now()
         });
+
+        // Move to next card
+        spacedRepCurrentIndex++;
+        if (spacedRepCurrentIndex < spacedRepCards.length) {
+            renderSpacedRepCard();
+        } else {
+            alert(`✨ Hoàn thành! Bạn đã ôn tập ${spacedRepCards.length} thẻ.`);
+            exitSpacedRepStudy();
+        }
     }
 
     // Complete spaced repetition study
